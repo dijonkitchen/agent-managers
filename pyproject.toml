@@ -1,0 +1,13 @@
+[project]
+name = "agent-managers"
+version = "0.1.0"
+description = "Demo: hub-and-spoke vs flat multi-agent workflows, with a Marp deck"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["demo/tests", "demo/target"]
+pythonpath = ["demo/hooks", "demo/tools", "demo/target"]

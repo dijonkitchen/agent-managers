@@ -1,0 +1,14 @@
+# Build output
+dist/
+node_modules/
+slides/assets/*.svg
+!slides/assets/.gitkeep
+
+# Python
+__pycache__/
+.pytest_cache/
+.venv/
+
+# Live demo runs (samples are kept, real runs are not)
+demo/runs/*.jsonl
+demo/runs/*.cast
