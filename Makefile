@@ -5,12 +5,14 @@ test:
 
 # Render message graphs and the metrics table from the JSONL runs.
 # Real runs in demo/runs/*.jsonl take precedence over the samples.
+run = $(or $(wildcard demo/runs/$(1).jsonl),demo/runs/samples/$(1).jsonl)
+
 graphs:
-	python3 demo/tools/render_graph.py $(or $(wildcard demo/runs/hub.jsonl),demo/runs/samples/hub.jsonl) -o slides/assets/hub.svg
-	python3 demo/tools/render_graph.py $(or $(wildcard demo/runs/flat.jsonl),demo/runs/samples/flat.jsonl) -o slides/assets/flat.svg
+	python3 demo/tools/render_graph.py $(call run,solo) -o slides/assets/solo.svg
+	python3 demo/tools/render_graph.py $(call run,hub) -o slides/assets/hub.svg
+	python3 demo/tools/render_graph.py $(call run,flat) -o slides/assets/flat.svg
 	python3 demo/tools/metrics.py \
-	  hub=$(or $(wildcard demo/runs/hub.jsonl),demo/runs/samples/hub.jsonl) \
-	  flat=$(or $(wildcard demo/runs/flat.jsonl),demo/runs/samples/flat.jsonl) \
+	  solo=$(call run,solo) hub=$(call run,hub) flat=$(call run,flat) \
 	  -o slides/assets/metrics.md
 
 # Inject the generated metrics table at the <!-- METRICS --> marker.

@@ -1,8 +1,10 @@
 # agent-managers
 
 A live demo and Marp deck comparing two multi-agent topologies on the
-same task with the same three agents:
+same task with the same three agents, plus a single-agent control:
 
+- **Solo (control)**: one session, Agent tool disallowed. No delegation
+  possible. The baseline both cited papers measure against.
 - **Hub-and-spoke**: Manny (the manager) is the only agent that talks
   to Rocky and Ivory. Rocky and Ivory cannot talk to each other.
 - **Flat**: Rocky, Ivory, and Manny are peers. Anyone can message anyone.
@@ -35,12 +37,14 @@ diverge: Rocky reaches for it first, Ivory catches it.
 Requires Claude Code and, for the flat run, agent teams enabled.
 
 ```sh
+demo/run-solo.sh   # Control: one session, cannot spawn anyone
 demo/run-hub.sh    # Manny is the session; Rocky and Ivory are subagents
 demo/run-flat.sh   # A referee session spawns all three as peer teammates
 ```
 
-Each run appends every spawn and message to `demo/runs/<name>.jsonl`
-via the PreToolUse and SubagentStop hooks in `.claude/settings.json`.
+Each run appends session start and end, every spawn, message, and
+subagent report to `demo/runs/<name>.jsonl` via the hooks in
+`.claude/settings.json`.
 The runs are non-deterministic. Record them with `asciinema rec` and
 replay the recording on stage instead of running live.
 
@@ -67,5 +71,5 @@ deploy `dist/` to GitHub Pages via `.github/workflows/slides.yml`.
 | `demo/hooks/log_messages.py` | Hook script: hook event -> JSONL record |
 | `demo/tools/render_graph.py` | JSONL -> SVG message graph |
 | `demo/tools/metrics.py` | JSONL -> markdown metrics table |
-| `demo/runs/samples/` | Synthetic runs so the deck builds without Claude |
+| `demo/runs/samples/` | Synthetic solo, hub, and flat runs so the deck builds without Claude |
 | `slides/slides.md` | The Marp deck |
