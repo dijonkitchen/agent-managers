@@ -65,3 +65,15 @@ def test_main_ignores_malformed_input(tmp_path, monkeypatch):
     monkeypatch.setenv("AGENT_LOG", str(log))
     lm.main("not json")
     assert not log.exists()
+
+
+def test_session_start_and_end_record_self_edges_for_the_lead():
+    start = lm.to_record({"hook_event_name": "SessionStart"}, lead="solo", now=5.0)
+    end = lm.to_record({"hook_event_name": "SessionEnd"}, lead="solo", now=9.0)
+    assert start == {"ts": 5.0, "kind": "start", "from": "solo", "to": "solo", "chars": 0}
+    assert end == {"ts": 9.0, "kind": "end", "from": "solo", "to": "solo", "chars": 0}
+
+
+def test_session_start_inside_named_session_uses_agent_type():
+    rec = lm.to_record({"hook_event_name": "SessionStart", "agent_type": "manny"}, lead="x", now=1.0)
+    assert rec["from"] == "manny"

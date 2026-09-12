@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Claude Code hook: append one JSONL record per spawn, message, or report.
 
-Wired in .claude/settings.json for PreToolUse (Agent, SendMessage) and
-SubagentStop. Reads the hook event from stdin and appends to $AGENT_LOG
+Wired in .claude/settings.json for PreToolUse (Agent, SendMessage),
+SubagentStop, SessionStart, and SessionEnd. Start and end are self-edges
+so a run with no spawns still has a node and a wall time. Reads the hook event from stdin and appends to $AGENT_LOG
 (default demo/runs/current.jsonl). The lead's name comes from
 $AGENT_LEAD_NAME (default "lead") because the main session's hook input
 only carries agent_type when started with --agent.
@@ -24,6 +25,9 @@ def to_record(event: dict, lead: str, now: float) -> dict | None:
 
     if name == "SubagentStop":
         return {"ts": now, "kind": "report", "from": sender, "to": lead, "chars": 0}
+    if name in ("SessionStart", "SessionEnd"):
+        kind = "start" if name == "SessionStart" else "end"
+        return {"ts": now, "kind": kind, "from": sender, "to": sender, "chars": 0}
 
     if name != "PreToolUse":
         return None

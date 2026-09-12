@@ -41,3 +41,10 @@ def test_read_jsonl_skips_blank_lines(tmp_path):
     p = tmp_path / "run.jsonl"
     p.write_text('{"ts":1,"kind":"spawn","from":"a","to":"b","chars":1}\n\n')
     assert len(rg.read_jsonl(p)) == 1
+
+
+def test_solo_run_renders_a_single_node():
+    records = [{"ts": 1, "kind": "start", "from": "solo", "to": "solo", "chars": 0}]
+    g = rg.build_graph(records)
+    assert g.nodes == ["solo"] and g.edges == {}
+    assert "solo" in rg.to_svg(g, title="solo")

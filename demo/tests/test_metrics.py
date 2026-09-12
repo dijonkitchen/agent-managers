@@ -41,3 +41,16 @@ def test_markdown_table_has_one_column_per_run():
     assert lines[0] == "| Metric | hub | flat |"
     assert "| Peer messages | 0 | 3 |" in lines
     assert "| Wall time (s) | 90 | 50 |" in lines
+
+
+SOLO = [
+    {"ts": 100.0, "kind": "start", "from": "solo", "to": "solo", "chars": 0},
+    {"ts": 160.0, "kind": "end", "from": "solo", "to": "solo", "chars": 0},
+]
+
+
+def test_start_and_end_set_wall_time_but_do_not_count_as_hops():
+    s = m.summarize(SOLO)
+    assert s["total"] == 0
+    assert s["edges"] == 0
+    assert s["wall_seconds"] == 60.0

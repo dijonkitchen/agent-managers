@@ -25,11 +25,12 @@ def summarize(records: list[dict]) -> dict:
     for r in records:
         kinds[r["kind"]] = kinds.get(r["kind"], 0) + 1
     ts = [r["ts"] for r in records]
+    hops = kinds["spawn"] + kinds["message"] + kinds["report"]
     return {
         "spawns": kinds["spawn"],
         "messages": kinds["message"],
         "reports": kinds["report"],
-        "total": len(records),
+        "total": hops,
         "chars": sum(r.get("chars", 0) for r in records),
         "edges": len({(r["from"], r["to"]) for r in records if r["from"] != r["to"]}),
         "wall_seconds": round(max(ts) - min(ts), 1) if ts else 0.0,

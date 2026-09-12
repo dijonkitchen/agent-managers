@@ -1,3 +1,4 @@
+{"ts": 1700000000, "kind": "start", "from": "referee", "to": "referee", "chars": 0}
 {"ts": 1700000000, "kind": "spawn", "from": "referee", "to": "rocky", "chars": 380}
 {"ts": 1700000000, "kind": "spawn", "from": "referee", "to": "ivory", "chars": 380}
 {"ts": 1700000000, "kind": "spawn", "from": "referee", "to": "manny", "chars": 380}
@@ -17,3 +18,4 @@
 {"ts": 1700000260, "kind": "report", "from": "rocky", "to": "referee", "chars": 0}
 {"ts": 1700000262, "kind": "report", "from": "ivory", "to": "referee", "chars": 0}
 {"ts": 1700000263, "kind": "report", "from": "manny", "to": "referee", "chars": 0}
+{"ts": 1700000268, "kind": "end", "from": "referee", "to": "referee", "chars": 0}
