@@ -38,7 +38,7 @@ the run, the graphs, and the diff. Theory comes after they've seen it.
 
 # One experiment, three diffs
 
-Same task. Same three agents. Same prompts.
+Same task. Same three agents. Same prompts. Plus a control: **one agent, alone**.
 
 **The only thing that changes is who is allowed to talk to whom.**
 
@@ -96,7 +96,20 @@ It violates constraints 1 and 2. That is what makes the topologies diverge.
 
 # The wiring diff
 
-<div class="columns">
+<div class="columns3 small">
+<div>
+
+**Solo (control)** `demo/run-solo.sh`
+
+```sh
+AGENT_LEAD_NAME=solo
+claude --disallowedTools Agent "$TASK"
+```
+
+One session. Cannot spawn anyone.
+The baseline both papers measure against.
+
+</div>
 <div>
 
 **Hub-and-spoke** `demo/run-hub.sh`
@@ -146,20 +159,25 @@ Manny is present but has no authority.
 
 # Side by side
 
-<div class="columns">
+<div class="columns3">
 <div>
 
-![w:520](assets/hub.svg)
+![w:360](assets/solo.svg)
 
 </div>
 <div>
 
-![w:520](assets/flat.svg)
+![w:360](assets/hub.svg)
+
+</div>
+<div>
+
+![w:360](assets/flat.svg)
 
 </div>
 </div>
 
-Star vs mesh. Same task, same agents, same prompts.
+Dot, star, mesh. Same task, same prompts.
 
 ---
 
@@ -225,15 +243,16 @@ git diff main..flat -- demo/target/pricing.py
 
 # Honest scorecard
 
-| | Hub-and-spoke | Flat |
-| --- | --- | --- |
-| Wall time | slower, sequential | **faster**, parallel |
-| Hops | **fewer**, O(n) | more, O(n²) |
-| Rework | **less**: Ivory before Rocky | more: Rocky before Ivory |
-| Constraint violations at ship | **0** in the recorded run | lru_cache shipped first |
-| Context per agent | small, briefed | large, everyone reads everything |
+| | Solo (control) | Hub-and-spoke | Flat |
+| --- | --- | --- | --- |
+| Wall time | **fastest** on a task this size | slower, sequential | fast, parallel |
+| Hops | 0 | **fewer**, O(n) | more, O(n²) |
+| Rework | depends on one agent's first instinct | **less**: Ivory before Rocky | more: Rocky before Ivory |
+| Constraint violations at ship | one reflex, unchecked | **0** in the recorded run | lru_cache shipped first |
+| Context | one window, everything in it | small, briefed | large, everyone reads everything |
 
 Flat is not a strawman. It wins on latency. It loses on churn.
+Solo is not a strawman either. On a small sequential task it may just win.
 
 <!--
 Speaker: say this out loud. If you make flat look stupid the audience
