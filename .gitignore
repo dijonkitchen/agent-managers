@@ -2,6 +2,8 @@
 dist/
 node_modules/
 slides/assets/*.svg
+slides/assets/metrics.md
+slides/slides.build.md
 !slides/assets/.gitkeep
 
 # Python

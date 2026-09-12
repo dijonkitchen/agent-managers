@@ -13,11 +13,17 @@ graphs:
 	  flat=$(or $(wildcard demo/runs/flat.jsonl),demo/runs/samples/flat.jsonl) \
 	  -o slides/assets/metrics.md
 
-slides: graphs
-	npx --yes @marp-team/marp-cli@4.5.1 --html slides/slides.md -o dist/index.html
+# Inject the generated metrics table at the <!-- METRICS --> marker.
+slides/slides.build.md: slides/slides.md graphs
+	sed -e '/<!-- METRICS -->/r slides/assets/metrics.md' slides/slides.md > $@
 
-pdf: graphs
-	npx --yes @marp-team/marp-cli@4.5.1 --html --allow-local-files slides/slides.md -o dist/slides.pdf
+slides: slides/slides.build.md
+	mkdir -p dist && cp -r slides/assets dist/
+	npx --yes @marp-team/marp-cli@4.5.1 --html slides/slides.build.md -o dist/index.html < /dev/null
+
+pdf: slides/slides.build.md
+	mkdir -p dist
+	npx --yes @marp-team/marp-cli@4.5.1 --html --allow-local-files slides/slides.build.md -o dist/slides.pdf < /dev/null
 
 clean:
-	rm -rf dist slides/assets/*.svg slides/assets/metrics.md
+	rm -rf dist slides/slides.build.md slides/assets/*.svg slides/assets/metrics.md

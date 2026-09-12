@@ -3,9 +3,9 @@
   "private": true,
   "description": "Marp deck: hub-and-spoke vs flat multi-agent workflows",
   "scripts": {
-    "slides:build": "marp --html slides/slides.md -o dist/index.html",
-    "slides:pdf": "marp --html --allow-local-files slides/slides.md -o dist/slides.pdf",
-    "slides:watch": "marp --html --watch --preview slides/slides.md"
+    "slides:build": "make slides",
+    "slides:pdf": "make pdf",
+    "slides:watch": "make graphs && marp --html --watch --preview slides/slides.md"
   },
   "devDependencies": {
     "@marp-team/marp-cli": "4.5.1"
