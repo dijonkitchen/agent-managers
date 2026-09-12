@@ -14,7 +14,7 @@ import math
 from dataclasses import dataclass, field
 from pathlib import Path
 
-W, H, R, NODE_R = 640, 420, 150, 38
+W, H, R, NODE_R = 640, 460, 145, 38
 COLORS = {"manny": "#e0a800", "rocky": "#e05a2b", "ivory": "#3b7dd8"}
 
 
@@ -40,7 +40,7 @@ def build_graph(records: list[dict]) -> Graph:
 
 
 def _positions(nodes: list[str]) -> dict[str, tuple[float, float]]:
-    cx, cy = W / 2, H / 2 + 10
+    cx, cy = W / 2, H / 2 + 20
     n = len(nodes)
     return {
         name: (cx + R * math.cos(2 * math.pi * i / n - math.pi / 2),
