@@ -234,10 +234,52 @@ def get_quote(symbol: str) -> float:
 </div>
 
 <!--
-Illustrative. Replace with the real diffs from the recorded runs:
+Both attempts live in demo/attempts/ and are scored by the tests on the
+next slide. Replace with the real diffs from the recorded runs:
 git diff main..hub -- demo/target/pricing.py
 git diff main..flat -- demo/target/pricing.py
 -->
+
+---
+
+# Every claim is a test
+
+<div class="columns small">
+<div>
+
+**The constraints, scored** `demo/tests/test_attempts.py`
+
+| | repeats | fresh 5s | bounded | errors |
+| --- | :-: | :-: | :-: | :-: |
+| untouched | ✗ | ✓ | ✓ | ✓ |
+| `lru_cache` | ✓ | ✗ | ✗ | ✓ |
+| TTL + bound | ✓ | ✓ | ✓ | ✓ |
+
+Same four checks are the task's definition of done:
+`make acceptance`
+
+</div>
+<div>
+
+**The topologies, asserted** `demo/tests/test_scenarios.py`
+
+```text
+solo_strength_zero_coordination_cost
+solo_weakness_nobody_checks_the_work
+hub_strength_every_hop_touches_the_lead
+hub_strength_every_spawn_is_validated
+hub_weakness_work_is_sequential
+flat_strength_everyone_starts_at_once
+flat_strength_finishes_before_hub
+flat_weakness_peers_talk_past_the_lead
+flat_weakness_coder_ships_before_researcher
+edges_grow_solo_to_hub_to_flat
+```
+
+Run against real logs when present. A red test is a finding.
+
+</div>
+</div>
 
 ---
 
@@ -385,6 +427,7 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 - Rocky runs the tests. Ivory returns pass/fail per constraint. Manny only accepts evidence.
 - Without a check, "looks done" is the only signal, and **you** become the verification loop.
 - Everything in this deck was rendered from a JSONL log by a script in the repo. No hand-drawn diagrams.
+- Every row on the scorecard is a pytest. If a real run disagrees with the slide, the build goes red.
 
 ---
 

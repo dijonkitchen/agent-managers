@@ -48,6 +48,20 @@ subagent report to `demo/runs/<name>.jsonl` via the hooks in
 The runs are non-deterministic. Record them with `asciinema rec` and
 replay the recording on stage instead of running live.
 
+## The claims are tests
+
+- `demo/tests/test_scenarios.py` asserts each topology's strengths and
+  weaknesses from the run logs: solo has zero coordination cost and no
+  second opinion; hub is a star with a validation loop but runs
+  sequentially; flat starts everyone at once and finishes first but
+  talks past the lead with more hops and more context.
+- `demo/tests/test_attempts.py` scores three caching implementations
+  against the four TASK.md constraints: the untouched module, Rocky's
+  `lru_cache` reflex in `demo/attempts/`, and the TTL-bounded cache
+  that passes Ivory's checklist.
+- `demo/target/test_acceptance.py` is the task's definition of done.
+  Deselected by default; `make acceptance` runs it.
+
 ## Building the slides
 
 ```sh
@@ -71,5 +85,8 @@ deploy `dist/` to GitHub Pages via `.github/workflows/slides.yml`.
 | `demo/hooks/log_messages.py` | Hook script: hook event -> JSONL record |
 | `demo/tools/render_graph.py` | JSONL -> SVG message graph |
 | `demo/tools/metrics.py` | JSONL -> markdown metrics table |
+| `demo/tools/scenarios.py` | Structural predicates over a run log |
+| `demo/tools/constraints.py` | TASK.md constraints as checks against any pricing module |
+| `demo/attempts/` | Reference caching attempts scored by the tests |
 | `demo/runs/samples/` | Synthetic solo, hub, and flat runs so the deck builds without Claude |
 | `slides/slides.md` | The Marp deck |
