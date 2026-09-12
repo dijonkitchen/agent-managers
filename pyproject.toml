@@ -10,4 +10,6 @@ dev = ["pytest>=8"]
 
 [tool.pytest.ini_options]
 testpaths = ["demo/tests", "demo/target"]
-pythonpath = ["demo/hooks", "demo/tools", "demo/target"]
+pythonpath = ["demo/hooks", "demo/tools", "demo/target", "demo/attempts"]
+markers = ["acceptance: TASK.md acceptance tests, run with -m acceptance"]
+addopts = "-m 'not acceptance'"

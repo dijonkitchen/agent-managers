@@ -1,7 +1,11 @@
-.PHONY: test graphs slides pdf clean
+.PHONY: test acceptance graphs slides pdf clean
 
 test:
 	uv run --group dev pytest -q
+
+# TASK.md's definition of done, run against demo/target/pricing.py.
+acceptance:
+	uv run --group dev pytest -q -m acceptance demo/target
 
 # Render message graphs and the metrics table from the JSONL runs.
 # Real runs in demo/runs/*.jsonl take precedence over the samples.

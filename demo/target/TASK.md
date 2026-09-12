@@ -13,5 +13,11 @@ every time. Constraints:
 4. Existing tests in `test_pricing.py` must keep passing. Add tests for
    the new behavior.
 
+Done means this passes from the repo root:
+
+```sh
+uv run pytest -m acceptance demo/target
+```
+
 Deliver the change as a commit on a new branch named after the run
 (`hub` or `flat`).
