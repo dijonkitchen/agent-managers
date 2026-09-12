@@ -1,0 +1,43 @@
+import metrics as m
+
+HUB = [
+    {"ts": 100.0, "kind": "spawn", "from": "manny", "to": "ivory", "chars": 40},
+    {"ts": 130.0, "kind": "report", "from": "ivory", "to": "manny", "chars": 0},
+    {"ts": 131.0, "kind": "spawn", "from": "manny", "to": "rocky", "chars": 60},
+    {"ts": 190.0, "kind": "report", "from": "rocky", "to": "manny", "chars": 0},
+]
+FLAT = [
+    {"ts": 100.0, "kind": "spawn", "from": "referee", "to": "rocky", "chars": 20},
+    {"ts": 100.5, "kind": "spawn", "from": "referee", "to": "ivory", "chars": 20},
+    {"ts": 105.0, "kind": "message", "from": "rocky", "to": "ivory", "chars": 30},
+    {"ts": 120.0, "kind": "message", "from": "ivory", "to": "rocky", "chars": 80},
+    {"ts": 121.0, "kind": "message", "from": "rocky", "to": "ivory", "chars": 10},
+    {"ts": 150.0, "kind": "report", "from": "rocky", "to": "referee", "chars": 0},
+]
+
+
+def test_summarize_counts_by_kind_and_wall_time():
+    s = m.summarize(HUB)
+    assert s == {
+        "spawns": 2, "messages": 0, "reports": 2, "total": 4,
+        "chars": 100, "edges": 4, "wall_seconds": 90.0,
+    }
+
+
+def test_summarize_flat_has_peer_edges():
+    s = m.summarize(FLAT)
+    assert s["messages"] == 3
+    assert s["edges"] == 5
+    assert s["wall_seconds"] == 50.0
+
+
+def test_summarize_empty_run():
+    assert m.summarize([])["wall_seconds"] == 0.0
+
+
+def test_markdown_table_has_one_column_per_run():
+    md = m.to_markdown({"hub": m.summarize(HUB), "flat": m.summarize(FLAT)})
+    lines = md.splitlines()
+    assert lines[0] == "| Metric | hub | flat |"
+    assert "| Peer messages | 0 | 3 |" in lines
+    assert "| Wall time (s) | 90 | 50 |" in lines
