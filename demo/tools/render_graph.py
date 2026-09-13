@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 W, H, R, NODE_R = 640, 460, 145, 38
-COLORS = {"manny": "#e0a800", "rocky": "#e05a2b", "ivory": "#3b7dd8"}
+COLORS = {"manny": "#e0a800", "codie": "#e05a2b", "archie": "#3b7dd8"}
 
 
 @dataclass

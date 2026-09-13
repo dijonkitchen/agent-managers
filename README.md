@@ -6,8 +6,8 @@ same task with the same three agents, plus a single-agent control:
 - **Solo (control)**: one session, Agent tool disallowed. No delegation
   possible. The baseline both cited papers measure against.
 - **Hub-and-spoke**: Manny (the manager) is the only agent that talks
-  to Rocky and Ivory. Rocky and Ivory cannot talk to each other.
-- **Flat**: Rocky, Ivory, and Manny are peers. Anyone can message anyone.
+  to Codie and Archie. Codie and Archie cannot talk to each other.
+- **Flat**: Codie, Archie, and Manny are peers. Anyone can message anyone.
   Nobody has authority.
 
 The only thing that changes between the two runs is who is allowed to
@@ -18,8 +18,8 @@ message graph (star vs triangle), and the resulting code diff (large).
 
 | Agent | Role | Tools | Instinct |
 | ----- | ---- | ----- | -------- |
-| Rocky | Coder | Read + write | Tries code ideas immediately |
-| Ivory | Researcher / architect | Read-only | Reads everything, then recommends |
+| Codie | Coder | Read + write | Tries code ideas immediately |
+| Archie | Researcher / architect | Read-only | Reads everything, then recommends |
 | Manny | Manager | Delegation only, no file access | Routes, sequences, decides |
 
 Definitions live in `.claude/agents/`.
@@ -30,7 +30,7 @@ Definitions live in `.claude/agents/`.
 function. The task (`demo/target/TASK.md`) is to add caching under a
 freshness and memory constraint. The reflex answer (`functools.lru_cache`)
 violates the freshness constraint, which is what makes the topologies
-diverge: Rocky reaches for it first, Ivory catches it.
+diverge: Codie reaches for it first, Archie catches it.
 
 ## Running the demo
 
@@ -38,7 +38,7 @@ Requires Claude Code and, for the flat run, agent teams enabled.
 
 ```sh
 demo/run-solo.sh   # Control: one session, cannot spawn anyone
-demo/run-hub.sh    # Manny is the session; Rocky and Ivory are subagents
+demo/run-hub.sh    # Manny is the session; Codie and Archie are subagents
 demo/run-flat.sh   # A referee session spawns all three as peer teammates
 ```
 
@@ -56,9 +56,9 @@ replay the recording on stage instead of running live.
   sequentially; flat starts everyone at once and finishes first but
   talks past the lead with more hops and more context.
 - `demo/tests/test_attempts.py` scores three caching implementations
-  against the four TASK.md constraints: the untouched module, Rocky's
+  against the four TASK.md constraints: the untouched module, Codie's
   `lru_cache` reflex in `demo/attempts/`, and the TTL-bounded cache
-  that passes Ivory's checklist.
+  that passes Archie's checklist.
 - `demo/target/test_acceptance.py` is the task's definition of done.
   Deselected by default; `make acceptance` runs it.
 
@@ -79,7 +79,7 @@ deploy `dist/` to GitHub Pages via `.github/workflows/slides.yml`.
 
 | Path | Purpose |
 | ---- | ------- |
-| `.claude/agents/` | Rocky, Manny, Ivory definitions |
+| `.claude/agents/` | Codie, Manny, Archie definitions |
 | `.claude/settings.json` | Hooks that log spawns and messages |
 | `demo/target/` | The codebase the agents modify |
 | `demo/hooks/log_messages.py` | Hook script: hook event -> JSONL record |

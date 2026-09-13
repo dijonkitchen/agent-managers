@@ -1,20 +1,20 @@
 import render_graph as rg
 
 HUB = [
-    {"ts": 1, "kind": "spawn", "from": "manny", "to": "ivory", "chars": 10},
-    {"ts": 2, "kind": "report", "from": "ivory", "to": "manny", "chars": 0},
-    {"ts": 3, "kind": "spawn", "from": "manny", "to": "rocky", "chars": 10},
-    {"ts": 4, "kind": "report", "from": "rocky", "to": "manny", "chars": 0},
-    {"ts": 5, "kind": "spawn", "from": "manny", "to": "rocky", "chars": 10},
+    {"ts": 1, "kind": "spawn", "from": "manny", "to": "archie", "chars": 10},
+    {"ts": 2, "kind": "report", "from": "archie", "to": "manny", "chars": 0},
+    {"ts": 3, "kind": "spawn", "from": "manny", "to": "codie", "chars": 10},
+    {"ts": 4, "kind": "report", "from": "codie", "to": "manny", "chars": 0},
+    {"ts": 5, "kind": "spawn", "from": "manny", "to": "codie", "chars": 10},
 ]
 
 
 def test_build_graph_counts_edges_and_collects_nodes():
     g = rg.build_graph(HUB)
-    assert g.nodes == ["ivory", "manny", "rocky"]
-    assert g.edges[("manny", "rocky")] == 2
-    assert g.edges[("manny", "ivory")] == 1
-    assert g.edges[("ivory", "manny")] == 1
+    assert g.nodes == ["archie", "codie", "manny"]
+    assert g.edges[("manny", "codie")] == 2
+    assert g.edges[("manny", "archie")] == 1
+    assert g.edges[("archie", "manny")] == 1
 
 
 def test_build_graph_ignores_self_edges():
@@ -26,9 +26,9 @@ def test_build_graph_ignores_self_edges():
 def test_svg_contains_every_node_label_and_edge_weight():
     svg = rg.to_svg(rg.build_graph(HUB), title="hub")
     assert svg.startswith("<svg")
-    for name in ("ivory", "manny", "rocky"):
+    for name in ("archie", "manny", "codie"):
         assert name in svg
-    assert ">2<" in svg  # weight label on manny -> rocky
+    assert ">2<" in svg  # weight label on manny -> codie
     assert "hub" in svg
 
 

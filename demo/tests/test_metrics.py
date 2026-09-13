@@ -1,18 +1,18 @@
 import metrics as m
 
 HUB = [
-    {"ts": 100.0, "kind": "spawn", "from": "manny", "to": "ivory", "chars": 40},
-    {"ts": 130.0, "kind": "report", "from": "ivory", "to": "manny", "chars": 0},
-    {"ts": 131.0, "kind": "spawn", "from": "manny", "to": "rocky", "chars": 60},
-    {"ts": 190.0, "kind": "report", "from": "rocky", "to": "manny", "chars": 0},
+    {"ts": 100.0, "kind": "spawn", "from": "manny", "to": "archie", "chars": 40},
+    {"ts": 130.0, "kind": "report", "from": "archie", "to": "manny", "chars": 0},
+    {"ts": 131.0, "kind": "spawn", "from": "manny", "to": "codie", "chars": 60},
+    {"ts": 190.0, "kind": "report", "from": "codie", "to": "manny", "chars": 0},
 ]
 FLAT = [
-    {"ts": 100.0, "kind": "spawn", "from": "referee", "to": "rocky", "chars": 20},
-    {"ts": 100.5, "kind": "spawn", "from": "referee", "to": "ivory", "chars": 20},
-    {"ts": 105.0, "kind": "message", "from": "rocky", "to": "ivory", "chars": 30},
-    {"ts": 120.0, "kind": "message", "from": "ivory", "to": "rocky", "chars": 80},
-    {"ts": 121.0, "kind": "message", "from": "rocky", "to": "ivory", "chars": 10},
-    {"ts": 150.0, "kind": "report", "from": "rocky", "to": "referee", "chars": 0},
+    {"ts": 100.0, "kind": "spawn", "from": "referee", "to": "codie", "chars": 20},
+    {"ts": 100.5, "kind": "spawn", "from": "referee", "to": "archie", "chars": 20},
+    {"ts": 105.0, "kind": "message", "from": "codie", "to": "archie", "chars": 30},
+    {"ts": 120.0, "kind": "message", "from": "archie", "to": "codie", "chars": 80},
+    {"ts": 121.0, "kind": "message", "from": "codie", "to": "archie", "chars": 10},
+    {"ts": 150.0, "kind": "report", "from": "codie", "to": "referee", "chars": 0},
 ]
 
 

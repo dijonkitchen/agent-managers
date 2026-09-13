@@ -1,4 +1,4 @@
-"""What passed Ivory's checklist: a TTL-bounded LRU.
+"""What passed Archie's checklist: a TTL-bounded LRU.
 
 Fresh within 5 seconds, capped at MAX entries, errors never stored.
 """

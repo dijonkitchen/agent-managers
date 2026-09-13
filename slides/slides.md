@@ -14,7 +14,7 @@ style: |
   .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   .columns3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
   .small { font-size: 19px; }
-  .rocky { color: #e05a2b; } .ivory { color: #3b7dd8; } .manny { color: #b58600; }
+  .codie { color: #e05a2b; } .archie { color: #3b7dd8; } .manny { color: #b58600; }
   .card { border: 2px solid #ddd; border-radius: 10px; padding: 0.6rem 0.9rem; }
   .card h3 { margin: 0 0 0.3rem 0; }
   .sources { font-size: 16px; }
@@ -57,11 +57,11 @@ Then: what the research says, why humans stay, and what to do on Monday.
 # The cast
 
 <div class="columns3">
-<div class="card"><h3 class="rocky">Rocky</h3>
+<div class="card"><h3 class="codie">Codie</h3>
 <b>Coder.</b> Read + write tools.<br>
 Tries ideas in code immediately.<br>
 Would rather ship three attempts than plan one.</div>
-<div class="card"><h3 class="ivory">Ivory</h3>
+<div class="card"><h3 class="archie">Archie</h3>
 <b>Researcher / architect.</b> Read-only.<br>
 Reads everything, then recommends.<br>
 Never writes code. Slow on purpose.</div>
@@ -121,7 +121,7 @@ claude --agent manny "$TASK"
 ```
 
 Manny is the session.
-Rocky and Ivory are subagents with **no `SendMessage` tool**.
+Codie and Archie are subagents with **no `SendMessage` tool**.
 They can only report to Manny. Enforced by the mechanism.
 
 </div>
@@ -132,7 +132,7 @@ They can only report to Manny. Enforced by the mechanism.
 ```sh
 AGENT_LEAD_NAME=referee
 CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
-claude --name referee "Spawn rocky, ivory,
+claude --name referee "Spawn codie, archie,
   manny as peer teammates. Nobody is in charge."
 ```
 
@@ -194,7 +194,7 @@ Synthetic sample run. Regenerate from real logs with `make graphs`.
 <div class="columns">
 <div>
 
-**Rocky's first attempt** (flat, minute 1)
+**Codie's first attempt** (flat, minute 1)
 
 ```python
 from functools import lru_cache
@@ -211,7 +211,7 @@ Constraint 3: pass, by accident
 </div>
 <div>
 
-**What passed Ivory's checklist** (hub)
+**What passed Archie's checklist** (hub)
 
 ```python
 TTL, MAX = 5.0, 128
@@ -289,7 +289,7 @@ Run against real logs when present. A red test is a finding.
 | --- | --- | --- | --- |
 | Wall time | **fastest** on a task this size | slower, sequential | fast, parallel |
 | Hops | 0 | **fewer**, O(n) | more, O(n²) |
-| Rework | depends on one agent's first instinct | **less**: Ivory before Rocky | more: Rocky before Ivory |
+| Rework | depends on one agent's first instinct | **less**: Archie before Codie | more: Codie before Archie |
 | Constraint violations at ship | one reflex, unchecked | **0** in the recorded run | lru_cache shipped first |
 | Context | one window, everything in it | small, briefed | large, everyone reads everything |
 
@@ -374,7 +374,7 @@ As models improve, expect to delete roles, not add them.
 - **A hub stops politics.** No turf war when nobody can flood the shared branch. That is what managers do for people too: psychological safety, not surveillance.
 - **The orchestrator's value is decomposition, validation, and synthesis.** Not watching. Manny has no file tools and it works better that way.
 - **Keep swarms under five.** Use them for parallelism and isolation, the two things a smarter single model cannot do. Everything else: one agent, smaller task.
-- **Catch errors early.** Ivory before Rocky. Better requirements and designs mean fewer bugs, less miscommunication, less churn downstream. Same as it ever was.
+- **Catch errors early.** Archie before Codie. Better requirements and designs mean fewer bugs, less miscommunication, less churn downstream. Same as it ever was.
 
 ---
 
@@ -424,7 +424,7 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 # Show, don't tell: give every agent a check it can run
 
 - Tests, a build exit code, a screenshot diff, a constraint checklist.
-- Rocky runs the tests. Ivory returns pass/fail per constraint. Manny only accepts evidence.
+- Codie runs the tests. Archie returns pass/fail per constraint. Manny only accepts evidence.
 - Without a check, "looks done" is the only signal, and **you** become the verification loop.
 - Everything in this deck was rendered from a JSONL log by a script in the repo. No hand-drawn diagrams.
 - Every row on the scorecard is a pytest. If a real run disagrees with the slide, the build goes red.
@@ -463,7 +463,7 @@ Speaker: pause here. This is the thesis. Then the announcement.
 
 ## Releasing today: the **agent-managers** kit
 
-Rocky, Manny, and Ivory. The message logger. The graph renderer.
+Codie, Manny, and Archie. The message logger. The graph renderer.
 Drop the `.claude/` folder into any repo and run it on your own task.
 
 `github.com/dijonkitchen/agent-managers`

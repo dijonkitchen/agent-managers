@@ -15,13 +15,13 @@ import ttl_attempt
 EXPECTED = {
     #                  1 repeats  2 refresh  3 bounded  4 errors
     "uncached (pricing)": (False, True,  True,  True),
-    "lru_cache (Rocky, minute 1)": (True, False, False, True),
-    "ttl + bounded (Ivory's checklist)": (True, True, True, True),
+    "lru_cache (Codie, minute 1)": (True, False, False, True),
+    "ttl + bounded (Archie's checklist)": (True, True, True, True),
 }
 MODULES = {
     "uncached (pricing)": pricing,
-    "lru_cache (Rocky, minute 1)": lru_attempt,
-    "ttl + bounded (Ivory's checklist)": ttl_attempt,
+    "lru_cache (Codie, minute 1)": lru_attempt,
+    "ttl + bounded (Archie's checklist)": ttl_attempt,
 }
 
 
@@ -32,7 +32,7 @@ def test_attempt_matches_expected_scorecard(attempt, idx, check, monkeypatch):
     assert got is EXPECTED[attempt][idx]
 
 
-def test_ivory_checklist_passes_every_constraint(monkeypatch):
+def test_archie_checklist_passes_every_constraint(monkeypatch):
     assert all(check(c.Harness(ttl_attempt, monkeypatch)) for check in c.CHECKS.values())
 
 

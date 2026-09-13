@@ -87,7 +87,7 @@ def test_flat_weakness_more_hops_and_more_context_than_hub(flat, hub):
 
 
 def test_flat_weakness_coder_ships_before_researcher_answers(flat):
-    assert sc.first_ts(flat, sender="rocky") < sc.first_ts(flat, sender="ivory")
+    assert sc.first_ts(flat, sender="codie") < sc.first_ts(flat, sender="archie")
 
 
 # --- Across the three: paths grow with the square of the team --------------
