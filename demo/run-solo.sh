@@ -19,6 +19,8 @@ worktree="$(prepare_worktree solo)"
 branch="$(basename "$worktree")"
 cd "$worktree"
 
-exec claude --disallowedTools Agent "Complete this task on your own. You are already on the branch '$branch', created for this run.
+# `--disallowedTools` is variadic, so the prompt has to come after `--`,
+# or it gets swallowed word-by-word as extra deny rules.
+exec claude --disallowedTools Agent -- "Complete this task on your own. You are already on the branch '$branch', created for this run.
 
 $task"

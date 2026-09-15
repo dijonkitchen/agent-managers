@@ -103,7 +103,7 @@ It violates constraints 1 and 2. That is what makes the topologies diverge.
 
 ```sh
 AGENT_LEAD_NAME=solo
-claude --disallowedTools Agent "$TASK"
+claude --disallowedTools Agent -- "$TASK"
 ```
 
 One session. Cannot spawn anyone.
