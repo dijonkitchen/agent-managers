@@ -42,6 +42,12 @@ demo/run-hub.sh    # Manny is the session; Codie and Archie are subagents
 demo/run-flat.sh   # A referee session spawns all three as peer teammates
 ```
 
+Each run works in its own worktree and branch under `.worktrees/`, named
+`<run>-<timestamp>`, so a run can be repeated as often as a rehearsal
+needs without colliding with what the last one left behind. Every run
+starts from the main checkout's current commit. `make clean-worktrees`
+drops the worktrees; it leaves the branches, which hold the run output.
+
 Each run appends session start and end, every spawn, message, and
 subagent report to `demo/runs/<name>.jsonl` via the hooks in
 `.claude/settings.json`.
@@ -82,6 +88,7 @@ deploy `dist/` to GitHub Pages via `.github/workflows/slides.yml`.
 | `.claude/agents/` | Codie, Manny, Archie definitions |
 | `.claude/settings.json` | Hooks that log spawns and messages |
 | `demo/target/` | The codebase the agents modify |
+| `demo/lib/worktree.sh` | Fresh worktree and branch per run |
 | `demo/hooks/log_messages.py` | Hook script: hook event -> JSONL record |
 | `demo/tools/render_graph.py` | JSONL -> SVG message graph |
 | `demo/tools/metrics.py` | JSONL -> markdown metrics table |

@@ -34,11 +34,11 @@ pdf: slides/slides.build.md
 clean:
 	rm -rf dist slides/slides.build.md slides/assets/*.svg slides/assets/metrics.md
 
-# Drop the per-run worktrees. Kept out of `clean` because it discards
-# whatever the agents did. Branches are left alone on purpose: solo, hub
-# and flat hold the actual run output.
+# Drop every per-run worktree. Kept out of `clean` because it discards
+# whatever the agents did. Branches are left alone on purpose: each run's
+# <name>-<timestamp> branch holds that run's output.
 clean-worktrees:
-	for name in solo hub flat; do \
-	  git worktree remove --force ".worktrees/$$name" 2>/dev/null || true; \
+	for path in .worktrees/*/; do \
+	  [ -d "$$path" ] && git worktree remove --force "$$path" || true; \
 	done
 	git worktree prune
