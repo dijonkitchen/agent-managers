@@ -4,12 +4,18 @@
 # the topology is enforced by the mechanism, not by the prompt.
 set -euo pipefail
 cd "$(dirname "$0")/.."
+source demo/lib/worktree.sh
 
-export AGENT_LOG=demo/runs/hub.jsonl
+# Absolute, and deliberately in the main checkout: the run itself happens
+# in a worktree, but `make graphs` reads all three logs from here.
+export AGENT_LOG="$PWD/demo/runs/hub.jsonl"
 export AGENT_LEAD_NAME=manny
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=0
 rm -f "$AGENT_LOG"
 
-exec claude --agent manny "Coordinate Codie and Archie to complete this task. Use the branch name 'hub'.
+task="$(cat demo/target/TASK.md)"
+cd "$(prepare_worktree hub)"
 
-$(cat demo/target/TASK.md)"
+exec claude --agent manny "Coordinate Codie and Archie to complete this task. You are already on the branch 'hub'.
+
+$task"

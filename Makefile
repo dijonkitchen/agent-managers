@@ -1,4 +1,4 @@
-.PHONY: test acceptance graphs slides pdf clean
+.PHONY: test acceptance graphs slides pdf clean clean-worktrees
 
 test:
 	uv run --group dev pytest -q
@@ -33,3 +33,12 @@ pdf: slides/slides.build.md
 
 clean:
 	rm -rf dist slides/slides.build.md slides/assets/*.svg slides/assets/metrics.md
+
+# Drop the per-run worktrees. Kept out of `clean` because it discards
+# whatever the agents did. Branches are left alone on purpose: solo, hub
+# and flat hold the actual run output.
+clean-worktrees:
+	for name in solo hub flat; do \
+	  git worktree remove --force ".worktrees/$$name" 2>/dev/null || true; \
+	done
+	git worktree prune

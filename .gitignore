@@ -11,6 +11,9 @@ __pycache__/
 .pytest_cache/
 .venv/
 
+# Per-run worktrees (demo/lib/worktree.sh)
+.worktrees/
+
 # Live demo runs (samples are kept, real runs are not)
 demo/runs/*.jsonl
 demo/runs/*.cast
