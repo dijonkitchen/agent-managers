@@ -62,14 +62,26 @@ def test_hub_strength_briefs_are_small(hub, flat):
     assert sc.max_hop_chars(hub) < sc.max_hop_chars(flat)
 
 
+def test_hub_strength_product_framing_comes_before_code(hub):
+    """Shift left, enforced by routing: who sees it, then how, then build it."""
+    assert (sc.first_spawn_to(hub, "desi")
+            < sc.first_spawn_to(hub, "archie")
+            < sc.first_spawn_to(hub, "codie"))
+
+
 def test_hub_weakness_work_is_sequential(hub):
     assert sc.max_concurrent_spawns(hub, lead="manny") == 1
+
+
+def test_hub_weakness_a_fourth_agent_lengthens_the_chain(hub):
+    """Desi buys a constraint and costs two more sequential hops."""
+    assert sc.count(hub, "spawn") == 6
 
 
 # --- Flat: parallel and fast; but chatty and unbounded ---------------------
 
 def test_flat_strength_everyone_starts_at_once(flat):
-    assert sc.max_concurrent_spawns(flat, lead="referee") == 3
+    assert sc.max_concurrent_spawns(flat, lead="referee") == 4
 
 
 def test_flat_strength_finishes_before_hub(flat, hub):
@@ -78,7 +90,14 @@ def test_flat_strength_finishes_before_hub(flat, hub):
 
 def test_flat_weakness_peers_talk_past_the_lead(flat):
     assert not sc.is_star(flat, lead="referee")
-    assert len(sc.peer_edges(flat, lead="referee")) == 6  # every ordered pair of 3 peers
+    assert len(sc.peer_edges(flat, lead="referee")) == 12  # every ordered pair of 4 peers
+
+
+def test_flat_weakness_one_more_peer_doubles_the_paths(flat):
+    """Brooks, live: n(n-1) directed paths. Three peers was 6; four is 12."""
+    n = len(sc.peers(flat, lead="referee"))
+    assert n == 4
+    assert len(sc.peer_edges(flat, lead="referee")) == n * (n - 1) == 12
 
 
 def test_flat_weakness_more_hops_and_more_context_than_hub(flat, hub):
@@ -88,6 +107,11 @@ def test_flat_weakness_more_hops_and_more_context_than_hub(flat, hub):
 
 def test_flat_weakness_coder_ships_before_researcher_answers(flat):
     assert sc.first_ts(flat, sender="codie") < sc.first_ts(flat, sender="archie")
+
+
+def test_flat_weakness_coder_ships_before_anyone_names_the_user(flat):
+    """Nobody sequences Desi, so the code is written before the user exists."""
+    assert sc.first_ts(flat, sender="codie") < sc.first_ts(flat, sender="desi")
 
 
 # --- Across the three: paths grow with the square of the team --------------

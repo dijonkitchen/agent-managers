@@ -54,6 +54,16 @@ def first_ts(records: list[dict], sender: str) -> float:
     return min(r["ts"] for r in hop_records(records) if r["from"] == sender)
 
 
+def first_spawn_to(records: list[dict], agent: str) -> float:
+    """When the lead first handed work to `agent`. Reveals the routing order."""
+    return min(r["ts"] for r in hop_records(records)
+               if r["kind"] == "spawn" and r["to"] == agent)
+
+
+def peers(records: list[dict], lead: str) -> set[str]:
+    return agents(records) - {lead}
+
+
 def validation_rounds(records: list[dict], lead: str) -> int:
     """Times the lead re-delegated after receiving a report: a check loop."""
     rounds, pending = 0, False
