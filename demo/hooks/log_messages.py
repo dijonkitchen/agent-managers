@@ -11,6 +11,8 @@ only carries agent_type when started with --agent.
 Record shape: {"ts", "kind", "from", "to", "chars"}.
 """
 
+from __future__ import annotations
+
 import json
 import os
 import sys

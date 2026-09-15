@@ -1,4 +1,4 @@
-.PHONY: test acceptance graphs slides pdf clean
+.PHONY: test acceptance graphs slides pdf clean clean-worktrees
 
 test:
 	uv run --group dev pytest -q
@@ -12,10 +12,10 @@ acceptance:
 run = $(or $(wildcard demo/runs/$(1).jsonl),demo/runs/samples/$(1).jsonl)
 
 graphs:
-	python3 demo/tools/render_graph.py $(call run,solo) -o slides/assets/solo.svg
-	python3 demo/tools/render_graph.py $(call run,hub) -o slides/assets/hub.svg
-	python3 demo/tools/render_graph.py $(call run,flat) -o slides/assets/flat.svg
-	python3 demo/tools/metrics.py \
+	uv run python demo/tools/render_graph.py $(call run,solo) -o slides/assets/solo.svg
+	uv run python demo/tools/render_graph.py $(call run,hub) -o slides/assets/hub.svg
+	uv run python demo/tools/render_graph.py $(call run,flat) -o slides/assets/flat.svg
+	uv run python demo/tools/metrics.py \
 	  solo=$(call run,solo) hub=$(call run,hub) flat=$(call run,flat) \
 	  -o slides/assets/metrics.md
 
@@ -33,3 +33,12 @@ pdf: slides/slides.build.md
 
 clean:
 	rm -rf dist slides/slides.build.md slides/assets/*.svg slides/assets/metrics.md
+
+# Drop the per-run worktrees. Kept out of `clean` because it discards
+# whatever the agents did. Branches are left alone on purpose: solo, hub
+# and flat hold the actual run output.
+clean-worktrees:
+	for name in solo hub flat; do \
+	  git worktree remove --force ".worktrees/$$name" 2>/dev/null || true; \
+	done
+	git worktree prune
