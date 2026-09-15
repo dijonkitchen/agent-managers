@@ -19,5 +19,5 @@ Done means this passes from the repo root:
 uv run pytest -m acceptance demo/target
 ```
 
-Deliver the change as a commit on a new branch named after the run
-(`hub` or `flat`).
+Deliver the change as a commit on the branch this run already put you
+on. Do not create another branch.
