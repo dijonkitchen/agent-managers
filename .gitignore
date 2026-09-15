@@ -17,3 +17,7 @@ __pycache__/
 # Live demo runs (samples are kept, real runs are not)
 demo/runs/*.jsonl
 demo/runs/*.cast
+
+# Local agent tooling state (Claude Code session worktrees, Serena index)
+.claude/worktrees/
+.serena/
