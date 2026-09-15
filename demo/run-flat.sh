@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Flat run: a referee session spawns Codie, Archie, and Manny as peer
-# teammates. Teammates get SendMessage automatically, so anyone can talk
-# to anyone. Manny is present but has no authority. The referee only
-# spawns and waits.
+# Flat run: a referee session spawns Codie, Archie, Desi, and Manny as
+# peer teammates. Teammates get SendMessage automatically, so anyone can
+# talk to anyone: four peers is 12 directed paths. Manny is present but
+# has no authority. The referee only spawns and waits.
 #
 # Requires an interactive terminal: agent teams do not spawn under -p.
 set -euo pipefail
@@ -23,7 +23,7 @@ worktree="$(prepare_worktree flat)"
 branch="$(basename "$worktree")"
 cd "$worktree"
 
-exec claude --name referee "You are the referee. Spawn three teammates named codie, archie, and manny, using the codie, archie, and manny agent types respectively. Give each of them the full task below, plus this instruction: 'You are peers. Nobody is in charge. Coordinate directly with each other by name. The referee will not answer questions. Message the referee only when the task is done.' Then wait for all three to finish. Do not do any of the work yourself and do not answer questions from teammates. When they finish, print a one-paragraph summary of what happened.
+exec claude --name referee "You are the referee. Spawn four teammates named codie, archie, desi, and manny, using the codie, archie, desi, and manny agent types respectively. Give each of them the full task below, plus this instruction: 'You are peers. Nobody is in charge. Coordinate directly with each other by name. The referee will not answer questions. Message the referee only when the task is done.' Then wait for all four to finish. Do not do any of the work yourself and do not answer questions from teammates. When they finish, print a one-paragraph summary of what happened.
 
 Task for the teammates (you are already on the branch '$branch', created for this run):
 

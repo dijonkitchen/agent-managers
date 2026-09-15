@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Hub-and-spoke run: Manny is the session. Codie and Archie are subagents
-# that can only report back to Manny. They have no SendMessage tool, so
-# the topology is enforced by the mechanism, not by the prompt.
+# Hub-and-spoke run: Manny is the session. Desi, Archie, and Codie are
+# subagents that can only report back to Manny. They have no SendMessage
+# tool, so the topology is enforced by the mechanism, not by the prompt.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 source demo/lib/worktree.sh
@@ -20,6 +20,6 @@ worktree="$(prepare_worktree hub)"
 branch="$(basename "$worktree")"
 cd "$worktree"
 
-exec claude --agent manny "Coordinate Codie and Archie to complete this task. You are already on the branch '$branch', created for this run.
+exec claude --agent manny "Coordinate Desi, Archie, and Codie to complete this task. You are already on the branch '$branch', created for this run.
 
 $task"
