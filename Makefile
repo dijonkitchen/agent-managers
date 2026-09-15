@@ -12,10 +12,10 @@ acceptance:
 run = $(or $(wildcard demo/runs/$(1).jsonl),demo/runs/samples/$(1).jsonl)
 
 graphs:
-	python3 demo/tools/render_graph.py $(call run,solo) -o slides/assets/solo.svg
-	python3 demo/tools/render_graph.py $(call run,hub) -o slides/assets/hub.svg
-	python3 demo/tools/render_graph.py $(call run,flat) -o slides/assets/flat.svg
-	python3 demo/tools/metrics.py \
+	uv run python demo/tools/render_graph.py $(call run,solo) -o slides/assets/solo.svg
+	uv run python demo/tools/render_graph.py $(call run,hub) -o slides/assets/hub.svg
+	uv run python demo/tools/render_graph.py $(call run,flat) -o slides/assets/flat.svg
+	uv run python demo/tools/metrics.py \
 	  solo=$(call run,solo) hub=$(call run,hub) flat=$(call run,flat) \
 	  -o slides/assets/metrics.md
 
