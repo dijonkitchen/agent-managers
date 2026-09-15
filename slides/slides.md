@@ -15,6 +15,7 @@ style: |
   .columns3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
   .small { font-size: 19px; }
   .codie { color: #e05a2b; } .archie { color: #3b7dd8; } .manny { color: #b58600; }
+  .desi { color: #8a4fbd; }
   .card { border: 2px solid #ddd; border-radius: 10px; padding: 0.6rem 0.9rem; }
   .card h3 { margin: 0 0 0.3rem 0; }
   .sources { font-size: 16px; }
@@ -56,22 +57,24 @@ Then: what the research says, why humans stay, and what to do on Monday.
 
 # The cast
 
-<div class="columns3">
+<div class="columns small">
 <div class="card"><h3 class="codie">Codie</h3>
 <b>Coder.</b> Read + write tools.<br>
-Tries ideas in code immediately.<br>
+Tries ideas in code immediately.
 Would rather ship three attempts than plan one.</div>
 <div class="card"><h3 class="archie">Archie</h3>
 <b>Researcher / architect.</b> Read-only.<br>
-Reads everything, then recommends.<br>
+Reads everything, then recommends.
 Never writes code. Slow on purpose.</div>
+<div class="card"><h3 class="desi">Desi</h3>
+<b>Product designer.</b> Read-only.<br>
+Represents the person on the other end, who is not in the room.
+Walks the slow, stale, and broken states.</div>
 <div class="card"><h3 class="manny">Manny</h3>
 <b>Manager.</b> Delegation only. No file tools.<br>
-Decomposes, routes, validates, synthesizes.<br>
+Decomposes, routes, adjudicates, synthesizes.
 Not surveillance.</div>
 </div>
-
-<br>
 
 Definitions are plain Markdown in `.claude/agents/`. The **tools** line is the whole personality enforcement.
 
@@ -91,6 +94,8 @@ symbols. Upstream is slow and rate-limited. Add caching.
 
 The first thing every coder reaches for is `@lru_cache`.
 It violates constraints 1 and 2. That is what makes the topologies diverge.
+
+Four constraints, all technical. **Nobody wrote down who is looking at the screen.**
 
 ---
 
@@ -121,7 +126,7 @@ claude --agent manny "$TASK"
 ```
 
 Manny is the session.
-Codie and Archie are subagents with **no `SendMessage` tool**.
+Desi, Archie, and Codie are subagents with **no `SendMessage` tool**.
 They can only report to Manny. Enforced by the mechanism.
 
 </div>
@@ -132,12 +137,13 @@ They can only report to Manny. Enforced by the mechanism.
 ```sh
 AGENT_LEAD_NAME=referee
 CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
-claude --name referee "Spawn codie, archie,
-  manny as peer teammates. Nobody is in charge."
+claude --name referee "Spawn codie,
+  archie, desi, manny as peer teammates.
+  Nobody is in charge."
 ```
 
 Teammates get `SendMessage` automatically.
-Anyone can talk to anyone.
+Anyone can talk to anyone: 4 peers, **12 directed paths**.
 Manny is present but has no authority.
 
 </div>
@@ -230,6 +236,8 @@ def get_quote(symbol: str) -> float:
     return price
 ```
 
+Four for four. Archie signs it off. **So does FIFO eviction.**
+
 </div>
 </div>
 
@@ -242,6 +250,49 @@ git diff main..flat -- demo/target/pricing.py
 
 ---
 
+# The constraint nobody wrote down
+
+Desi asks one question the other three never ask: **who is watching this screen?**
+
+<div class="columns small">
+<div>
+
+A trader has AAPL open. Behind them, a scanner sweeps thousands of symbols nobody is looking at.
+
+"Memory must stay bounded" is satisfied by **any** eviction policy. FIFO is bounded — and FIFO discards the symbol on screen every time the sweep laps the cache, because being *read* never makes an entry younger.
+
+Archie checked the constraint as written. It was the wrong constraint.
+
+</div>
+<div>
+
+```diff
+ hit = _cache.get(symbol)
+ if hit and now - hit[0] < TTL:
++    _cache.move_to_end(symbol)
+     return hit[1]
+```
+
+Upstream fetches for the **watched** symbol, over 1,024 symbols of churn:
+
+| | fetches |
+| --- | :-: |
+| uncached | 1,025 |
+| ttl + FIFO | **9** |
+| ttl + LRU | **1** |
+
+9 × 500 ms of latency, paid by the one person actually looking.
+
+</div>
+</div>
+
+<!--
+Speaker: the FIFO version passes every constraint in TASK.md. That is
+the point. A checklist can only check what somebody wrote down.
+-->
+
+---
+
 # Every claim is a test
 
 <div class="columns small">
@@ -249,14 +300,18 @@ git diff main..flat -- demo/target/pricing.py
 
 **The constraints, scored** `demo/tests/test_attempts.py`
 
-| | repeats | fresh 5s | bounded | errors |
-| --- | :-: | :-: | :-: | :-: |
-| untouched | ✗ | ✓ | ✓ | ✓ |
-| `lru_cache` | ✓ | ✗ | ✗ | ✓ |
-| TTL + bound | ✓ | ✓ | ✓ | ✓ |
+| | repeat | fresh | bound | error | watched |
+| --- | :-: | :-: | :-: | :-: | :-: |
+| untouched | ✗ | ✓ | ✓ | ✓ | ✗ |
+| `lru_cache` | ✓ | ✗ | ✗ | ✓ | ✓ |
+| ttl + FIFO | ✓ | ✓ | ✓ | ✓ | ✗ |
+| ttl + LRU | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-Same four checks are the task's definition of done:
-`make acceptance`
+The first four are TASK.md's: `make acceptance`.
+The fifth is Desi's and is in no written requirement.
+
+Note row 2: the reflex answer passes Desi **by accident**, because
+failing "bounded" means it never evicts anything.
 
 </div>
 <div>
@@ -266,13 +321,15 @@ Same four checks are the task's definition of done:
 ```text
 solo_strength_zero_coordination_cost
 solo_weakness_nobody_checks_the_work
-hub_strength_every_hop_touches_the_lead
 hub_strength_every_spawn_is_validated
+hub_strength_product_framing_before_code
 hub_weakness_work_is_sequential
+hub_weakness_fourth_agent_lengthens_chain
 flat_strength_everyone_starts_at_once
 flat_strength_finishes_before_hub
 flat_weakness_peers_talk_past_the_lead
-flat_weakness_coder_ships_before_researcher
+flat_weakness_one_more_peer_doubles_paths
+flat_weakness_ships_before_anyone_names_user
 edges_grow_solo_to_hub_to_flat
 ```
 
@@ -292,6 +349,7 @@ Run against real logs when present. A red test is a finding.
 | Rework | depends on one agent's first instinct | **less**: Archie before Codie | more: Codie before Archie |
 | Constraint violations at ship | one reflex, unchecked | **0** in the recorded run | lru_cache shipped first |
 | Context | one window, everything in it | small, briefed | large, everyone reads everything |
+| Desi's constraint | never raised | **found and accepted** | raised after Codie had shipped |
 
 Flat is not a strawman. It wins on latency. It loses on churn.
 Solo is not a strawman either. On a small sequential task it may just win.
@@ -342,12 +400,14 @@ Frontier Red Team, Aug 2026. Six experiments: swarms hunting vulnerabilities, bu
 
 # The old theory still holds
 
-<div class="columns">
+<div class="columns small">
 <div>
 
 **Brooks (1975).** Communication paths grow as n(n−1)/2.
-3 peers: 3 paths. 5 peers: 10. 10 peers: 45.
+3 peers: 3 paths. 4 peers: 6. 10 peers: 45.
 A hub makes it n−1.
+
+Adding Desi is one line of config. It took flat from 6 directed peer paths to **12**, and cost hub **two** more sequential round trips.
 
 **Conway (1968).** The system copies the communication structure of the team that built it.
 Wire agents flat, and the code gets a flat, negotiated architecture.
@@ -374,7 +434,8 @@ As models improve, expect to delete roles, not add them.
 - **A hub stops politics.** No turf war when nobody can flood the shared branch. That is what managers do for people too: psychological safety, not surveillance.
 - **The orchestrator's value is decomposition, validation, and synthesis.** Not watching. Manny has no file tools and it works better that way.
 - **Keep swarms under five.** Use them for parallelism and isolation, the two things a smarter single model cannot do. Everything else: one agent, smaller task.
-- **Catch errors early.** Archie before Codie. Better requirements and designs mean fewer bugs, less miscommunication, less churn downstream. Same as it ever was.
+- **Catch errors early.** Desi before Archie before Codie. Better requirements and designs mean fewer bugs, less miscommunication, less churn downstream. Same as it ever was.
+- **A role earns its seat by bringing a check nobody else runs.** Desi is worth two sequential hops because Desi returns a failing test. A fourth agent that returns an opinion is just a fourth agent.
 
 ---
 
@@ -440,6 +501,7 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 5. **Shift left.** Research before code, in both human and agent teams.
 6. **Scaffolding is temporary.** Keep what buys parallelism and isolation. Delete the rest as models improve.
 7. **Pick the lightest tool.** Single agent → subagents → worktrees → teams.
+8. **A checklist only checks what somebody wrote down.** The FIFO cache passed every stated constraint. Somebody has to be paid to ask who is looking at the screen.
 
 ---
 
@@ -448,6 +510,10 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 AI takes the mechanical parts of the job.
 
 What is left is judgment: what to build, what to reject, what "done" means.
+
+Desi can propose the constraint nobody wrote down. Somebody still has to
+**accept or refuse it**, and own the consequence. That call is the one
+thing in this whole demo that was never delegated.
 
 The case for managers is the case for humans, even in the AI age.
 
