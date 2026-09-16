@@ -23,6 +23,9 @@ style: |
     text-decoration-thickness: 4px; line-height: 1.3; }
   .byline { margin-top: 1.8rem; font-size: 24px; color: #555; }
   section.lead h1 .title { font-size: 52px; line-height: 1.15; }
+  .cake { text-align: center; }
+  .cake svg { display: block; margin: 0.2rem auto 0.6rem; }
+  .cake .caption { font-size: 24px; color: #555; }
   pre { font-size: 18px; }
   table { font-size: 21px; }
   img[alt~="center"] { display: block; margin: 0 auto; }
@@ -484,6 +487,56 @@ Drop the `.claude/` folder into any repo and run it on your own task.
 <!--
 Swap this slide for the real announcement if the release is something
 else. Keep it to one thing, one line, one link.
+-->
+
+---
+
+# Questions, comments, concerns?
+
+<div class="cake">
+
+<svg viewBox="0 0 360 290" width="470" role="img" aria-label="A black forest cake on a plate, ringed with cherries, with a single lit candle.">
+  <title>Questions, comments, concerns?</title>
+  <ellipse cx="180" cy="252" rx="152" ry="22" fill="#e8e8ee" stroke="#cdcdd8" stroke-width="2"/>
+  <path d="M70 140 L70 236 A110 26 0 0 0 290 236 L290 140 Z" fill="#3b2318"/>
+  <g stroke="#2a180f" stroke-width="3" stroke-linecap="round" opacity="0.7">
+    <path d="M96 168 L96 222"/><path d="M124 178 L124 236"/><path d="M152 182 L152 242"/>
+    <path d="M180 183 L180 244"/><path d="M208 182 L208 242"/><path d="M236 178 L236 236"/>
+    <path d="M264 168 L264 222"/>
+  </g>
+  <path d="M70 140 L70 160 A110 26 0 0 0 290 160 L290 140 Z" fill="#fbf4e6"/>
+  <path d="M70 152 q14 20 28 4 q16 26 30 2 q16 24 30 4 q14 26 30 2 q16 24 30 0 q16 24 30 -4 q14 20 28 -8" fill="none" stroke="#fbf4e6" stroke-width="13" stroke-linecap="round"/>
+  <ellipse cx="180" cy="140" rx="110" ry="26" fill="#fffaf0"/>
+  <ellipse cx="180" cy="140" rx="92" ry="21" fill="none" stroke="#efe2cd" stroke-width="3"/>
+  <g fill="#c1272d">
+    <circle cx="265" cy="148" r="10"/><circle cx="215" cy="159" r="10"/>
+    <circle cx="145" cy="159" r="10"/><circle cx="95" cy="148" r="10"/>
+    <circle cx="95" cy="132" r="10"/><circle cx="145" cy="121" r="10"/>
+    <circle cx="215" cy="121" r="10"/><circle cx="265" cy="132" r="10"/>
+  </g>
+  <g fill="#ffffff" opacity="0.55">
+    <circle cx="262" cy="144" r="3"/><circle cx="212" cy="155" r="3"/>
+    <circle cx="142" cy="155" r="3"/><circle cx="92" cy="144" r="3"/>
+    <circle cx="92" cy="128" r="3"/><circle cx="142" cy="117" r="3"/>
+    <circle cx="212" cy="117" r="3"/><circle cx="262" cy="128" r="3"/>
+  </g>
+  <rect x="174" y="76" width="12" height="52" rx="3" fill="#f6f1e4" stroke="#e2d9c4" stroke-width="2"/>
+  <path d="M180 116 L180 76" stroke="#e2d9c4" stroke-width="2"/>
+  <circle cx="180" cy="62" r="20" fill="#ffb74d" opacity="0.28"/>
+  <path d="M180 40 C 192 56 190 70 180 76 C 170 70 168 56 180 40 Z" fill="#f79a1e"/>
+  <path d="M180 52 C 186 61 185 69 180 72 C 175 69 174 61 180 52 Z" fill="#ffe17a"/>
+</svg>
+
+<div class="caption"><b>The cake is a lie. The tests are not.</b></div>
+
+</div>
+
+<!--
+Speaker: take questions here. The cake is the reward that is always
+promised and never arrives, which is the same promise a multi-agent demo
+makes. The answer to "does any of this actually work?" is `make
+acceptance`, not a slide. Sources are the next slide if anyone wants a
+citation.
 -->
 
 ---
