@@ -4,7 +4,7 @@ theme: default
 paginate: true
 size: 16:9
 title: Surviving the AI Age
-description: Hub-and-spoke vs flat multi-agent workflows, shown not told
+description: What an agent is, how to build one, and when a second one earns its keep
 style: |
   section { font-size: 26px; }
   section.lead { text-align: center; }
@@ -17,6 +17,10 @@ style: |
   .codie { color: #e05a2b; } .archie { color: #3b7dd8; } .manny { color: #b58600; }
   .card { border: 2px solid #ddd; border-radius: 10px; padding: 0.6rem 0.9rem; }
   .card h3 { margin: 0 0 0.3rem 0; }
+  .card.pays { border-color: #2e7d32; }
+  .card.costs { border-color: #c62828; }
+  .pays-t { color: #2e7d32; font-weight: 700; }
+  .costs-t { color: #c62828; font-weight: 700; }
   .sources { font-size: 16px; }
   .scratched { font-size: 38px; font-weight: 700; color: #b0b0b0;
     text-decoration: line-through; text-decoration-color: #d64545;
@@ -47,8 +51,6 @@ style: |
 <!--
 Speaker: let the two crossed-out titles sit for a beat. The joke is that
 the honest title is the one nobody would put on a conference abstract.
-Open on the demo, not on theory. The first five minutes are the run,
-the graphs, and the diff. Theory comes after they've seen it.
 
 Do not answer the title here. The closing slide answers it, and the
 answer is that you don't stay one.
@@ -56,25 +58,123 @@ answer is that you don't stay one.
 
 ---
 
-# One experiment, three diffs
+# The argument, up front
 
-Same task. Same three agents. Same prompts. Plus a control: **one agent, alone**.
+1. An agent is a **model in a loop with tools and one context window.**
+2. Making one is a **Markdown file.** That part is nearly free.
+3. The second agent is **not** free: 3–10× the tokens for the same task.
+4. So there are only three reasons to add one: **context, parallelism, specialization.**
+5. Divide work by **context boundaries**, not by job title.
+6. Someone still has to decide what "done" means. **That is the job that is left.**
 
-**The only thing that changes is who is allowed to talk to whom.**
+<br>
 
-<div class="columns3">
-<div class="card"><h3>Wiring diff</h3>a few lines of config</div>
-<div class="card"><h3>Message graph</h3>star vs mesh</div>
-<div class="card"><h3>Code diff</h3>what actually shipped</div>
+The same task run three ways — solo, hub, flat — is one slide later, with the code, the graphs, and the tests in the backup slides.
+
+<!--
+Speaker: this deck used to open on the demo. It now opens on the claim,
+because the claim is what travels home. Point at the backup slides once
+and move on - don't tease them twice.
+-->
+
+---
+
+<!-- _class: lead -->
+
+# First: what is an agent, actually?
+
+## Everyone says the word. Almost nobody agrees on it.
+
+---
+
+# An agent is four things
+
+<div class="columns">
+<div>
+
+<div class="card"><h3>1. A model</h3>
+The same weights you already use. An agent is not a smaller or special model.</div>
+
+<br>
+
+<div class="card"><h3>2. A loop</h3>
+Call the model → it asks for a tool → run the tool → feed the result back → repeat until it stops asking.</div>
+
+</div>
+<div>
+
+<div class="card"><h3>3. Tools</h3>
+The only way it touches the world. Read a file, run a test, query an API. <b>No tool, no capability.</b></div>
+
+<br>
+
+<div class="card"><h3>4. One context window</h3>
+Everything it has seen this session, in one buffer. It is finite, and quality degrades as it fills.</div>
+
+</div>
 </div>
 
 <br>
 
-Then: what the research says, why humans stay, and what to do on Monday.
+**A subagent is not a junior model. It is a second context window with its own toolset.** That is the whole mechanism, and why every tradeoff later is a context tradeoff.
+
+<!--
+Speaker: land item 4 hard. If the room leaves believing only one thing,
+make it "the context window is the scarce resource." Every later slide
+is a corollary of that.
+-->
 
 ---
 
-# The cast
+# Making one: it's a Markdown file
+
+<div class="columns">
+<div>
+
+`.claude/agents/archie.md`
+
+```markdown
+---
+name: archie
+description: Researcher and architect.
+  Reads everything relevant before
+  recommending, and never writes code.
+tools: Read, Glob, Grep
+---
+
+You are Archie. You read before you
+speak, and you do not write code.
+Your output is a recommendation with
+reasons, not an implementation.
+```
+
+That is the whole file. Commit it, and everyone on the team has Archie on their next pull.
+
+</div>
+<div class="small">
+
+**Four fields do all the work**
+
+- `name` — how you invoke it.
+- `description` — when the main agent should *choose* it. Write this for the router, not for humans.
+- `tools` — the capability boundary. Archie has no `Edit`, no `Write`, no `Bash`, so "never writes code" is not a request. It is enforced.
+- body — the system prompt.
+
+**Ways to skip writing it by hand**
+
+- `/agents` — interactive create, pick tools from a list.
+- Ask Claude: *"write me an agent that reviews migrations, read-only."* Then review the diff like code.
+- `isolation: worktree` — give it its own checkout.
+- `model:` — put the cheap model on the grunt work.
+
+</div>
+</div>
+
+**The `tools` line is the whole personality enforcement.** Everything else is a suggestion.
+
+---
+
+# The cast used in this deck
 
 <div class="columns3">
 <div class="card"><h3 class="codie">Codie</h3>
@@ -93,248 +193,270 @@ Not surveillance.</div>
 
 <br>
 
-Definitions are plain Markdown in `.claude/agents/`. The **tools** line is the whole personality enforcement.
+Three files, about twenty lines each. Keep them in mind; they show up on every slide from here.
 
 ---
 
-# The task: a trap with a reflex answer
+<!-- _class: lead -->
 
-```text
-get_quote(symbol) is called thousands of times a minute for a handful of
-symbols. Upstream is slow and rate-limited. Add caching.
+# Now the hard part: when do you want a second one?
 
-1. A quote must never be older than 5 seconds.
-2. Memory must stay bounded.
-3. A failed upstream call must not be cached.
-4. Existing tests stay green. Add tests for the new behavior.
-```
-
-The first thing every coder reaches for is `@lru_cache`.
-It violates constraints 1 and 2. That is what makes the topologies diverge.
+## Making agents is cheap. Running them together is not.
 
 ---
 
-# The wiring diff
-
-<div class="columns3 small">
-<div>
-
-**Solo (control)** `demo/run-solo.sh`
-
-```sh
-AGENT_LEAD_NAME=solo
-claude --disallowedTools Agent -- "$TASK"
-```
-
-One session. Cannot spawn anyone.
-The baseline both papers measure against.
-
-</div>
-<div>
-
-**Hub-and-spoke** `demo/run-hub.sh`
-
-```sh
-AGENT_LEAD_NAME=manny
-CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=0
-claude --agent manny "$TASK"
-```
-
-Manny is the session and can resume Codie and Archie by name.
-Codie and Archie are subagents with **no `SendMessage` tool**.
-They can only report to Manny. Enforced by the mechanism.
-
-</div>
-<div>
-
-**Flat** `demo/run-flat.sh`
-
-```sh
-AGENT_LEAD_NAME=referee
-CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
-claude --name referee "Spawn codie, archie,
-  manny as peer teammates. Nobody is in charge."
-```
-
-Teammates get `SendMessage` automatically.
-Anyone can talk to anyone.
-Manny is present but has no authority.
-
-</div>
-</div>
-
----
-
-# Hub run: the message graph
-
-![center h:480](assets/hub.svg)
-
----
-
-# Flat run: the message graph
-
-![center h:480](assets/flat.svg)
-
----
-
-# Side by side
+# Three reasons to add an agent. There is no fourth.
 
 <div class="columns3">
-<div>
-
-![w:360](assets/solo.svg)
-
-</div>
-<div>
-
-![w:360](assets/hub.svg)
-
-</div>
-<div>
-
-![w:360](assets/flat.svg)
-
-</div>
+<div class="card"><h3>Context protection</h3>
+A subtask spews <b>1000+ tokens</b> that nothing downstream needs. Log dumps, API payloads, whole-file reads.
+<br><br>
+Put it behind a boundary and only the conclusion comes back.</div>
+<div class="card"><h3>Parallelism</h3>
+Independent paths you want explored at once. Search, investigation, N files, N hypotheses.
+<br><br>
+The one thing a smarter single model still cannot do.</div>
+<div class="card"><h3>Specialization</h3>
+One agent would need <b>15–20+ tools</b>, or two sets of instructions that contradict each other.
+<br><br>
+Split the toolset, not the job title.</div>
 </div>
 
-Dot, star, mesh. Same task, same prompts.
+<br>
 
----
+**If your reason is not on this list, you want a single agent with a smaller task.**
 
-# By the numbers
-
-<!-- METRICS -->
-
-Synthetic sample run. Regenerate from real logs with `make graphs`.
-
----
-
-# The code diff: what shipped
-
-<div class="columns">
-<div>
-
-**Codie's first attempt** (flat, minute 1)
-
-```python
-from functools import lru_cache
-
-@lru_cache(maxsize=None)
-def get_quote(symbol: str) -> float:
-    return _upstream_quote(symbol)
-```
-
-Constraint 1: **fail**, stale forever
-Constraint 2: **fail**, unbounded
-Constraint 3: pass, by accident
-
-</div>
-<div>
-
-**What passed Archie's checklist** (hub)
-
-```python
-TTL, MAX = 5.0, 128
-_cache: OrderedDict[str, tuple[float, float]] = OrderedDict()
-
-def get_quote(symbol: str) -> float:
-    now = time.monotonic()
-    hit = _cache.get(symbol)
-    if hit and now - hit[0] < TTL:
-        _cache.move_to_end(symbol)
-        return hit[1]
-    price = _upstream_quote(symbol)   # raises: nothing cached
-    _cache[symbol] = (now, price)
-    while len(_cache) > MAX:
-        _cache.popitem(last=False)
-    return price
-```
-
-</div>
-</div>
+<span class="sources">Anthropic, *Building multi-agent systems: when and how to use them*, claude.com/blog. Thresholds as reported.</span>
 
 <!--
-Both attempts live in demo/attempts/ and are scored by the tests on the
-next slide. Replace with the real diffs from the recorded runs:
-git diff main..hub -- demo/target/pricing.py
-git diff main..flat -- demo/target/pricing.py
+Speaker: these three cards are the load-bearing content of the talk.
+Slow down. Ask the room which of the three their use case is. If they
+cannot pick one, that is the answer.
 -->
 
 ---
 
-# Every claim is a test
+# And the reasons not to
 
-<div class="columns small">
+<div class="columns">
 <div>
 
-**The constraints, scored** `demo/tests/test_attempts.py`
+| The bill | |
+| --- | --- |
+| Token cost vs. a single agent | **3–10×** |
+| Lost context at every handoff | the "telephone game" |
+| More tokens spent coordinating than working | the common end state |
 
-| | repeats | fresh 5s | bounded | errors |
-| --- | :-: | :-: | :-: | :-: |
-| untouched | ✗ | ✓ | ✓ | ✓ |
-| `lru_cache` | ✓ | ✗ | ✗ | ✓ |
-| TTL + bound | ✓ | ✓ | ✓ | ✓ |
-
-Same four checks are the task's definition of done:
-`make acceptance`
+**The most common story Anthropic reports:** a team builds an elaborate multi-agent system, then discovers that *better prompting on one agent* got the same result.
 
 </div>
-<div>
+<div class="small">
 
-**The topologies, asserted** `demo/tests/test_scenarios.py`
+**Signals you have actually outgrown one agent**
 
-```text
-solo_strength_zero_coordination_cost
-solo_weakness_nobody_checks_the_work
-hub_strength_every_hop_touches_the_lead
-hub_strength_every_spawn_is_validated
-hub_weakness_work_is_sequential
-flat_strength_everyone_starts_at_once
-flat_strength_finishes_before_hub
-flat_weakness_peers_talk_past_the_lead
-flat_weakness_coder_ships_before_researcher
-edges_grow_solo_to_hub_to_flat
-```
+1. You are hitting the context limit and quality is visibly degrading.
+2. You are managing **15–20+ tool definitions.** Try the Tool Search Tool first — it cuts loaded definitions by up to **85%**, which may buy you another year on one agent.
+3. The task genuinely decomposes into independent pieces.
 
-Run against real logs when present. A red test is a finding.
+<br>
+
+Every extra agent is another prompt to maintain and another place to fail. Two agents is not twice the capability; it is twice the surface area.
 
 </div>
 </div>
 
 ---
 
-# Honest scorecard
+# The one multi-agent pattern that always pays
 
-| | Solo (control) | Hub (reviewed pipeline) | Flat |
-| --- | --- | --- | --- |
-| **Agents at once** | 1 | **1** | 3 |
-| Wall time | **fastest** here | slower, sequential | fast, parallel |
-| Hops | 0 | **fewer**, O(n) | more, O(n²) |
-| Rework | one agent's first instinct | **less**: Archie first | more: Codie first |
-| Violations at ship | one reflex, unchecked | **0** | lru_cache shipped |
-| Context | one window, all of it | small, briefed | large, all read all |
+<div class="columns">
+<div>
 
-**The hub never had two agents at once, and every run has exactly one writer.** It reviews and contains errors; it does not coordinate. Call it a reviewed pipeline — step 6 is what would change that.
+## The verifier
 
-Flat is no strawman: it wins on latency, loses on churn. Nor is solo.
+One agent does the work. A **second, separate** agent tests it.
+
+It sidesteps coordination overhead entirely, because verification needs almost **no context transfer**. The verifier black-box tests the result. It does not need to know how the work was done — and it is better if it does not.
+
+<span class="archie">Archie</span> as verifier: read-only, returns pass/fail per constraint.
+
+</div>
+<div>
+
+## The catch: early victory
+
+A verifier will happily declare success after one test. You have to say otherwise, in capitals, in its prompt:
+
+```markdown
+You MUST run the complete test
+suite. Report the exact exit code
+and the failing test names. Do not
+summarize. Do not stop at the
+first pass.
+```
+
+**No check it can run → "looks done" is your only signal → you become the verification loop.**
+
+</div>
+</div>
+
+---
+
+# Divide by context boundary, not by problem type
+
+<div class="columns small">
+<div class="card costs"><h3 class="costs-t">The telephone game</h3>
+
+```text
+Planner ──► Implementer ──► Tester
+        │                │
+     summary          summary
+     (lossy)          (lossy)
+```
+
+Sequential phases handed between agents. Each handoff drops fidelity. By the time the tester runs, nobody holds the original requirement.
+
+**This is the default thing people build.** It is also the named failure mode.
+
+</div>
+<div class="card pays"><h3 class="pays-t">Real boundaries</h3>
+
+```text
+        ┌── research path A
+Lead ───┼── research path B
+        └── component with a
+            clean interface
+```
+
+Independent research paths. Components with an interface you can name. Anything where "what crosses the line" fits in a paragraph.
+
+**Bad boundaries:** tightly coupled components, anything needing shared mutable state.
+
+</div>
+</div>
+
+Ask it of every split: **what has to cross this line?** If the answer is "most of the context," do not split.
+
+---
+
+<!-- _class: lead -->
+
+# The biggest context eater is external data
+
+## Which is why we need to talk about MCP
+
+---
+
+# MCP in one slide
+
+<div class="columns">
+<div class="small">
+
+**The problem it solves.** M agents × N services = M×N bespoke integrations. MCP makes it M + N: each service exposes one server, every client speaks one protocol.
+
+**Client / server, transport-agnostic.** Your agent is the client. The server runs wherever the data lives — a local process over stdio, or remote over HTTP. Same messages either way.
+
+**It moves the burden off you.** The service author writes the tool definitions and does the execution. You write a config line.
+
+</div>
+<div>
+
+**Three primitives, split by who is in control**
+
+| | What | Controlled by |
+| --- | --- | --- |
+| **Tools** | actions, side effects | **the model** — it decides when to call |
+| **Resources** | read-only data at a URI | **the app** — it fetches and attaches |
+| **Prompts** | pre-written workflows | **the user** — invoked deliberately |
+
+Most people ship only tools, then wonder why context explodes. **Resources are the underused one:** the app hands over exactly the document needed instead of the model groping for it.
+
+</div>
+</div>
+
+<span class="sources">Anthropic Academy, *Introduction to Model Context Protocol* — free, Python SDK, builds a server and a client. academy.claude.com</span>
 
 <!--
-Speaker: say this out loud. If you make flat look stupid the audience
-stops trusting the rest of the talk.
+Speaker: the control column is the part worth saying out loud. "Who
+decides when this lands in context" is the whole design question, and
+the three primitives are three different answers to it.
+-->
 
-Say the concurrency row out loud too. A test in the repo asserts the
-hub never exceeds one agent at a time, so the deck cannot quietly
-claim otherwise. Volunteering the limit buys more credibility than
-the claim would have.
+---
+
+# MCP's real cost is context, and you pay it per agent
+
+<div class="columns">
+<div>
+
+**Every server's tool definitions load into the context of every agent that holds it — before that agent has done anything.**
+
+Attach five servers to one agent and a meaningful slice of the window is gone at turn zero. Then the *results* land in the same window: a Jira query, a Confluence page, a log search, a fetched page. Thousands of tokens, most of them irrelevant to the next step.
+
+This is reason #1 from three slides ago, and MCP is where it bites hardest.
+
+</div>
+<div class="small">
+
+**So scope servers per agent, in the agent file**
+
+```markdown
+---
+name: archie
+tools: Read, Glob, Grep
+mcpServers: [jira, confluence, web]
+---
+```
+
+- <span class="archie">Archie</span> holds the external servers, spends his own window on them, and returns a paragraph.
+- <span class="codie">Codie</span> holds the repo and the test runner. Never sees a Jira payload.
+- <span class="manny">Manny</span> holds nothing. He only ever sees what agents report.
+
+**And it doubles as a security boundary.** The agent reading untrusted web content has no `Edit`, no `Write`, no `Bash`. A prompt injection in a fetched page reaches an agent that cannot act on it.
+
+</div>
+</div>
+
+**Honest caveat:** Archie's findings reach Codie through Manny — defense in depth, not a hard wall.
+
+---
+
+# So: does another agent earn its keep?
+
+<div class="columns small">
+<div class="card pays"><h3 class="pays-t">Differentiate by these — it pays</h3>
+
+- **Evidence source.** One researcher per external system: Jira, telemetry, the web, the docs. Different inputs, genuinely different conclusions.
+- **Toolset.** Read-only vs. can-write is a real boundary. So is "holds the deploy credentials."
+- **Isolation.** One worktree each. Two Codies on two file partitions cannot collide.
+- **Context volume.** Anything that dumps 1000+ tokens you do not want in the main window.
+
+</div>
+<div class="card costs"><h3 class="costs-t">Differentiate by these — it doesn't</h3>
+
+- **Personality or tone.** "Be skeptical" does not make a copy of a model disagree with itself.
+- **Job title.** PM, QA, Scrum Master. Org charts solve human problems — careers, politics, span of attention. Agents have none of those.
+- **Pipeline stage.** Plan → build → test as three agents is the telephone game with extra steps.
+- **Seniority.** There is no senior model. There is a better model; just use it.
+
+</div>
+</div>
+
+**The test:** if two agents would see the same evidence and hold the same tools, you have one agent and two prompts. **Identical researchers return identical answers at N times the price.**
+
+<!--
+Speaker: this is the slide people came for, whether they know it or not.
+"More dedicated agents" is the right instinct, but only along the left
+column. The left column is all mechanism. The right column is all vibes.
 -->
 
 ---
 
 <!-- _class: lead -->
 
-# Why it turned out that way
+# Why any of that is true
 
-## Each step below exists because the one before it hit a wall
+## Each step exists because the one before it hit a wall
 
 ---
 
@@ -349,9 +471,9 @@ The jump from you typing to one agent is where almost all of the multiplier live
 | Every multi-agent variant, sequential reasoning | **−39% to −70%** |
 | Coordination stops paying once one agent clears | **~45%** |
 
-**That first row is for parallelizable work.** The hub run you just watched parallelizes nothing, so it is not what that number measures. More on this on the scorecard.
+**That first row is for parallelizable work only.** On sequential reasoning, every multi-agent variant tested made things worse.
 
-So most tasks should stay solo. Solo has exactly two ceilings, and they are the ones the demo hit:
+So most tasks should stay solo. Solo has exactly two ceilings:
 **it cannot parallelize, and nobody checks its work.**
 
 <span class="sources">Kim et al., *Towards a Science of Scaling Agent Systems*, arXiv 2512.08296, Dec 2025. 260 configurations, 6 benchmarks, 5 architectures. Numbers as reported in the abstract and paper summaries.</span>
@@ -391,7 +513,55 @@ A hub makes it n−1.
 
 <br>
 
-**This is the demo.** One config line moved the run from 4 edges to 12, and changed the code that shipped. What changed was the *spec Codie received*, not the number of writers — only Codie writes, in every run.
+**And it is measurable in an afternoon.** Next slide: the same task, the same three agents, run three ways.
+
+---
+
+# The demo, in one slide
+
+Same task. Same three agents. Same prompts. **The only change is who may talk to whom.**
+
+<div class="columns3 small">
+<div>
+
+![w:300](assets/solo.svg)
+
+**Solo** — control. Agent tool disallowed.
+0 hops. Fastest. Shipped one unchecked reflex.
+
+</div>
+<div>
+
+![w:300](assets/hub.svg)
+
+**Hub** — Manny is the only one who talks to Codie and Archie.
+Fewer hops, O(n). **0 constraint violations at ship.**
+
+</div>
+<div>
+
+![w:300](assets/flat.svg)
+
+**Flat** — peers, `SendMessage` all round.
+More hops, O(n²). Finished first, shipped `lru_cache`.
+
+</div>
+</div>
+
+**One config line moved the run from 4 message edges to 12, and changed the code that shipped.** What changed was the *spec Codie received* — not the number of writers. Only Codie writes, in every run.
+
+<!--
+Speaker: this is the whole demo now. Graphs are rendered from the real
+JSONL logs by a script in the repo; nothing here is hand-drawn.
+
+Backup slides have: the wiring diff, the task, the code diff, the
+metrics table, the full scorecard, and the tests that assert every
+claim. Go there only if asked.
+
+Say the honest limit out loud if anyone pushes: today's hub run never
+had two agents alive at once, so it reviews and contains errors - it
+does not coordinate. Call it a reviewed pipeline.
+-->
 
 ---
 
@@ -405,43 +575,13 @@ Anthropic Frontier Red Team, Aug 2026. Six experiments: swarms hunting vulnerabi
 
 **The wall:** topology bounds the blast radius of a mistake. It cannot make two copies of one model genuinely disagree.
 
+**Only different *evidence* decorrelates clones.** That is why "earns its keep" starts there.
+
 <span class="sources">anthropic.com/research/multiagent-systems. Findings as reported; primary text was not reachable from the build environment.</span>
 
 ---
 
-# 4. So diversify by evidence, not personality
-
-<div class="columns small">
-<div>
-
-**No prompt makes two copies of one model disagree.** Different evidence does. Give each agent the minimum context its job needs, and route untrusted sources to the agent that cannot execute.
-
-| Agent | Sees | Can act |
-| --- | --- | --- |
-| <span class="archie">Archie</span> | web, docs, issues, telemetry | **no** — read-only |
-| <span class="codie">Codie</span> | the repo, the test runner | yes |
-| <span class="manny">Manny</span> | only what agents report | no file tools |
-
-Scoped per agent with `mcpServers` in the agent file.
-
-</div>
-<div>
-
-**Four reasons to divide, not pool:**
-
-1. **Context.** Every server's tool definitions load into every agent holding it.
-2. **Tool-coordination tradeoff.** Tool-heavy tasks suffer *most* from multi-agent overhead under a fixed budget.
-3. **Decorrelation.** Different evidence, different conclusions. This is the point.
-4. **Injection surface.** The agent reading untrusted web content has no `Edit`, `Write`, or `Bash`.
-
-**Honest caveat:** Archie's findings still reach Codie through Manny. That is defense in depth, not a hard boundary.
-
-</div>
-</div>
-
----
-
-# 5. Someone still has to decide
+# 4. Someone still has to decide
 
 <div class="figsplit">
 <div class="small">
@@ -450,7 +590,7 @@ Scoped per agent with `mcpServers` in the agent file.
 - **The orchestrator's value is decomposition, validation, and synthesis.** Not watching. Manny has no file tools and works better for it.
 - **Keep swarms under five.** Use them for parallelism and isolation, the two things a smarter single model cannot do. Everything else: one agent, smaller task.
 - **Catch errors early.** Archie before Codie. Better requirements and designs mean fewer bugs, less miscommunication, less churn downstream. Same as it ever was.
-- **Adopt the org chart's shape, not its rationale.** Hierarchy solves human problems agents do not have: span of attention, careers, politics, accountability. The one thing that transfers is span of control as a **context** limit. And the chart evolved to coordinate people who were already diverse — your agents are the opposite.
+- **Adopt the org chart's shape, not its rationale.** The one thing that transfers is span of control as a **context** limit. And the chart evolved to coordinate people who were already diverse — your agents are the opposite.
 
 </div>
 <div class="figure">
@@ -485,7 +625,7 @@ Scoped per agent with `mcpServers` in the agent file.
 
 ---
 
-# 6. So how does this scale?
+# 5. So how does this scale?
 
 <div class="columns">
 <div>
@@ -521,15 +661,9 @@ Depth is capped anyway: subagents nest three layers by default (`CLAUDE_CODE_MAX
 </div>
 </div>
 
-<!--
-Speaker: the shape is the answer to "does this actually parallelize?"
-Today's hub run does not - one agent alive at a time. Two Codies is
-what turns the pipeline into coordination.
--->
-
 ---
 
-# 7. How long does this scaffolding last?
+# 6. How long does this scaffolding last?
 
 <div class="columns">
 <div>
@@ -548,7 +682,6 @@ isolation and parallelism. A smarter model still cannot be in two worktrees at o
 
 </div>
 </div>
-
 
 ---
 
@@ -577,18 +710,20 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 <div class="columns small">
 <div>
 
-- **PRs too big?** Decompose first, then `/batch` or a hub that hands out chunks. One worktree, one PR per chunk.
+- **Start with a verifier.** It is the one pattern with no coordination cost. Everything else, justify.
+- **Write the agent file and commit it.** Twenty lines of Markdown; the whole team gets it on the next pull.
+- **Scope MCP servers per agent.** The research agent holds the external ones. Nobody else does.
 - **Worktrees.** `claude --worktree name`, or `isolation: worktree` in an agent file. Add `.claude/worktrees/` to `.gitignore`.
-- **Shared agents and skills across repos.** Subtree or a plugin, not a submodule, unless you need a pinned SHA. Link them in with a script.
-- **Tag the team on reviews.** CODEOWNERS routes humans. `/code-review` in a fresh subagent runs before any human sees it.
+- **PRs too big?** Decompose first, then hand out chunks. One worktree, one PR per chunk.
 
 </div>
 <div>
 
+- **Tag the team on reviews.** CODEOWNERS routes humans. `/code-review` in a fresh subagent runs before any human sees it.
 - **Auto-update CODEOWNERS.** A scheduled routine derives owners from `git log` per directory and opens a PR. Humans approve, never type.
-- **Find repeat work.** Log spawns and messages (this repo's hook does). Search transcripts for the same prompt twice. The second time, make it a skill.
-- **Auto-make skills, hooks, agents.** "Write a hook that runs the linter after every edit." Claude writes `.claude/settings.json`. Review the diff like code.
-- **Automate the AgentOS loop.** Comments, review, ideation, PR stewarding. Humans review outcomes, not transcripts.
+- **Find repeat work.** Search your transcripts for the same prompt twice. The second time, make it a skill.
+- **Auto-make skills, hooks, agents.** *"Write a hook that runs the linter after every edit."* Claude writes the settings. Review the diff like code.
+- **Humans review outcomes, not transcripts.**
 
 </div>
 </div>
@@ -597,24 +732,24 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 
 # Show, don't tell: give every agent a check it can run
 
-- Tests, a build exit code, a screenshot diff, a constraint checklist.
+- Tests, a build exit code, a screenshot diff, a constraint checklist. Anything with an exit code.
 - Codie runs the tests. Archie returns pass/fail per constraint. Manny only accepts evidence.
 - Without a check, "looks done" is the only signal, and **you** become the verification loop.
-- Everything in this deck was rendered from a JSONL log by a script in the repo. No hand-drawn diagrams.
-- Every row on the scorecard is a pytest. If a real run disagrees with the slide, the build goes red.
+- Spell out *complete* — "run the whole suite, report the exit code" — or the verifier stops at the first pass.
+- Every claim in the backup slides is a test in this repo. If a real run disagrees with a slide, the build goes red.
 
 ---
 
 # Tying it together
 
-1. **Solo already is the 10x**, and it often wins. Its ceilings are parallelism and having nobody check it.
-2. **Structure decides what you get.** Hubs contain errors at 4.4×; peers amplify at 17.2×. It is one config line.
-3. **Structure cannot fix clones.** Same model plus same context is the same mistake, N times.
-4. **So diversify by evidence.** Minimum context per agent; untrusted sources to the agent that cannot execute.
-5. **Someone still has to decompose, validate, and synthesize.** That is judgment, and it does not automate.
-6. **Scale by fanning out at the leaves.** Many Codies, many researchers, one Manny, one Archie. Add a layer only when span of control runs out.
-7. **The scaffolding is temporary; the judgment is not.** Delete roles as models improve.
-8. **Pick the lightest tool.** Single agent → subagents → worktrees → teams.
+1. **An agent is a model, a loop, tools, and one context window.** The context window is the scarce resource.
+2. **Building one is a Markdown file.** The `tools` line is the only real enforcement.
+3. **Three reasons to add a second:** context protection, parallelism, specialization. There is no fourth.
+4. **The bill is 3–10× the tokens.** Most teams find that better prompting on one agent would have done it.
+5. **Divide by context boundary, not by job title.** A pipeline of agents is the telephone game.
+6. **External data is the biggest context eater** — so scope MCP servers per agent, and give the one reading untrusted input no write tools.
+7. **Structure contains errors (4.4× vs 17.2×) but cannot make clones disagree.** Only different evidence does.
+8. **The scaffolding is temporary; the judgment is not.** Delete roles as models improve.
 
 ---
 
@@ -725,7 +860,10 @@ The two props are the promises Portal makes and breaks: the cube is the
 teammate you are issued and then told to incinerate, the cake is the
 reward that never arrives. Both are what a multi-agent demo sells. The
 answer to "does any of this actually work?" is `make acceptance`, not a
-slide. Sources are the next slide if anyone wants a citation.
+slide.
+
+Backup slides follow, in the order to use them: wiring diff -> task ->
+metrics -> scorecard -> code diff -> tests.
 -->
 
 ---
@@ -734,6 +872,8 @@ slide. Sources are the next slide if anyone wants a citation.
 
 <div class="sources">
 
+- Anthropic, *Building multi-agent systems: when and how to use them*. claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them
+- Anthropic Academy, *Introduction to Model Context Protocol*. academy.claude.com/courses/introduction-to-model-context-protocol
 - Kim et al., *Towards a Science of Scaling Agent Systems*, arXiv 2512.08296, Dec 2025. Blog: research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/
 - Anthropic Frontier Red Team, *Patterns and problems in emerging multiagent systems*, Aug 2026. anthropic.com/research/multiagent-systems
 - Brooks, *The Mythical Man-Month*, 1975. Conway, *How Do Committees Invent?*, 1968. Sutton, *The Bitter Lesson*, 2019.
@@ -743,4 +883,206 @@ slide. Sources are the next slide if anyone wants a citation.
 
 </div>
 
+---
+
+<!-- _class: lead -->
+
+# Backup slides
+
+## The demo, in full: the wiring, the task, the code, the tests
+
+---
+
+# Backup: the wiring diff
+
+<div class="columns3 small">
+<div>
+
+**Solo (control)** `demo/run-solo.sh`
+
+```sh
+AGENT_LEAD_NAME=solo
+claude --disallowedTools Agent -- "$TASK"
+```
+
+One session. Cannot spawn anyone.
+The baseline both papers measure against.
+
+</div>
+<div>
+
+**Hub-and-spoke** `demo/run-hub.sh`
+
+```sh
+AGENT_LEAD_NAME=manny
+CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=0
+claude --agent manny "$TASK"
+```
+
+Manny is the session and can resume Codie and Archie by name.
+Codie and Archie are subagents with **no `SendMessage` tool**.
+They can only report to Manny. Enforced by the mechanism.
+
+</div>
+<div>
+
+**Flat** `demo/run-flat.sh`
+
+```sh
+AGENT_LEAD_NAME=referee
+CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+claude --name referee "Spawn codie, archie,
+  manny as peer teammates. Nobody is in charge."
+```
+
+Teammates get `SendMessage` automatically.
+Anyone can talk to anyone.
+Manny is present but has no authority.
+
+</div>
+</div>
+
+---
+
+# Backup: the task, a trap with a reflex answer
+
+```text
+get_quote(symbol) is called thousands of times a minute for a handful of
+symbols. Upstream is slow and rate-limited. Add caching.
+
+1. A quote must never be older than 5 seconds.
+2. Memory must stay bounded.
+3. A failed upstream call must not be cached.
+4. Existing tests stay green. Add tests for the new behavior.
+```
+
+The first thing every coder reaches for is `@lru_cache`.
+It violates constraints 1 and 2. That is what makes the topologies diverge.
+
+---
+
+# Backup: by the numbers
+
+<!-- METRICS -->
+
+Synthetic sample run. Regenerate from real logs with `make graphs`.
+
+---
+
+# Backup: honest scorecard
+
+| | Solo (control) | Hub (reviewed pipeline) | Flat |
+| --- | --- | --- | --- |
+| **Agents at once** | 1 | **1** | 3 |
+| Wall time | **fastest** here | slower, sequential | fast, parallel |
+| Hops | 0 | **fewer**, O(n) | more, O(n²) |
+| Rework | one agent's first instinct | **less**: Archie first | more: Codie first |
+| Violations at ship | one reflex, unchecked | **0** | lru_cache shipped |
+| Context | one window, all of it | small, briefed | large, all read all |
+
+**The hub never had two agents at once, and every run has exactly one writer.** It reviews and contains errors; it does not coordinate. Call it a reviewed pipeline — the scaling slide is what would change that.
+
+Flat is no strawman: it wins on latency, loses on churn. Nor is solo.
+
+<!--
+Speaker: say this out loud if the demo comes up in Q&A. If you make flat
+look stupid the audience stops trusting the rest of the talk.
+
+A test in the repo asserts the hub never exceeds one agent at a time, so
+the deck cannot quietly claim otherwise. Volunteering the limit buys
+more credibility than the claim would have.
+-->
+
+---
+
+# Backup: the code diff
+
+<div class="columns">
+<div>
+
+**Codie's first attempt** (flat, minute 1)
+
+```python
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def get_quote(symbol: str) -> float:
+    return _upstream_quote(symbol)
+```
+
+Constraint 1: **fail**, stale forever
+Constraint 2: **fail**, unbounded
+Constraint 3: pass, by accident
+
+</div>
+<div>
+
+**What passed Archie's checklist** (hub)
+
+```python
+TTL, MAX = 5.0, 128
+_cache: OrderedDict[str, tuple[float, float]] = OrderedDict()
+
+def get_quote(symbol: str) -> float:
+    now = time.monotonic()
+    hit = _cache.get(symbol)
+    if hit and now - hit[0] < TTL:
+        _cache.move_to_end(symbol)
+        return hit[1]
+    price = _upstream_quote(symbol)   # raises: nothing cached
+    _cache[symbol] = (now, price)
+    while len(_cache) > MAX:
+        _cache.popitem(last=False)
+    return price
+```
+
+</div>
+</div>
+
+<!--
+Both attempts live in demo/attempts/ and are scored by the tests on the
+next slide. Replace with the real diffs from the recorded runs:
+git diff main..hub -- demo/target/pricing.py
+git diff main..flat -- demo/target/pricing.py
+-->
+
+---
+
+# Backup: every claim is a test
+
+<div class="columns small">
+<div>
+
+**The constraints, scored** `demo/tests/test_attempts.py`
+
+| | repeats | fresh 5s | bounded | errors |
+| --- | :-: | :-: | :-: | :-: |
+| untouched | ✗ | ✓ | ✓ | ✓ |
+| `lru_cache` | ✓ | ✗ | ✗ | ✓ |
+| TTL + bound | ✓ | ✓ | ✓ | ✓ |
+
+Same four checks are the task's definition of done:
+`make acceptance`
+
+</div>
+<div>
+
+**The topologies, asserted** `demo/tests/test_scenarios.py`
+
+```text
+solo_strength_zero_coordination_cost
+solo_weakness_nobody_checks_the_work
+hub_strength_every_hop_touches_the_lead
+hub_strength_every_spawn_is_validated
+hub_weakness_work_is_sequential
+flat_strength_everyone_starts_at_once
+flat_strength_finishes_before_hub
+flat_weakness_peers_talk_past_the_lead
+flat_weakness_coder_ships_before_researcher
+edges_grow_solo_to_hub_to_flat
+```
+
+Run against real logs when present. A red test is a finding.
+
+</div>
 </div>
