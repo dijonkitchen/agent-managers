@@ -43,25 +43,29 @@ def _fmt(v) -> str:
     return f"{v:g}" if isinstance(v, float) else str(v)
 
 
-def to_markdown(runs: dict[str, dict]) -> str:
+def to_markdown(runs: dict[str, dict], note: str | None = None) -> str:
     names = list(runs)
     lines = ["| Metric | " + " | ".join(names) + " |", "| --- | " + " | ".join("---" for _ in names) + " |"]
     for label, key in ROWS:
         lines.append(f"| {label} | " + " | ".join(_fmt(runs[n][key]) for n in names) + " |")
-    return "\n".join(lines) + "\n"
+    table = "\n".join(lines) + "\n"
+    # The caption travels with the numbers, so the deck can never claim a
+    # provenance the table does not have.
+    return table if note is None else f"{table}\n{note}\n"
 
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("runs", nargs="+", help="name=path.jsonl")
     ap.add_argument("-o", "--out", type=Path, required=True)
+    ap.add_argument("--note", help="provenance caption rendered under the table")
     args = ap.parse_args()
     runs = {}
     for spec in args.runs:
         name, _, path = spec.partition("=")
         runs[name] = summarize(read_jsonl(Path(path)))
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(to_markdown(runs))
+    args.out.write_text(to_markdown(runs, args.note))
 
 
 if __name__ == "__main__":

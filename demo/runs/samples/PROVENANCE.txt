@@ -1,0 +1,1 @@
+Synthetic sample run. Regenerate from real logs with `make graphs`.

@@ -72,3 +72,13 @@ def test_a_report_to_self_is_not_a_hop():
     assert s["total"] == 0
     assert s["edges"] == 0
     assert s["wall_seconds"] == 60.0
+
+
+def test_markdown_table_carries_a_provenance_note():
+    md = m.to_markdown({"hub": m.summarize(HUB)}, note="Captured run.")
+    assert md.splitlines()[0] == "| Metric | hub |"
+    assert md.rstrip().endswith("Captured run.")
+
+
+def test_markdown_table_without_a_note_is_just_the_table():
+    assert m.to_markdown({"hub": m.summarize(HUB)}).rstrip().endswith("|")
