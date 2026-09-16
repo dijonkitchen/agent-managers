@@ -44,4 +44,9 @@ def test_reflex_answer_fails_freshness_and_bound(monkeypatch):
 
 def test_shipped_pricing_module_passes_every_constraint(monkeypatch):
     """pricing.py is no longer the uncached baseline: it is the finished work."""
-    assert all(check(c.Harness(pricing, monkeypatch)) for check in c.CHECKS.values())
+    try:
+        assert all(check(c.Harness(pricing, monkeypatch)) for check in c.CHECKS.values())
+    finally:
+        # The harness leaves a fake-clock timestamp in the real module's cache,
+        # which would look fresh to a later test reading a real clock.
+        pricing.reset_cache()

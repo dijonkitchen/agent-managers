@@ -62,9 +62,10 @@ replay the recording on stage instead of running live.
   sequentially; flat starts everyone at once and finishes first but
   talks past the lead with more hops and more context.
 - `demo/tests/test_attempts.py` scores three caching implementations
-  against the four TASK.md constraints: the untouched module, Codie's
-  `lru_cache` reflex in `demo/attempts/`, and the TTL-bounded cache
-  that passes Archie's checklist.
+  against the four TASK.md constraints: the uncached baseline, Codie's
+  `lru_cache` reflex, and the TTL-bounded cache that passes Archie's
+  checklist -- all three in `demo/attempts/`, since `pricing.py` itself
+  now ships the cache and passes all four.
 - `demo/target/test_acceptance.py` is the task's definition of done.
   Deselected by default; `make acceptance` runs it.
 

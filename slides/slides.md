@@ -271,7 +271,7 @@ git diff main..flat -- demo/target/pricing.py
 
 | | repeats | fresh 5s | bounded | errors |
 | --- | :-: | :-: | :-: | :-: |
-| untouched | ✗ | ✓ | ✓ | ✓ |
+| uncached | ✗ | ✓ | ✓ | ✓ |
 | `lru_cache` | ✓ | ✗ | ✗ | ✓ |
 | TTL + bound | ✓ | ✓ | ✓ | ✓ |
 
