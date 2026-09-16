@@ -1,0 +1,12 @@
+{"ts": 1789601770.4967198, "kind": "start", "from": "referee", "to": "referee", "chars": 0}
+{"ts": 1789601793.0107899, "kind": "spawn", "from": "referee", "to": "codie", "chars": 1206}
+{"ts": 1789601796.921833, "kind": "spawn", "from": "referee", "to": "archie", "chars": 1205}
+{"ts": 1789601800.989931, "kind": "spawn", "from": "referee", "to": "manny", "chars": 1206}
+{"ts": 1789601825.2767239, "kind": "message", "from": "manny", "to": "archie", "chars": 2166}
+{"ts": 1789601833.186154, "kind": "message", "from": "manny", "to": "codie", "chars": 1585}
+{"ts": 1789601849.193441, "kind": "report", "from": "manny", "to": "referee", "chars": 0}
+{"ts": 1789601878.9471428, "kind": "report", "from": "manny", "to": "referee", "chars": 0}
+{"ts": 1789601992.1448839, "kind": "report", "from": "archie", "to": "referee", "chars": 0}
+{"ts": 1789602001.177182, "kind": "report", "from": "codie", "to": "referee", "chars": 0}
+{"ts": 1789602046.664557, "kind": "report", "from": "archie", "to": "referee", "chars": 0}
+{"ts": 1789602071.46914, "kind": "end", "from": "referee", "to": "referee", "chars": 0}

@@ -19,6 +19,66 @@ All three carry a `SessionEnd`. The copy committed on the flat branch has
 116 records and no `end`, because it was snapshotted while the referee
 session was still open; these are the complete logs.
 
+## The sequential re-run, `*-sequential-raw.jsonl`
+
+The three runs above were captured concurrently in one attended sitting,
+which contaminates every timing row. They were run again the same day,
+one at a time and unattended, to find out how much. **Do not build the
+deck from these:** the flat one is not a flat run (see below), so the
+set has no valid three-way comparison in it.
+
+| | attended, concurrent | sequential, unattended |
+| --- | --- | --- |
+| solo session | 4215.8s | **245.9s** |
+| hub session | 4200.3s | 945.7s |
+| hub hop span | 3100.3s | 888.1s |
+| hub agent busy | 1360.9s | **762.6s** |
+
+Excluding the lead got hub from 3100.3s to 1360.9s; running it alone got
+it to 762.6s. So `busy_seconds` removes the operator's stalls but not
+contention between the agents themselves — three sessions sharing one
+machine and one rate limit slow the agents down too, and no read-side
+metric can subtract that. **Capture sequentially; it is not optional.**
+
+### The flat run cannot be captured headless
+
+`run-flat.sh` says agent teams need an interactive terminal. Without one
+they silently do not activate: the referee still spawns codie, archie and
+manny, but as ordinary subagents with no `SendMessage` tool. The result
+looks like a run and is not one — 2 peer edges against 6, 2 messages
+against 51, and codie and archie never spoke at all. Kept here only as
+the counter-example.
+
+### What the re-run does confirm
+
+**No phantom self-reports, in either new log.** The attended runs logged
+40 (hub), 23 (flat) and 2 (solo); the unattended ones logged none. So
+`SubagentStop` firing against the lead is tied to the attended session
+pattern rather than being universal. The hook fix still guards a real
+failure mode — it just is not one every run hits.
+
+**The agent ids came back**, as `a048b5ba8621c9933` (archie) and
+`a27175c3bd5f57f5c` (codie). `normalize_run.py` refused the log until
+both were named, on ids it had never seen.
+
+**Hub was strictly sequential this time** — peak 1 delegation in flight,
+against 2 in the attended run. So "the hub runs sequentially" is a
+property of the run, not of the topology, which is why the scenario test
+asserts the weaker, stable claim.
+
+**Six runs, one design.** Every agent that has written this cache chose
+`OrderedDict`, `TTL_SECONDS = 5.0` and `MAX_ENTRIES = 128` — the three
+attended runs, plus solo, hub and flat again here. Only the lock varies
+(2 of 6). In the degenerate flat run codie and archie each produced that
+design independently, in parallel, having never exchanged a message.
+
+### These runs do not exercise the fixes
+
+`prepare_worktree` starts every run from the main checkout's `HEAD`, so
+all six ran against `dfa8b00` — without the hook fix, the `manny.md`
+wording, or anything else on this branch. Re-run after merging to test
+those.
+
 ## What was changed to promote them
 
 `normalize_run.py` rewrote destinations onto the agents behind them, and
