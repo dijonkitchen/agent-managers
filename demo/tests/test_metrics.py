@@ -20,7 +20,7 @@ def test_summarize_counts_by_kind_and_wall_time():
     s = m.summarize(HUB)
     assert s == {
         "spawns": 2, "messages": 0, "reports": 2, "total": 4,
-        "chars": 100, "edges": 4, "wall_seconds": 90.0,
+        "chars": 100, "edges": 4, "work_seconds": 90.0, "wall_seconds": 90.0,
     }
 
 
@@ -40,7 +40,8 @@ def test_markdown_table_has_one_column_per_run():
     lines = md.splitlines()
     assert lines[0] == "| Metric | hub | flat |"
     assert "| Messages | 0 | 3 |" in lines
-    assert "| Wall time (s) | 90 | 50 |" in lines
+    assert "| Work time (s) | 90 | 50 |" in lines
+    assert "| Session time (s) | 90 | 50 |" in lines
 
 
 SOLO = [
@@ -54,3 +55,49 @@ def test_start_and_end_set_wall_time_but_do_not_count_as_hops():
     assert s["total"] == 0
     assert s["edges"] == 0
     assert s["wall_seconds"] == 60.0
+
+
+# What the captured solo run actually held: SubagentStop fired twice in a
+# session started with `--disallowedTools Agent`, so nothing could have
+# reported to anyone. The hook no longer writes these, but logs captured
+# before that fix still carry them.
+SOLO_WITH_PHANTOM_REPORTS = [
+    {"ts": 100.0, "kind": "start", "from": "solo", "to": "solo", "chars": 0},
+    {"ts": 130.0, "kind": "report", "from": "solo", "to": "solo", "chars": 0},
+    {"ts": 145.0, "kind": "report", "from": "solo", "to": "solo", "chars": 0},
+    {"ts": 160.0, "kind": "end", "from": "solo", "to": "solo", "chars": 0},
+]
+
+
+def test_a_report_to_self_is_not_a_hop():
+    s = m.summarize(SOLO_WITH_PHANTOM_REPORTS)
+    assert s["reports"] == 0
+    assert s["total"] == 0
+    assert s["edges"] == 0
+    assert s["wall_seconds"] == 60.0
+
+
+def test_work_time_spans_the_hops_not_the_open_session():
+    """The three captured runs were opened and closed together in one sitting.
+
+    Their session spans came out 4215.8s, 4200.3s and 4192.0s -- an artifact
+    of when the operator quit, not of how long any topology took. The span
+    from first hop to last is the part that is about the run.
+    """
+    assert m.summarize(HUB)["work_seconds"] == 90.0
+    assert m.summarize(FLAT)["work_seconds"] == 50.0
+
+
+def test_a_run_with_no_hops_has_no_work_time():
+    assert m.summarize(SOLO)["work_seconds"] == 0.0
+    assert m.summarize([])["work_seconds"] == 0.0
+
+
+def test_markdown_table_carries_a_provenance_note():
+    md = m.to_markdown({"hub": m.summarize(HUB)}, note="Captured run.")
+    assert md.splitlines()[0] == "| Metric | hub |"
+    assert md.rstrip().endswith("Captured run.")
+
+
+def test_markdown_table_without_a_note_is_just_the_table():
+    assert m.to_markdown({"hub": m.summarize(HUB)}).rstrip().endswith("|")
