@@ -285,20 +285,27 @@ Run against real logs when present. A red test is a finding.
 
 # Honest scorecard
 
-| | Solo (control) | Hub-and-spoke | Flat |
+| | Solo (control) | Hub (reviewed pipeline) | Flat |
 | --- | --- | --- | --- |
-| Wall time | **fastest** on a task this size | slower, sequential | fast, parallel |
+| **Agents at once** | 1 | **1** | 3 |
+| Wall time | **fastest** here | slower, sequential | fast, parallel |
 | Hops | 0 | **fewer**, O(n) | more, O(n²) |
-| Rework | depends on one agent's first instinct | **less**: Archie before Codie | more: Codie before Archie |
-| Constraint violations at ship | one reflex, unchecked | **0** in the recorded run | lru_cache shipped first |
-| Context | one window, everything in it | small, briefed | large, everyone reads everything |
+| Rework | one agent's first instinct | **less**: Archie first | more: Codie first |
+| Violations at ship | one reflex, unchecked | **0** | lru_cache shipped |
+| Context | one window, all of it | small, briefed | large, all read all |
 
-Flat is not a strawman. It wins on latency. It loses on churn.
-Solo is not a strawman either. On a small sequential task it may just win.
+**The hub never had two agents at once, and every run has exactly one writer.** It reviews and contains errors; it does not coordinate. Call it a reviewed pipeline — step 6 is what would change that.
+
+Flat is no strawman: it wins on latency, loses on churn. Nor is solo.
 
 <!--
 Speaker: say this out loud. If you make flat look stupid the audience
 stops trusting the rest of the talk.
+
+Say the concurrency row out loud too. A test in the repo asserts the
+hub never exceeds one agent at a time, so the deck cannot quietly
+claim otherwise. Volunteering the limit buys more credibility than
+the claim would have.
 -->
 
 ---
@@ -321,6 +328,8 @@ The jump from you typing to one agent is where almost all of the multiplier live
 | Centralized coordination, parallelizable tasks | **+80.9%** — that is 1.8×, not 10× |
 | Every multi-agent variant, sequential reasoning | **−39% to −70%** |
 | Coordination stops paying once one agent clears | **~45%** |
+
+**That first row is for parallelizable work.** The hub run you just watched parallelizes nothing, so it is not what that number measures. More on this on the scorecard.
 
 So most tasks should stay solo. Solo has exactly two ceilings, and they are the ones the demo hit:
 **it cannot parallelize, and nobody checks its work.**
@@ -362,7 +371,7 @@ A hub makes it n−1.
 
 <br>
 
-**This is the demo.** One config line moved the run from 4 edges to 12, and changed the code that shipped.
+**This is the demo.** One config line moved the run from 4 edges to 12, and changed the code that shipped. What changed was the *spec Codie received*, not the number of writers — only Codie writes, in every run.
 
 ---
 
