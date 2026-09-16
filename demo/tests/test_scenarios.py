@@ -53,9 +53,16 @@ def test_hub_strength_every_hop_touches_the_lead(hub):
     assert sc.peer_edges(hub, lead="manny") == set()
 
 
-def test_hub_strength_every_spawn_is_reported_back_and_validated(hub):
-    assert sc.count(hub, "report") == sc.count(hub, "spawn")
+def test_hub_strength_every_delegation_is_reported_back_and_validated(hub):
+    assert sc.count(hub, "report") == sc.delegations(hub, lead="manny")
     assert sc.validation_rounds(hub, lead="manny") >= 1
+
+
+def test_hub_strength_later_rounds_resume_agents_with_their_context(hub):
+    # One cold spawn per agent; every later round is a message to a named
+    # agent, which keeps its history instead of being re-briefed from zero.
+    assert sc.count(hub, "spawn") <= len(sc.agents(hub) - {"manny"})
+    assert sc.count(hub, "message") >= 1
 
 
 def test_hub_strength_briefs_are_small(hub, flat):
@@ -63,13 +70,13 @@ def test_hub_strength_briefs_are_small(hub, flat):
 
 
 def test_hub_weakness_work_is_sequential(hub):
-    assert sc.max_concurrent_spawns(hub, lead="manny") == 1
+    assert sc.max_concurrent_delegations(hub, lead="manny") == 1
 
 
 # --- Flat: parallel and fast; but chatty and unbounded ---------------------
 
 def test_flat_strength_everyone_starts_at_once(flat):
-    assert sc.max_concurrent_spawns(flat, lead="referee") == 3
+    assert sc.max_concurrent_delegations(flat, lead="referee") == 3
 
 
 def test_flat_strength_finishes_before_hub(flat, hub):

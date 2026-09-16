@@ -11,7 +11,7 @@ from render_graph import read_jsonl
 
 ROWS = [
     ("Spawns", "spawns"),
-    ("Peer messages", "messages"),
+    ("Messages", "messages"),
     ("Reports to lead", "reports"),
     ("Total hops", "total"),
     ("Distinct edges", "edges"),

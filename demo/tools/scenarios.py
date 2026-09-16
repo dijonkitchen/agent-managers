@@ -54,23 +54,32 @@ def first_ts(records: list[dict], sender: str) -> float:
     return min(r["ts"] for r in hop_records(records) if r["from"] == sender)
 
 
+def is_delegation(r: dict, lead: str) -> bool:
+    """A spawn, or a message from the lead that resumes a named agent."""
+    return r["from"] == lead and r["kind"] in ("spawn", "message")
+
+
+def delegations(records: list[dict], lead: str) -> int:
+    return sum(1 for r in hop_records(records) if is_delegation(r, lead))
+
+
 def validation_rounds(records: list[dict], lead: str) -> int:
     """Times the lead re-delegated after receiving a report: a check loop."""
     rounds, pending = 0, False
     for r in sorted(hop_records(records), key=lambda r: r["ts"]):
         if r["kind"] == "report" and r["to"] == lead:
             pending = True
-        elif r["kind"] == "spawn" and r["from"] == lead and pending:
+        elif is_delegation(r, lead) and pending:
             rounds += 1
             pending = False
     return rounds
 
 
-def max_concurrent_spawns(records: list[dict], lead: str) -> int:
-    """Peak number of the lead's spawns alive at once, closed by a report."""
+def max_concurrent_delegations(records: list[dict], lead: str) -> int:
+    """Peak number of the lead's delegations alive at once, closed by a report."""
     events = []
     for r in hop_records(records):
-        if r["kind"] == "spawn" and r["from"] == lead:
+        if is_delegation(r, lead):
             events.append((r["ts"], 1))
         elif r["kind"] == "report" and r["to"] == lead:
             events.append((r["ts"], -1))
