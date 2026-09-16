@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Hub-and-spoke run: Manny is the session. Codie and Archie are subagents
 # that can only report back to Manny. They have no SendMessage tool, so
-# the topology is enforced by the mechanism, not by the prompt.
+# the topology is enforced by the mechanism, not by the prompt. Manny has
+# SendMessage so he can resume a named agent with its context instead of
+# re-briefing it from zero on every round.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 source demo/lib/worktree.sh
