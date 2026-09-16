@@ -77,9 +77,24 @@ make slides   # -> dist/index.html
 make pdf      # -> dist/slides.pdf
 ```
 
-`make graphs` uses real runs from `demo/runs/` when present and falls
-back to the synthetic samples in `demo/runs/samples/`. Pushes to `main`
-deploy `dist/` to GitHub Pages via `.github/workflows/slides.yml`.
+`make graphs` uses captured runs from `demo/runs/` only when all three
+are present, and otherwise falls back to the tracked samples in
+`demo/runs/samples/`; the caption under the table states which it used.
+Pushes to `main` deploy `dist/` to GitHub Pages via
+`.github/workflows/slides.yml`.
+
+To put real numbers on the deck, capture all three runs and promote them:
+
+```sh
+./demo/run-solo.sh && ./demo/run-hub.sh && ./demo/run-flat.sh
+make promote-runs graphs
+```
+
+Capture before landing any branch that completes `demo/target/TASK.md`.
+`prepare_worktree` starts each run from the main checkout's `HEAD`, so once
+the task is already done on `main` the agents have nothing to do and the
+logs are worthless. `demo/runs/*.jsonl` is gitignored and CI builds from a
+clean clone, so `make promote-runs` is what gets real data as far as Pages.
 
 ## Layout
 

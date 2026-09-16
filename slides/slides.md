@@ -205,8 +205,6 @@ Dot, star, mesh. Same task, same prompts.
 
 <!-- METRICS -->
 
-Synthetic sample run. Regenerate from real logs with `make graphs`.
-
 ---
 
 # The code diff: what shipped
