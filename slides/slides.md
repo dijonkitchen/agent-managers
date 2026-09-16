@@ -120,7 +120,7 @@ CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=0
 claude --agent manny "$TASK"
 ```
 
-Manny is the session.
+Manny is the session and can resume Codie and Archie by name.
 Codie and Archie are subagents with **no `SendMessage` tool**.
 They can only report to Manny. Enforced by the mechanism.
 
