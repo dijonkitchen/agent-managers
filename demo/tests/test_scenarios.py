@@ -65,12 +65,31 @@ def test_hub_strength_later_rounds_resume_agents_with_their_context(hub):
     assert sc.count(hub, "message") >= 1
 
 
-def test_hub_strength_briefs_are_small(hub, flat):
-    assert sc.max_hop_chars(hub) < sc.max_hop_chars(flat)
+def test_hub_strength_resuming_an_agent_is_cheaper_than_briefing_one(hub):
+    """The saving is in the resume, not in the brief being small.
+
+    The captured run's cold spawn of codie was 17,411 chars -- larger than
+    anything the flat run sent in a single hop. What hub buys is that it pays
+    that once per agent: its eight later rounds averaged ~2,975 chars against
+    ~10,246 for the two cold briefs, because a resumed agent already holds
+    the context.
+    """
+    assert sc.mean_chars(hub, "message") < sc.mean_chars(hub, "spawn")
 
 
-def test_hub_weakness_work_is_sequential(hub):
-    assert sc.max_concurrent_delegations(hub, lead="manny") == 1
+def test_hub_weakness_the_lead_serializes_most_of_the_work(hub, flat):
+    """Not strictly sequential, but close, and capped by the lead's attention.
+
+    The captured hub run overlapped exactly one of manny's ten delegations --
+    he resumed archie and codie ten seconds apart before either reported --
+    so the peak was two in flight, not one. Every other round waited on a
+    report. Flat had all three peers running from its first minute.
+    """
+    delegated = sc.delegations(hub, lead="manny")
+    assert sc.validation_rounds(hub, lead="manny") >= delegated - 2
+    assert sc.max_concurrent_delegations(hub, lead="manny") < sc.max_concurrent_delegations(
+        flat, lead="referee"
+    )
 
 
 # --- Flat: parallel and fast; but chatty and unbounded ---------------------
@@ -80,7 +99,13 @@ def test_flat_strength_everyone_starts_at_once(flat):
 
 
 def test_flat_strength_finishes_before_hub(flat, hub):
-    assert sc.wall_seconds(flat) < sc.wall_seconds(hub)
+    """Measured first hop to last, not start to end.
+
+    All three captured sessions were left open and closed together, so their
+    session spans are a dead heat around 4200s. By work span the captured
+    flat run had every peer reported back in 983s against hub's 3100.3s.
+    """
+    assert sc.work_seconds(flat) < sc.work_seconds(hub)
 
 
 def test_flat_weakness_peers_talk_past_the_lead(flat):

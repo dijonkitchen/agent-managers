@@ -31,6 +31,12 @@ def max_hop_chars(records: list[dict]) -> int:
     return max((r.get("chars", 0) for r in hop_records(records)), default=0)
 
 
+def mean_chars(records: list[dict], kind: str) -> float:
+    """Average context carried by one hop of `kind`. 0.0 when there are none."""
+    sizes = [r.get("chars", 0) for r in hop_records(records) if r["kind"] == kind]
+    return sum(sizes) / len(sizes) if sizes else 0.0
+
+
 def distinct_edges(records: list[dict]) -> int:
     return len({(r["from"], r["to"]) for r in hop_records(records) if r["from"] != r["to"]})
 
@@ -47,6 +53,21 @@ def is_star(records: list[dict], lead: str) -> bool:
 
 def wall_seconds(records: list[dict]) -> float:
     ts = [r["ts"] for r in records]
+    return max(ts) - min(ts) if ts else 0.0
+
+
+def work_seconds(records: list[dict]) -> float:
+    """First hop to last, ignoring self-edges.
+
+    `wall_seconds` runs start to end, which for a session means "until the
+    operator quit": the three captured runs were opened within 36s of each
+    other and closed within 24s, so their spans come out a dead heat around
+    4200s. A self-edge report is the lead session's own turn, not a hop
+    between agents, so it does not bound the work either -- the captured
+    flat run's peers had all reported back by 983s and the referee session
+    then idled for another 2000s.
+    """
+    ts = [r["ts"] for r in hop_records(records) if r["from"] != r["to"]]
     return max(ts) - min(ts) if ts else 0.0
 
 

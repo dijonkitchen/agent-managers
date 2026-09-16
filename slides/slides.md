@@ -285,12 +285,15 @@ Same four checks are the task's definition of done:
 solo_strength_zero_coordination_cost
 solo_weakness_nobody_checks_the_work
 hub_strength_every_hop_touches_the_lead
-hub_strength_every_spawn_is_validated
-hub_weakness_work_is_sequential
+hub_strength_every_delegation_is_reported_back_and_validated
+hub_strength_later_rounds_resume_agents_with_their_context
+hub_strength_resuming_an_agent_is_cheaper_than_briefing_one
+hub_weakness_the_lead_serializes_most_of_the_work
 flat_strength_everyone_starts_at_once
 flat_strength_finishes_before_hub
 flat_weakness_peers_talk_past_the_lead
-flat_weakness_coder_ships_before_researcher
+flat_weakness_more_hops_and_more_context_than_hub
+flat_weakness_coder_ships_before_researcher_answers
 edges_grow_solo_to_hub_to_flat
 ```
 
@@ -305,25 +308,32 @@ Run against real logs when present. A red test is a finding.
 
 | | Solo (control) | Hub (reviewed pipeline) | Flat |
 | --- | --- | --- | --- |
-| **Agents at once** | 1 | **1** | 3 |
-| Wall time | **fastest** here | slower, sequential | fast, parallel |
-| Hops | 0 | **fewer**, O(n) | more, O(n²) |
+| **Agents at once** | 1 | 2, once | **3** |
+| Work time | not measurable | 3100s | **983s** |
+| Hops | **0** | 20, O(n) | 93, O(n²) |
+| Context moved | one window, all of it | **44k chars** | 155k chars |
+| Biggest single hop | — | 17.4k (cold brief) | **10.6k** |
 | Rework | one agent's first instinct | **less**: Archie first | more: Codie first |
 | Violations at ship | one reflex, unchecked | **0** | lru_cache shipped |
-| Context | one window, all of it | small, briefed | large, all read all |
 
-**The hub never had two agents at once, and every run has exactly one writer.** It reviews and contains errors; it does not coordinate. Call it a reviewed pipeline — step 6 is what would change that.
+**The hub is a reviewed pipeline, not a coordinator.** Eight of Manny's nine
+follow-up delegations waited on a report; the one that did not overlapped for
+38 seconds. It reviews and contains errors — step 6 is what would change that.
 
-Flat is no strawman: it wins on latency, loses on churn. Nor is solo.
+Flat is no strawman: it finished the work 3x faster and lost on churn. Nor is solo.
 
 <!--
 Speaker: say this out loud. If you make flat look stupid the audience
 stops trusting the rest of the talk.
 
-Say the concurrency row out loud too. A test in the repo asserts the
-hub never exceeds one agent at a time, so the deck cannot quietly
-claim otherwise. Volunteering the limit buys more credibility than
-the claim would have.
+Say the concurrency row out loud too, and say it exactly. An earlier
+version of this deck claimed the hub never had two agents at once, and
+a test asserted it. The captured run falsified both: Manny resumed
+Archie and Codie ten seconds apart and ran them together for 38
+seconds. The test now asserts what is true -- the hub's peak stays
+under flat's -- so the deck cannot quietly overclaim in either
+direction. Volunteering that correction buys more credibility than the
+tidier claim would have.
 -->
 
 ---
@@ -347,7 +357,7 @@ The jump from you typing to one agent is where almost all of the multiplier live
 | Every multi-agent variant, sequential reasoning | **−39% to −70%** |
 | Coordination stops paying once one agent clears | **~45%** |
 
-**That first row is for parallelizable work.** The hub run you just watched parallelizes nothing, so it is not what that number measures. More on this on the scorecard.
+**That first row is for parallelizable work.** The hub run you just watched parallelizes almost nothing — 38 seconds of overlap in a 3100-second run — so it is not what that number measures. More on this on the scorecard.
 
 So most tasks should stay solo. Solo has exactly two ceilings, and they are the ones the demo hit:
 **it cannot parallelize, and nobody checks its work.**
