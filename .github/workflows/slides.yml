@@ -11,8 +11,12 @@ permissions:
   pages: write
   id-token: write
 
+# Keyed per ref: a new push to a branch supersedes that branch's run, but
+# runs on different branches never cancel each other. A constant group here
+# meant any new run cancelled whatever was in flight, so pushing to several
+# branches in quick succession left earlier PRs with cancelled builds.
 concurrency:
-  group: pages
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -42,6 +46,10 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
+    # Pages serializes deployments; never cancel one that is already running.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
