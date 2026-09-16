@@ -16,10 +16,11 @@ captured = $(wildcard demo/runs/solo.jsonl) $(wildcard demo/runs/hub.jsonl) $(wi
 
 ifeq ($(words $(captured)),3)
 run = demo/runs/$(1).jsonl
-note = Captured run. Rebuild with `make graphs`.
+noteflag = --note 'Captured run, not yet promoted. Rebuild with `make graphs`.'
 else
 run = demo/runs/samples/$(1).jsonl
-note = $(shell cat demo/runs/samples/PROVENANCE.txt)
+# By file, not by value: the caption is prose and may hold apostrophes.
+noteflag = --note-file demo/runs/samples/PROVENANCE.txt
 endif
 
 graphs:
@@ -28,15 +29,25 @@ graphs:
 	uv run python demo/tools/render_graph.py $(call run,flat) -o slides/assets/flat.svg
 	uv run python demo/tools/metrics.py \
 	  solo=$(call run,solo) hub=$(call run,hub) flat=$(call run,flat) \
-	  --note '$(note)' -o slides/assets/metrics.md
+	  $(noteflag) -o slides/assets/metrics.md
 
 # Copy the three captured runs over the tracked samples, so the deck shows
 # real data everywhere -- including Pages, which only ever builds from a
 # clean clone and so never sees the gitignored demo/runs/*.jsonl.
+#
+# Each log goes through normalize_run.py, which refuses a log holding a
+# destination it cannot pair with an agent. That refusal is the point: it
+# is how the hub run's raw agent ids were caught instead of being published
+# as two extra nodes. Pass the mapping through ALIASES when it trips, e.g.
+#   make promote-runs ALIASES='--alias a08df1e74b04059d2=codie'
+ALIASES ?=
 promote-runs:
 	@test $(words $(captured)) -eq 3 || \
 	  { echo "need all three of demo/runs/{solo,hub,flat}.jsonl; run the three demo/run-*.sh first"; exit 1; }
-	cp demo/runs/solo.jsonl demo/runs/hub.jsonl demo/runs/flat.jsonl demo/runs/samples/
+	for run in solo hub flat; do \
+	  uv run python demo/tools/normalize_run.py demo/runs/$$run.jsonl $(ALIASES) \
+	    -o demo/runs/samples/$$run.jsonl || exit 1; \
+	done
 	printf 'Captured run, promoted with `make promote-runs`. Rebuild with `make graphs`.\n' \
 	  > demo/runs/samples/PROVENANCE.txt
 

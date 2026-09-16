@@ -65,14 +65,19 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("runs", nargs="+", help="name=path.jsonl")
     ap.add_argument("-o", "--out", type=Path, required=True)
-    ap.add_argument("--note", help="provenance caption rendered under the table")
+    note = ap.add_mutually_exclusive_group()
+    note.add_argument("--note", help="provenance caption rendered under the table")
+    # Reading the caption from a file keeps apostrophes and backticks out of
+    # the Makefile's shell quoting, which is where PROVENANCE.txt lives.
+    note.add_argument("--note-file", type=Path, help="read the caption from this file")
     args = ap.parse_args()
     runs = {}
     for spec in args.runs:
         name, _, path = spec.partition("=")
         runs[name] = summarize(read_jsonl(Path(path)))
+    caption = args.note_file.read_text().strip() if args.note_file else args.note
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(to_markdown(runs, args.note))
+    args.out.write_text(to_markdown(runs, caption))
 
 
 if __name__ == "__main__":

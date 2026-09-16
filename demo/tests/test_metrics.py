@@ -1,3 +1,6 @@
+import json
+import sys
+
 import metrics as m
 
 HUB = [
@@ -101,3 +104,19 @@ def test_markdown_table_carries_a_provenance_note():
 
 def test_markdown_table_without_a_note_is_just_the_table():
     assert m.to_markdown({"hub": m.summarize(HUB)}).rstrip().endswith("|")
+
+
+def test_note_file_carries_prose_the_makefile_could_not_quote(tmp_path, monkeypatch):
+    """PROVENANCE.txt is prose, so interpolating it into the recipe broke on
+    the first apostrophe. The caption is read from the file instead."""
+    run = tmp_path / "hub.jsonl"
+    run.write_text("".join(json.dumps(r) + "\n" for r in HUB))
+    note = tmp_path / "PROVENANCE.txt"
+    note.write_text("Captured run. Session time measures the sitting, not the run's work.\n")
+    out = tmp_path / "metrics.md"
+    monkeypatch.setattr(
+        sys, "argv",
+        ["metrics.py", f"hub={run}", "--note-file", str(note), "-o", str(out)],
+    )
+    m.main()
+    assert out.read_text().rstrip().endswith("not the run's work.")
