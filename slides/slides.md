@@ -23,9 +23,13 @@ style: |
     text-decoration-thickness: 4px; line-height: 1.3; }
   .byline { margin-top: 1.8rem; font-size: 24px; color: #555; }
   section.lead h1 .title { font-size: 52px; line-height: 1.15; }
-  .cake { text-align: center; }
-  .cake svg { display: block; margin: 0.2rem auto 0.6rem; }
-  .cake .caption { font-size: 24px; color: #555; }
+  .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
+  .figure { text-align: center; }
+  .figure .cap { font-size: 16px; color: #666; line-height: 1.35; }
+  .qa { text-align: center; }
+  .qa svg { display: block; margin: 0 auto 0.4rem; }
+  .qa .seed { font-size: 30px; font-weight: 700; color: #2d3b4e; }
+  .qa .caption { font-size: 22px; color: #666; margin-top: 0.2rem; }
   pre { font-size: 18px; }
   table { font-size: 21px; }
   img[alt~="center"] { display: block; margin: 0 auto; }
@@ -386,11 +390,45 @@ As models improve, expect to delete roles, not add them.
 
 # Why a hub, and why a human
 
+<div class="figsplit">
+<div class="small">
+
 - **Start from the org you already have.** But agents are homogeneous and correlated. Humans are not. Five clones do not give you five opinions.
 - **A hub stops politics.** No turf war when nobody can flood the shared branch. That is what managers do for people too: psychological safety, not surveillance.
 - **The orchestrator's value is decomposition, validation, and synthesis.** Not watching. Manny has no file tools and it works better that way.
 - **Keep swarms under five.** Use them for parallelism and isolation, the two things a smarter single model cannot do. Everything else: one agent, smaller task.
 - **Catch errors early.** Archie before Codie. Better requirements and designs mean fewer bugs, less miscommunication, less churn downstream. Same as it ever was.
+
+</div>
+<div class="figure">
+
+<svg viewBox="0 0 220 400" width="180" role="img" aria-label="A ceiling-mounted artificial intelligence with a single glowing yellow optic.">
+  <title>An orchestrator with nobody above it</title>
+  <rect x="66" y="0" width="88" height="14" rx="3" fill="#6f757c"/>
+  <rect x="92" y="14" width="36" height="30" rx="6" fill="#b9bec4"/>
+  <rect x="84" y="42" width="52" height="13" rx="6" fill="#8f959c"/>
+  <rect x="94" y="55" width="32" height="34" rx="6" fill="#c6cbd1"/>
+  <rect x="84" y="88" width="52" height="13" rx="6" fill="#8f959c"/>
+  <rect x="96" y="101" width="28" height="30" rx="6" fill="#b9bec4"/>
+  <path d="M32 196 L2 214 L6 262 L30 244 Z" fill="#c8ccd1" stroke="#a5abb2" stroke-width="2"/>
+  <path d="M188 196 L218 214 L214 262 L190 244 Z" fill="#c8ccd1" stroke="#a5abb2" stroke-width="2"/>
+  <path d="M30 244 L8 268 L18 300 L38 278 Z" fill="#d6dade" stroke="#a5abb2" stroke-width="2"/>
+  <path d="M190 244 L212 268 L202 300 L182 278 Z" fill="#d6dade" stroke="#a5abb2" stroke-width="2"/>
+  <path d="M34 190 C34 148 186 148 186 190 C193 234 174 292 146 324 C133 342 87 342 74 324 C46 292 27 234 34 190 Z" fill="#eceef0" stroke="#b4bac1" stroke-width="3"/>
+  <path d="M36 200 C72 218 148 218 184 200" fill="none" stroke="#c9ced3" stroke-width="3"/>
+  <path d="M44 254 C76 268 144 268 176 254" fill="none" stroke="#c9ced3" stroke-width="3"/>
+  <path d="M62 300 C82 312 138 312 158 300" fill="none" stroke="#c9ced3" stroke-width="3"/>
+  <circle cx="110" cy="312" r="44" fill="#ffca28" opacity="0.2"/>
+  <circle cx="110" cy="312" r="32" fill="#d5d8dc" stroke="#b4bac1" stroke-width="3"/>
+  <circle cx="110" cy="312" r="25" fill="#33363b"/>
+  <circle cx="110" cy="312" r="16" fill="#ffc107"/>
+  <circle cx="110" cy="312" r="6" fill="#fff8e1"/>
+</svg>
+
+<div class="cap">An orchestrator with nobody above it.<br>She ran the tests, too.</div>
+
+</div>
+</div>
 
 ---
 
@@ -493,50 +531,80 @@ else. Keep it to one thing, one line, one link.
 
 # Questions, comments, concerns?
 
-<div class="cake">
+<div class="qa">
 
-<svg viewBox="0 0 360 290" width="470" role="img" aria-label="A black forest cake on a plate, ringed with cherries, with a single lit candle.">
+<svg viewBox="0 0 720 300" width="760" role="img" aria-label="The Weighted Companion Cube beside a black forest cake with a lit candle.">
   <title>Questions, comments, concerns?</title>
-  <ellipse cx="180" cy="252" rx="152" ry="22" fill="#e8e8ee" stroke="#cdcdd8" stroke-width="2"/>
-  <path d="M70 140 L70 236 A110 26 0 0 0 290 236 L290 140 Z" fill="#3b2318"/>
-  <g stroke="#2a180f" stroke-width="3" stroke-linecap="round" opacity="0.7">
-    <path d="M96 168 L96 222"/><path d="M124 178 L124 236"/><path d="M152 182 L152 242"/>
-    <path d="M180 183 L180 244"/><path d="M208 182 L208 242"/><path d="M236 178 L236 236"/>
-    <path d="M264 168 L264 222"/>
+
+  <g>
+    <path d="M72 118 L128 78 L288 78 L232 118 Z" fill="#b6bfc9"/>
+    <path d="M232 118 L288 78 L288 238 L232 278 Z" fill="#6e7a87"/>
+    <rect x="72" y="118" width="160" height="160" fill="#939ea9"/>
+    <g transform="matrix(1,0,0.35,-0.25,72,118)">
+      <circle cx="80" cy="80" r="52" fill="#a4aeb8" stroke="#7d8994" stroke-width="5"/>
+      <circle cx="80" cy="80" r="34" fill="none" stroke="#8b96a1" stroke-width="5"/>
+    </g>
+    <g fill="#cfd6dd">
+      <path d="M72 148 L72 118 L102 118 Z"/><path d="M202 118 L232 118 L232 148 Z"/>
+      <path d="M232 248 L232 278 L202 278 Z"/><path d="M102 278 L72 278 L72 248 Z"/>
+    </g>
+    <circle cx="152" cy="198" r="44" fill="#828e9a" stroke="#626e7b" stroke-width="4"/>
+    <path d="M152 220 C 126 196 134 170 152 184 C 170 170 178 196 152 220 Z" fill="#ef5aa0"/>
+    <g fill="none" stroke="#5d6874" stroke-width="4">
+      <rect x="72" y="118" width="160" height="160"/>
+      <path d="M72 118 L128 78 L288 78 L288 238 L232 278"/>
+      <path d="M232 118 L288 78"/><path d="M232 118 L232 278"/>
+    </g>
   </g>
-  <path d="M70 140 L70 160 A110 26 0 0 0 290 160 L290 140 Z" fill="#fbf4e6"/>
-  <path d="M70 152 q14 20 28 4 q16 26 30 2 q16 24 30 4 q14 26 30 2 q16 24 30 0 q16 24 30 -4 q14 20 28 -8" fill="none" stroke="#fbf4e6" stroke-width="13" stroke-linecap="round"/>
-  <ellipse cx="180" cy="140" rx="110" ry="26" fill="#fffaf0"/>
-  <ellipse cx="180" cy="140" rx="92" ry="21" fill="none" stroke="#efe2cd" stroke-width="3"/>
-  <g fill="#c1272d">
-    <circle cx="265" cy="148" r="10"/><circle cx="215" cy="159" r="10"/>
-    <circle cx="145" cy="159" r="10"/><circle cx="95" cy="148" r="10"/>
-    <circle cx="95" cy="132" r="10"/><circle cx="145" cy="121" r="10"/>
-    <circle cx="215" cy="121" r="10"/><circle cx="265" cy="132" r="10"/>
+
+  <g transform="translate(360,0)">
+    <ellipse cx="180" cy="252" rx="152" ry="22" fill="#e8e8ee" stroke="#cdcdd8" stroke-width="2"/>
+    <path d="M70 140 L70 236 A110 26 0 0 0 290 236 L290 140 Z" fill="#3b2318"/>
+    <g stroke="#2a180f" stroke-width="3" stroke-linecap="round" opacity="0.7">
+      <path d="M96 168 L96 222"/><path d="M124 178 L124 236"/><path d="M152 182 L152 242"/>
+      <path d="M180 183 L180 244"/><path d="M208 182 L208 242"/><path d="M236 178 L236 236"/>
+      <path d="M264 168 L264 222"/>
+    </g>
+    <path d="M70 140 L70 160 A110 26 0 0 0 290 160 L290 140 Z" fill="#fbf4e6"/>
+    <path d="M70 152 q14 20 28 4 q16 26 30 2 q16 24 30 4 q14 26 30 2 q16 24 30 0 q16 24 30 -4 q14 20 28 -8" fill="none" stroke="#fbf4e6" stroke-width="13" stroke-linecap="round"/>
+    <ellipse cx="180" cy="140" rx="110" ry="26" fill="#fffaf0"/>
+    <ellipse cx="180" cy="140" rx="92" ry="21" fill="none" stroke="#efe2cd" stroke-width="3"/>
+    <g fill="#c1272d">
+      <circle cx="265" cy="148" r="10"/><circle cx="215" cy="159" r="10"/>
+      <circle cx="145" cy="159" r="10"/><circle cx="95" cy="148" r="10"/>
+      <circle cx="95" cy="132" r="10"/><circle cx="145" cy="121" r="10"/>
+      <circle cx="215" cy="121" r="10"/><circle cx="265" cy="132" r="10"/>
+    </g>
+    <g fill="#ffffff" opacity="0.55">
+      <circle cx="262" cy="144" r="3"/><circle cx="212" cy="155" r="3"/>
+      <circle cx="142" cy="155" r="3"/><circle cx="92" cy="144" r="3"/>
+      <circle cx="92" cy="128" r="3"/><circle cx="142" cy="117" r="3"/>
+      <circle cx="212" cy="117" r="3"/><circle cx="262" cy="128" r="3"/>
+    </g>
+    <rect x="174" y="76" width="12" height="52" rx="3" fill="#f6f1e4" stroke="#e2d9c4" stroke-width="2"/>
+    <path d="M180 116 L180 76" stroke="#e2d9c4" stroke-width="2"/>
+    <circle cx="180" cy="62" r="20" fill="#ffb74d" opacity="0.28"/>
+    <path d="M180 40 C 192 56 190 70 180 76 C 170 70 168 56 180 40 Z" fill="#f79a1e"/>
+    <path d="M180 52 C 186 61 185 69 180 72 C 175 69 174 61 180 52 Z" fill="#ffe17a"/>
   </g>
-  <g fill="#ffffff" opacity="0.55">
-    <circle cx="262" cy="144" r="3"/><circle cx="212" cy="155" r="3"/>
-    <circle cx="142" cy="155" r="3"/><circle cx="92" cy="144" r="3"/>
-    <circle cx="92" cy="128" r="3"/><circle cx="142" cy="117" r="3"/>
-    <circle cx="212" cy="117" r="3"/><circle cx="262" cy="128" r="3"/>
-  </g>
-  <rect x="174" y="76" width="12" height="52" rx="3" fill="#f6f1e4" stroke="#e2d9c4" stroke-width="2"/>
-  <path d="M180 116 L180 76" stroke="#e2d9c4" stroke-width="2"/>
-  <circle cx="180" cy="62" r="20" fill="#ffb74d" opacity="0.28"/>
-  <path d="M180 40 C 192 56 190 70 180 76 C 170 70 168 56 180 40 Z" fill="#f79a1e"/>
-  <path d="M180 52 C 186 61 185 69 180 72 C 175 69 174 61 180 52 Z" fill="#ffe17a"/>
 </svg>
 
-<div class="caption"><b>The cake is a lie. The tests are not.</b></div>
+<div class="seed">&ldquo;What do the managers think?&rdquo;</div>
+<div class="caption">The cake is a lie. The tests are not.</div>
 
 </div>
 
 <!--
-Speaker: take questions here. The cake is the reward that is always
-promised and never arrives, which is the same promise a multi-agent demo
-makes. The answer to "does any of this actually work?" is `make
-acceptance`, not a slide. Sources are the next slide if anyone wants a
-citation.
+Speaker: open the floor with the seed question, not with silence. "What
+do the managers think?" puts the room in the chair the whole talk argued
+for, and it works on engineers too: it asks them to judge the work
+instead of the tooling.
+
+The two props are the promises Portal makes and breaks: the cube is the
+teammate you are issued and then told to incinerate, the cake is the
+reward that never arrives. Both are what a multi-agent demo sells. The
+answer to "does any of this actually work?" is `make acceptance`, not a
+slide. Sources are the next slide if anyone wants a citation.
 -->
 
 ---
