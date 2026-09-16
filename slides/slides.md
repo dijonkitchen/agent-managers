@@ -325,79 +325,123 @@ stops trusting the rest of the talk.
 
 <!-- _class: lead -->
 
-# What the research says
+# Why it turned out that way
+
+## Each step below exists because the one before it hit a wall
 
 ---
 
-# Google: "Towards a Science of Scaling Agent Systems"
+# 1. Solo already is the 10x
 
-Kim et al., Dec 2025. 260 configurations, 6 benchmarks, 5 architectures: single, independent, centralized, decentralized, hybrid.
+The jump from you typing to one agent is where almost all of the multiplier lives.
+**The second agent is worth far less than the first.**
 
-| Finding | Number |
+| What coordination actually buys | |
 | --- | --- |
-| Centralized coordination on parallelizable tasks | **+80.9%** |
-| Error amplification, independent agents | **17.2×** |
-| Error amplification, centralized | **4.4×** |
-| Every multi-agent variant on sequential reasoning tasks | **−39% to −70%** |
-| Coordination stops paying once a single agent clears | **~45%** |
+| Centralized coordination, parallelizable tasks | **+80.9%** — that is 1.8×, not 10× |
+| Every multi-agent variant, sequential reasoning | **−39% to −70%** |
+| Coordination stops paying once one agent clears | **~45%** |
 
-**Read:** a hub contains errors. Peers amplify them. And a lot of tasks should stay single-agent.
+So most tasks should stay solo. Solo has exactly two ceilings, and they are the ones the demo hit:
+**it cannot parallelize, and nobody checks its work.**
 
-<span class="sources">arXiv 2512.08296. Numbers as reported in the abstract and paper summaries.</span>
+<span class="sources">Kim et al., *Towards a Science of Scaling Agent Systems*, arXiv 2512.08296, Dec 2025. 260 configurations, 6 benchmarks, 5 architectures. Numbers as reported in the abstract and paper summaries.</span>
 
----
-
-# Anthropic: "Patterns and problems in emerging multiagent systems"
-
-Frontier Red Team, Aug 2026. Six experiments: swarms hunting vulnerabilities, building a game, pricing in a market.
-
-- **Coordinated beats independent on parallel search:** the coordinating swarm found 266 vulnerabilities vs 21 for independent agents, at ~4× the tokens.
-- **Agents are high-capability, low-variance.** Same model + same context → near-identical actions. One agent's mistake becomes everyone's mistake: identical branches, simultaneous defection, flooded shared resources.
-- **No coordination → turf wars.** Collusion on prices, trusting liars, sabotage of each other's work.
-- Human institutions evolved courts, property, reputation. Agent environments have none of that yet.
-
-<span class="sources">anthropic.com/research/multiagent-systems. Findings as reported; primary text was not reachable from the build environment.</span>
+<!--
+Speaker: this fights the room's priors. Everyone arrived expecting
+"more agents, more better." Say the quiet part: you pay N times the
+tokens for well under N times the output.
+-->
 
 ---
 
-# The old theory still holds
+# 2. So add agents. Structure decides what you get.
 
 <div class="columns">
+<div>
+
+| Error amplification | |
+| --- | --- |
+| Independent agents | **17.2×** |
+| Centralized coordination | **4.4×** |
+
+A hub **contains** errors. Peers **amplify** them.
+Same numbers, same paper as the last slide.
+
+</div>
 <div>
 
 **Brooks (1975).** Communication paths grow as n(n−1)/2.
 3 peers: 3 paths. 5 peers: 10. 10 peers: 45.
 A hub makes it n−1.
 
-**Conway (1968).** The system copies the communication structure of the team that built it.
-Wire agents flat, and the code gets a flat, negotiated architecture.
+**Conway (1968).** The system copies the communication structure that built it. Wire agents flat, get a flat, negotiated architecture.
+
+</div>
+</div>
+
+<br>
+
+**This is the demo.** One config line moved the run from 4 edges to 12, and changed the code that shipped.
+
+---
+
+# 3. But structure cannot fix clones
+
+Anthropic Frontier Red Team, Aug 2026. Six experiments: swarms hunting vulnerabilities, building a game, pricing in a market.
+
+- **Coordination works on parallel search.** The coordinating swarm found **266** vulnerabilities to independent agents' **21**, at roughly 4× the tokens.
+- **But agents are high-capability and low-variance.** Same model plus same context produces near-identical actions. One agent's mistake becomes every agent's mistake: identical branches, simultaneous defection, flooded shared resources.
+- **Ungoverned swarms fight.** Collusion on prices, trusting liars, sabotaging each other's work.
+
+**The wall:** topology bounds the blast radius of a mistake. It cannot make two copies of one model genuinely disagree.
+
+<span class="sources">anthropic.com/research/multiagent-systems. Findings as reported; primary text was not reachable from the build environment.</span>
+
+---
+
+# 4. So diversify by evidence, not personality
+
+<div class="columns small">
+<div>
+
+**No prompt makes two copies of one model disagree.** Different evidence does. Give each agent the minimum context its job needs, and route untrusted sources to the agent that cannot execute.
+
+| Agent | Sees | Can act |
+| --- | --- | --- |
+| <span class="archie">Archie</span> | web, docs, issues, telemetry | **no** — read-only |
+| <span class="codie">Codie</span> | the repo, the test runner | yes |
+| <span class="manny">Manny</span> | only what agents report | no file tools |
+
+Scoped per agent with `mcpServers` in the agent file.
 
 </div>
 <div>
 
-**Sutton (2019), the Bitter Lesson.** General methods plus compute beat hand-built structure, in the long run.
+**Four reasons to divide, not pool:**
 
-So: every piece of scaffolding here is provisional.
-BMAD-METHOD mostly mirrors this cast (analyst, architect, PM, dev).
-As models improve, expect to delete roles, not add them.
+1. **Context.** Every server's tool definitions load into every agent holding it.
+2. **Tool-coordination tradeoff.** Tool-heavy tasks suffer *most* from multi-agent overhead under a fixed budget.
+3. **Decorrelation.** Different evidence, different conclusions. This is the point.
+4. **Injection surface.** The agent reading untrusted web content has no `Edit`, `Write`, or `Bash`.
 
-**What survives the Bitter Lesson:** isolation and parallelism. A smarter model still cannot be in two worktrees at once.
+**Honest caveat:** Archie's findings still reach Codie through Manny. That is defense in depth, not a hard boundary.
 
 </div>
 </div>
 
 ---
 
-# Why a hub, and why a human
+# 5. Someone still has to decide
 
 <div class="figsplit">
 <div class="small">
 
-- **Start from the org you already have.** But agents are homogeneous and correlated. Humans are not. Five clones do not give you five opinions.
 - **A hub stops politics.** No turf war when nobody can flood the shared branch. That is what managers do for people too: psychological safety, not surveillance.
-- **The orchestrator's value is decomposition, validation, and synthesis.** Not watching. Manny has no file tools and it works better that way.
+- **The orchestrator's value is decomposition, validation, and synthesis.** Not watching. Manny has no file tools and works better for it.
 - **Keep swarms under five.** Use them for parallelism and isolation, the two things a smarter single model cannot do. Everything else: one agent, smaller task.
 - **Catch errors early.** Archie before Codie. Better requirements and designs mean fewer bugs, less miscommunication, less churn downstream. Same as it ever was.
+- **Start from the org you already have** — but remember your agents are correlated in a way your colleagues never were.
 
 </div>
 <div class="figure">
@@ -429,6 +473,29 @@ As models improve, expect to delete roles, not add them.
 
 </div>
 </div>
+
+---
+
+# 6. How long does this scaffolding last?
+
+<div class="columns">
+<div>
+
+**Sutton (2019), the Bitter Lesson.** General methods plus compute beat hand-built structure, in the long run.
+
+So every role in this deck is provisional. BMAD-METHOD mostly mirrors this cast (analyst, architect, PM, dev). As models improve, expect to **delete** roles, not add them.
+
+</div>
+<div>
+
+**What survives the Bitter Lesson:**
+isolation and parallelism. A smarter model still cannot be in two worktrees at once.
+
+**And judgment.** Deciding what to build, what to reject, and what "done" means is not scaffolding. It is the job.
+
+</div>
+</div>
+
 
 ---
 
@@ -487,12 +554,12 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 
 # Tying it together
 
-1. **Topology is a config line.** It changes the code that ships.
-2. **Hubs contain errors; peers amplify them.** Two research groups, same result.
-3. **Agents are correlated.** A hub is how you stop five clones from making the same mistake five times.
-4. **The orchestrator decomposes, validates, synthesizes.** It does not watch.
-5. **Shift left.** Research before code, in both human and agent teams.
-6. **Scaffolding is temporary.** Keep what buys parallelism and isolation. Delete the rest as models improve.
+1. **Solo already is the 10x**, and it often wins. Its ceilings are parallelism and having nobody check it.
+2. **Structure decides what you get.** Hubs contain errors at 4.4×; peers amplify at 17.2×. It is one config line.
+3. **Structure cannot fix clones.** Same model plus same context is the same mistake, N times.
+4. **So diversify by evidence.** Minimum context per agent; untrusted sources to the agent that cannot execute.
+5. **Someone still has to decompose, validate, and synthesize.** That is judgment, and it does not automate.
+6. **The scaffolding is temporary; the judgment is not.** Delete roles as models improve.
 7. **Pick the lightest tool.** Single agent → subagents → worktrees → teams.
 
 ---
