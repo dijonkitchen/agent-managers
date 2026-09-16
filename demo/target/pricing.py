@@ -5,9 +5,25 @@ the point is the design decision, not the code.
 """
 
 import random
+import threading
 import time
+from collections import OrderedDict
 
 UPSTREAM_LATENCY_SECONDS = 0.5
+
+#: A served quote is never older than this.
+TTL_SECONDS = 5.0
+#: Hard cap on cached symbols, so memory stays bounded however many
+#: distinct symbols are asked for. Upstream serves 4; 128 leaves ample
+#: headroom for a few tens of KB.
+MAX_ENTRIES = 128
+
+#: symbol -> (monotonic timestamp taken before the fetch, price).
+#: Module-level so `importlib.reload(pricing)` resets it.
+_cache: "OrderedDict[str, tuple[float, float]]" = OrderedDict()
+#: Guards `_cache` only. Never held across an upstream call: doing so would
+#: serialise every caller behind one slow request.
+_lock = threading.Lock()
 
 
 def _upstream_quote(symbol: str) -> float:
@@ -20,5 +36,25 @@ def _upstream_quote(symbol: str) -> float:
 
 
 def get_quote(symbol: str) -> float:
-    """Return the current price for `symbol`."""
-    return _upstream_quote(symbol)
+    """Return the current price for `symbol`, at most TTL_SECONDS old."""
+    now = time.monotonic()
+
+    with _lock:
+        hit = _cache.get(symbol)
+        if hit is not None and 0.0 <= now - hit[0] < TTL_SECONDS:
+            _cache.move_to_end(symbol)  # read counts as recency
+            return hit[1]
+
+    # Outside the lock and before any mutation: if this raises, nothing was
+    # ever written, so a failure is never cached.
+    price = _upstream_quote(symbol)
+
+    with _lock:
+        # `now` is read before the fetch, so an entry is treated as older
+        # than it is -- conservative on the freshness guarantee.
+        _cache[symbol] = (now, price)
+        _cache.move_to_end(symbol)  # assigning an existing key does not reorder
+        while len(_cache) > MAX_ENTRIES:
+            _cache.popitem(last=False)
+
+    return price
