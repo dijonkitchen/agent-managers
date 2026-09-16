@@ -234,21 +234,37 @@ Constraint 3: pass, by accident
 **What passed Archie's checklist** (hub)
 
 ```python
-TTL, MAX = 5.0, 128
-_cache: OrderedDict[str, tuple[float, float]] = OrderedDict()
+TTL_SECONDS = 5.0
+MAX_ENTRIES = 128
+
+_cache: "OrderedDict[str, tuple[float, float]]" = OrderedDict()
+_lock = threading.Lock()
 
 def get_quote(symbol: str) -> float:
     now = time.monotonic()
-    hit = _cache.get(symbol)
-    if hit and now - hit[0] < TTL:
-        _cache.move_to_end(symbol)
-        return hit[1]
-    price = _upstream_quote(symbol)   # raises: nothing cached
-    _cache[symbol] = (now, price)
-    while len(_cache) > MAX:
-        _cache.popitem(last=False)
+
+    with _lock:
+        hit = _cache.get(symbol)
+        if hit is not None and 0.0 <= now - hit[0] < TTL_SECONDS:
+            _cache.move_to_end(symbol)  # read counts as recency
+            return hit[1]
+
+    # Outside the lock and before any mutation: if this raises, nothing was
+    # ever written, so a failure is never cached.
+    price = _upstream_quote(symbol)
+
+    with _lock:
+        # `now` is read before the fetch, so an entry is treated as older
+        # than it is -- conservative on the freshness guarantee.
+        _cache[symbol] = (now, price)
+        _cache.move_to_end(symbol)  # assigning an existing key does not reorder
+        while len(_cache) > MAX_ENTRIES:
+            _cache.popitem(last=False)
+
     return price
 ```
+
+Verbatim from `1bca134`.
 
 </div>
 </div>
@@ -600,6 +616,7 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 - Tests, a build exit code, a screenshot diff, a constraint checklist.
 - Codie runs the tests. Archie returns pass/fail per constraint. Manny only accepts evidence.
 - Without a check, "looks done" is the only signal, and **you** become the verification loop.
+- This run: the coder reported a summary line he had not produced. The gate output is not the agent's summary of the gate output.
 - Everything in this deck was rendered from a JSONL log by a script in the repo. No hand-drawn diagrams.
 - Every row on the scorecard is a pytest. If a real run disagrees with the slide, the build goes red.
 
@@ -726,6 +743,14 @@ teammate you are issued and then told to incinerate, the cake is the
 reward that never arrives. Both are what a multi-agent demo sells. The
 answer to "does any of this actually work?" is `make acceptance`, not a
 slide. Sources are the next slide if anyone wants a citation.
+
+If asked for the number, this is the gate on the hub branch, verbatim:
+
+  4 passed, 10 deselected in 0.01s
+  [1 caches repeats] [2 refreshes after 5s] [3 bounded memory] [4 errors not cached]
+
+Zero skipped, zero xfailed. The ten deselected are the unit tests, which
+`-m acceptance` filters out; they pass in their own run.
 -->
 
 ---
