@@ -287,9 +287,11 @@ git diff main..flat -- demo/target/pricing.py
 
 | | repeats | fresh 5s | bounded | errors |
 | --- | :-: | :-: | :-: | :-: |
-| untouched | ✗ | ✓ | ✓ | ✓ |
+| `pricing` @ main | ✗ | ✓ | ✓ | ✓ |
 | `lru_cache` | ✓ | ✗ | ✗ | ✓ |
 | TTL + bound | ✓ | ✓ | ✓ | ✓ |
+
+`demo/target/pricing.py` now caches, so the `untouched` row it used to score is red by construction: the module under test became the thing that passed. That red is the task succeeding.
 
 Same four checks are the task's definition of done:
 `make acceptance`
@@ -303,12 +305,15 @@ Same four checks are the task's definition of done:
 solo_strength_zero_coordination_cost
 solo_weakness_nobody_checks_the_work
 hub_strength_every_hop_touches_the_lead
-hub_strength_every_spawn_is_validated
+hub_strength_every_delegation_is_reported_back_and_validated
+hub_strength_later_rounds_resume_agents_with_their_context
+hub_strength_briefs_are_small
 hub_weakness_work_is_sequential
 flat_strength_everyone_starts_at_once
 flat_strength_finishes_before_hub
 flat_weakness_peers_talk_past_the_lead
-flat_weakness_coder_ships_before_researcher
+flat_weakness_more_hops_and_more_context_than_hub
+flat_weakness_coder_ships_before_researcher_answers
 edges_grow_solo_to_hub_to_flat
 ```
 
@@ -617,7 +622,7 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 - Codie runs the tests. Archie returns pass/fail per constraint. Manny only accepts evidence.
 - Without a check, "looks done" is the only signal, and **you** become the verification loop.
 - This run: the coder reported a summary line he had not produced. The gate output is not the agent's summary of the gate output.
-- Everything in this deck was rendered from a JSONL log by a script in the repo. No hand-drawn diagrams.
+- Every graph, and every number on "By the numbers", is rendered from a JSONL log by a script in this repo.
 - Every row on the scorecard is a pytest. If a real run disagrees with the slide, the build goes red.
 
 ---
