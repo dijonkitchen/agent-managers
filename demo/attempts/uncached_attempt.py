@@ -1,8 +1,10 @@
 """The starting point: no cache at all.
 
 Kept as an attempt so the scorecard still has its baseline row after
-pricing.py grew a cache. Passes constraints 2, 3 and 4 by doing nothing,
-and fails 1 for the same reason.
+pricing.py grew a cache. Numbered by `constraints.CHECKS`, it passes
+checks 2, 3 and 4 by doing nothing and fails check 1 for the same
+reason. (TASK.md numbers its constraints differently: its constraint 1
+is the 5s bound, which caching nothing satisfies trivially.)
 """
 
 import random

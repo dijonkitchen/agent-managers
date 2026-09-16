@@ -110,7 +110,12 @@ def test_failure_does_not_evict_a_good_cached_quote(upstream):
 
 
 def test_stale_quote_is_never_served_when_the_refresh_fails(upstream, monkeypatch):
-    """Constraint 1 beats availability: an expired entry is dropped, not served."""
+    """An expired entry is refused even when no fresh price can replace it.
+
+    Not a freshness-vs-availability choice: the age check refuses a stale
+    entry whether or not it was deleted, so there is no variant of this
+    cache that would have served the old price here.
+    """
     pricing.get_quote("AAPL")
     upstream.advance(pricing.TTL_SECONDS + 1)
     monkeypatch.setattr(pricing, "_upstream_quote", lambda s: (_ for _ in ()).throw(LookupError("down")))

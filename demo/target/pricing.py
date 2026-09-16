@@ -34,9 +34,11 @@ def get_quote(symbol: str) -> float:
     recently used one, so memory stays flat however many symbols are asked
     for. An upstream failure propagates and leaves nothing behind.
 
-    Not locked: two threads missing on the same symbol will both call
-    upstream. A lock would serialise every symbol behind one 0.5s fetch,
-    and no caller in this repo is threaded.
+    Not locked, and not thread-safe: `move_to_end` and `del` below both
+    raise `KeyError` if another thread evicts the symbol between the
+    `.get()` and those lines, so concurrent use crashes rather than
+    merely double-fetching. A lock would serialise every symbol behind
+    one 0.5s fetch, and no caller in this repo is threaded.
     """
     now = time.monotonic()
     cached = _cache.get(symbol)
@@ -45,11 +47,10 @@ def get_quote(symbol: str) -> float:
         if now - fetched_at < TTL_SECONDS:
             _cache.move_to_end(symbol)
             return price
-        del _cache[symbol]  # stale: never serve it, even if the refetch fails
+        del _cache[symbol]  # already refused above; drop it so it frees a slot
 
     price = _upstream_quote(symbol)  # on failure, nothing is cached
-    _cache[symbol] = (now, price)
-    _cache.move_to_end(symbol)
+    _cache[symbol] = (now, price)  # absent by now, so this appends at the end
     while len(_cache) > MAX_ENTRIES:
         _cache.popitem(last=False)
     return price
