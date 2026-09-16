@@ -6,8 +6,15 @@ the point is the design decision, not the code.
 
 import random
 import time
+from collections import OrderedDict
 
 UPSTREAM_LATENCY_SECONDS = 0.5
+TTL_SECONDS = 5.0
+MAX_ENTRIES = 128
+
+# symbol -> (fetched_at, price), ordered oldest-used first so the least
+# recently used entry is the one that gets evicted.
+_cache: "OrderedDict[str, tuple[float, float]]" = OrderedDict()
 
 
 def _upstream_quote(symbol: str) -> float:
@@ -20,5 +27,35 @@ def _upstream_quote(symbol: str) -> float:
 
 
 def get_quote(symbol: str) -> float:
-    """Return the current price for `symbol`."""
-    return _upstream_quote(symbol)
+    """Return the current price for `symbol`, from cache when it is fresh.
+
+    A cached price is served only while it is younger than `TTL_SECONDS`.
+    The cache holds at most `MAX_ENTRIES` symbols, evicting the least
+    recently used one, so memory stays flat however many symbols are asked
+    for. An upstream failure propagates and leaves nothing behind.
+    """
+    now = time.monotonic()
+    cached = _cache.get(symbol)
+    if cached is not None:
+        fetched_at, price = cached
+        if now - fetched_at < TTL_SECONDS:
+            _cache.move_to_end(symbol)
+            return price
+        del _cache[symbol]  # stale: never serve it, even if the refetch fails
+
+    price = _upstream_quote(symbol)  # on failure, nothing is cached
+    _cache[symbol] = (now, price)
+    _cache.move_to_end(symbol)
+    while len(_cache) > MAX_ENTRIES:
+        _cache.popitem(last=False)
+    return price
+
+
+def cache_size() -> int:
+    """Number of symbols currently held. Never exceeds `MAX_ENTRIES`."""
+    return len(_cache)
+
+
+def reset_cache() -> None:
+    """Drop every cached quote. For tests and for a forced refresh."""
+    _cache.clear()
