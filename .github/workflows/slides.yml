@@ -12,7 +12,10 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  # One run per branch: a new push supersedes the previous build for that ref,
+  # so back-to-back merges to main only pay for the last one, and a PR push
+  # never cancels main's build (or another PR's).
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -42,6 +45,11 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
+    concurrency:
+      # Pages takes one deployment at a time; queue rather than cancel so an
+      # in-flight deploy finishes instead of leaving the site half-published.
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
