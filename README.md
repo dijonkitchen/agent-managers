@@ -29,8 +29,19 @@ Definitions live in `.claude/agents/`.
 `demo/target/` is a tiny pricing module with a slow upstream quote
 function. The task (`demo/target/TASK.md`) is to add caching under a
 freshness and memory constraint. The reflex answer (`functools.lru_cache`)
-violates the freshness constraint, which is what makes the topologies
-diverge: Codie reaches for it first, Archie catches it.
+violates the freshness constraint, which is what the task is designed to
+bait.
+
+**The 2026-09-16 runs did not take the bait.** All three — including solo,
+with nobody to check it — shipped a TTL-bounded LRU that passes all four
+constraints, with the same `OrderedDict`, the same `TTL_SECONDS = 5.0` and
+the same `MAX_ENTRIES = 128`, a number no constraint asks for. Topology
+changed the cost by a factor of 93 in hops and 3.5 in context moved; it
+did not change the answer. That is the low-variance finding the deck cites
+from Anthropic's swarm work, showing up in the demo's own data, and it is a
+more interesting result than the divergence the task was built to produce.
+The `lru_cache` version lives in `demo/attempts/` as a scored exhibit, not
+as something a run produced.
 
 ## Running the demo
 

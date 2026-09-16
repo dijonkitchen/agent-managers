@@ -212,7 +212,7 @@ Dot, star, mesh. Same task, same prompts.
 <div class="columns">
 <div>
 
-**Codie's first attempt** (flat, minute 1)
+**The reflex** — `demo/attempts/`, not a run
 
 ```python
 from functools import lru_cache
@@ -226,10 +226,12 @@ Constraint 1: **fail**, stale forever
 Constraint 2: **fail**, unbounded
 Constraint 3: pass, by accident
 
+**No run shipped this.** All three shipped the column on the right.
+
 </div>
 <div>
 
-**What passed Archie's checklist** (hub)
+**What all three runs shipped**
 
 ```python
 TTL, MAX = 5.0, 128
@@ -251,11 +253,18 @@ def get_quote(symbol: str) -> float:
 </div>
 </div>
 
+Solo, hub and flat differ only at the margins: hub added a `threading.Lock`,
+flat added `cache_size()` and `reset_cache()`. Same design, same constants.
+
 <!--
-Both attempts live in demo/attempts/ and are scored by the tests on the
-next slide. Replace with the real diffs from the recorded runs:
-git diff main..hub -- demo/target/pricing.py
-git diff main..flat -- demo/target/pricing.py
+The left column is a hand-written exhibit in demo/attempts/, scored by the
+tests on the next slide. It is the answer the task is designed to bait, and
+it is worth showing -- but no run produced it, and the slide now says so.
+
+The right column is the shared shape of all three captured runs. Check with:
+git diff main..solo-20260916-204608 -- demo/target/pricing.py
+git diff main..hub-20260916-204627  -- demo/target/pricing.py
+git diff main..flat-20260916-204643 -- demo/target/pricing.py
 -->
 
 ---
@@ -309,18 +318,22 @@ Run against real logs when present. A red test is a finding.
 | | Solo (control) | Hub (reviewed pipeline) | Flat |
 | --- | --- | --- | --- |
 | **Agents at once** | 1 | 2, once | **3** |
-| Work time | not measurable | 3100s | **983s** |
 | Hops | **0** | 20, O(n) | 93, O(n²) |
-| Context moved | one window, all of it | **44k chars** | 155k chars |
-| Biggest single hop | — | 17.4k (cold brief) | **10.6k** |
-| Rework | one agent's first instinct | **less**: Archie first | more: Codie first |
-| Violations at ship | one reflex, unchecked | **0** | lru_cache shipped |
+| Context moved | **0** | 44k chars | 155k chars |
+| Biggest single hop | — | 17.4k (cold brief) | 10.6k |
+| Finished first | — | last | **first** |
+| **Violations at ship** | **0** | **0** | **0** |
 
-**The hub is a reviewed pipeline, not a coordinator.** Eight of Manny's nine
-follow-up delegations waited on a report; the one that did not overlapped for
-38 seconds. It reviews and contains errors — step 6 is what would change that.
+**Nobody shipped the reflex.** All three runs produced a TTL-bounded LRU that
+passes all four constraints — same `OrderedDict`, same `TTL_SECONDS = 5.0`,
+same `MAX_ENTRIES = 128`, a number no constraint asks for. Including solo,
+which had nobody to check it.
 
-Flat is no strawman: it finished the work 3x faster and lost on churn. Nor is solo.
+**So topology bought cost, not correctness, on this task.** 0 → 20 → 93 hops
+for the same answer. That is the low-variance result from step 3, measured:
+three wirings of one model converge on one design.
+
+Flat is no strawman and neither is solo — solo won.
 
 <!--
 Speaker: say this out loud. If you make flat look stupid the audience
@@ -332,8 +345,23 @@ a test asserted it. The captured run falsified both: Manny resumed
 Archie and Codie ten seconds apart and ran them together for 38
 seconds. The test now asserts what is true -- the hub's peak stays
 under flat's -- so the deck cannot quietly overclaim in either
-direction. Volunteering that correction buys more credibility than the
-tidier claim would have.
+direction.
+
+The violations row is the one to be honest about, because the captured
+runs went against this deck's original story. It predicted flat would
+ship `lru_cache` and solo would ship an unchecked reflex. Neither
+happened: all three shipped the same correct cache, down to
+MAX_ENTRIES = 128, which nothing in the task specifies. The lru_cache
+example on the code-diff slide is a hand-written exhibit in
+demo/attempts/, not something a run produced -- say so if anyone asks.
+
+If someone pushes on "then why bother with topology at all": on this
+task, don't. That is the honest answer and it is step 1. The cost
+column is the finding. Wall time is deliberately off this table --
+the three runs were captured concurrently in one sitting, so 49% of
+hub's span is two gaps waiting on the operator. "Finished first" is
+ordinal because the ordering survives that contamination and the
+margin does not.
 -->
 
 ---

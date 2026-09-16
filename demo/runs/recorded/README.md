@@ -15,6 +15,10 @@ copies of these same runs. Nothing reads this directory.
 | `hub-20260916-raw.jsonl` | `hub-20260916-204627` | 62 |
 | `flat-20260916-raw.jsonl` | `flat-20260916-204643` | 118 |
 
+All three carry a `SessionEnd`. The copy committed on the flat branch has
+116 records and no `end`, because it was snapshotted while the referee
+session was still open; these are the complete logs.
+
 ## What was changed to promote them
 
 `normalize_run.py` rewrote destinations onto the agents behind them, and
@@ -55,14 +59,26 @@ hid the fact that Manny ran two agents at once. The hook no longer writes
 them and every predicate now skips them, so the promoted logs still
 contain them and the numbers do not.
 
-**No `end` record in the flat log.** The referee session was still open at
-capture, so its session span is bounded by the last hop.
-
 **Session time is not a comparison.** All three sessions were opened
 within 36s of each other and closed within 24s, which is why their spans
-come out 4215.8s, 4200.3s and 4192.0s. That measures the sitting. `Work
-time` — first hop to last — is the row that is about the run: flat had
-every peer reported back in 983.0s against hub's 3100.3s. The solo control
-has no work time at all, because after the phantom reports are dropped it
-logs no hops; its 4215.8s session includes 395.5s before its first event
-and a 2816.9s idle tail waiting on a human.
+come out 4215.8s, 4200.3s and 4192.0s. That measures the sitting, not the
+run. `Work time` — first hop to last — is the row that is about the run.
+
+**Work time is not a clean comparison either.** Flat had every peer
+reported back in 983.0s against hub's 3100.3s, but 1505s of hub's span is
+two gaps — 967.4s and 537.4s, 49% of the total — that both sit *after* a
+report from Codie and *before* Manny's next message. Nothing was delegated
+during them, so they are not agent work; a manager agent with no file
+tools does not spend sixteen minutes composing a 4,000-char message.
+They are the shape of an operator running three sessions at once. Flat's
+largest gap is 78.6s and its five largest sum to 31% of its span, which is
+what an unattended run looks like.
+
+So flat finishing first is real — its last hop lands while hub still had
+half its hops to go — but the **3.2x margin is not measurable from this
+capture**. Capture the three runs sequentially and unattended to get a
+number worth putting on a slide.
+
+The solo control has no work time at all: after the phantom reports are
+dropped it logs no hops. Its 4215.8s session included 395.5s before its
+first event and a 2816.9s idle tail waiting on a human.
