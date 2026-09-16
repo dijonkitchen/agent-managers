@@ -35,6 +35,37 @@ def test_self_edges_are_not_hops_for_any_predicate():
     assert sc.wall_seconds(WITH_SELF_EDGES) == 60.0
 
 
+# Two agents, one after the other, then both at once.
+BUSY = [
+    {"ts": 0.0, "kind": "start", "from": "lead", "to": "lead", "chars": 0},
+    {"ts": 10.0, "kind": "spawn", "from": "lead", "to": "a", "chars": 1},
+    {"ts": 30.0, "kind": "report", "from": "a", "to": "lead", "chars": 0},   # a busy 20s
+    {"ts": 100.0, "kind": "spawn", "from": "lead", "to": "b", "chars": 1},   # lead sat 70s
+    {"ts": 110.0, "kind": "message", "from": "lead", "to": "a", "chars": 1},
+    {"ts": 130.0, "kind": "report", "from": "b", "to": "lead", "chars": 0},  # b busy 30s
+    {"ts": 140.0, "kind": "report", "from": "a", "to": "lead", "chars": 0},  # a busy 30s
+]
+
+
+def test_busy_time_excludes_the_lead_sitting_on_the_baton():
+    # Span is 130s, but 70s of it is the lead holding the work.
+    assert sc.work_seconds(BUSY) == 130.0
+    # a: 10-30 and 110-140. b: 100-130. Union = 20 + 40 = 60.
+    assert sc.busy_seconds(BUSY, lead="lead") == 60.0
+
+
+def test_agent_seconds_is_effort_and_busy_seconds_is_latency():
+    # a 20 + 30, b 30 = 80 agent-seconds compressed into 60s of wall clock.
+    assert sc.agent_seconds(BUSY, lead="lead") == 80.0
+    assert sc.parallelism(BUSY, lead="lead") == 80.0 / 60.0
+
+
+def test_a_run_with_nobody_working_is_not_parallel():
+    assert sc.busy_seconds(WITH_SELF_EDGES, lead="solo") == 0.0
+    assert sc.agent_seconds(WITH_SELF_EDGES, lead="solo") == 0.0
+    assert sc.parallelism(WITH_SELF_EDGES, lead="solo") == 0.0
+
+
 def load(name: str) -> list[dict]:
     real = ROOT / "runs" / f"{name}.jsonl"
     return read_jsonl(real if real.exists() else ROOT / "runs" / "samples" / f"{name}.jsonl")
@@ -120,13 +151,30 @@ def test_flat_strength_everyone_starts_at_once(flat):
 
 
 def test_flat_strength_finishes_before_hub(flat, hub):
-    """Measured first hop to last, not start to end.
+    """Measured on time attributable to agents, not on the session clock.
 
-    All three captured sessions were left open and closed together, so their
-    session spans are a dead heat around 4200s. By work span the captured
-    flat run had every peer reported back in 983s against hub's 3100.3s.
+    Session spans are a dead heat near 4200s: all three runs were captured in
+    one sitting and closed together. Hop spans say flat 983.0s against hub
+    3100.3s, but 1504s of hub's is two gaps where Manny held the baton and
+    nothing was delegated -- the operator, not the topology. Excluding the
+    lead entirely: flat 871.7s against hub 1360.9s, a 1.6x margin rather
+    than 3.2x, and the one this capture can actually support.
     """
-    assert sc.work_seconds(flat) < sc.work_seconds(hub)
+    assert sc.busy_seconds(flat, lead="referee") < sc.busy_seconds(hub, lead="manny")
+
+
+def test_flat_strength_is_parallelism_not_efficiency(flat, hub):
+    """Flat wins on latency while spending the same effort.
+
+    Total agent-seconds are within 12% -- hub 1399.2, flat 1233.6 -- so flat
+    is not doing less work, it is doing it at once. Hub's effort/latency
+    ratio is 1.03, which is serial; flat's is 1.42.
+    """
+    assert sc.parallelism(hub, lead="manny") < 1.1
+    assert sc.parallelism(flat, lead="referee") > 1.3
+    # Effort is comparable; latency is not.
+    effort = sc.agent_seconds(flat, lead="referee") / sc.agent_seconds(hub, lead="manny")
+    assert 0.8 < effort < 1.2
 
 
 def test_flat_weakness_peers_talk_past_the_lead(flat):

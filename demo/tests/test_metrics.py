@@ -24,6 +24,9 @@ def test_summarize_counts_by_kind_and_wall_time():
     assert s == {
         "spawns": 2, "messages": 0, "reports": 2, "total": 4,
         "chars": 100, "edges": 4, "work_seconds": 90.0, "wall_seconds": 90.0,
+        # No start record here, so nothing is the lead and manny counts too:
+        # archie 100-130, manny 130-131, codie 131-190 tile the span exactly.
+        "busy_seconds": 90.0, "agent_seconds": 90.0, "parallelism": 1.0,
     }
 
 
@@ -43,8 +46,9 @@ def test_markdown_table_has_one_column_per_run():
     lines = md.splitlines()
     assert lines[0] == "| Metric | hub | flat |"
     assert "| Messages | 0 | 3 |" in lines
-    assert "| Work time (s) | 90 | 50 |" in lines
     assert "| Session time (s) | 90 | 50 |" in lines
+    assert any(line.startswith("| Agent busy (s) |") for line in lines)
+    assert any(line.startswith("| Parallelism |") for line in lines)
 
 
 SOLO = [

@@ -321,7 +321,9 @@ Run against real logs when present. A red test is a finding.
 | Hops | **0** | 20, O(n) | 93, O(n²) |
 | Context moved | **0** | 44k chars | 155k chars |
 | Biggest single hop | — | 17.4k (cold brief) | 10.6k |
-| Finished first | — | last | **first** |
+| Agent effort | — | 1399s | **1234s** |
+| Latency (agents busy) | — | 1361s | **872s** |
+| Parallelism | — | 1.03 | **1.42** |
 | **Violations at ship** | **0** | **0** | **0** |
 
 **Nobody shipped the reflex.** All three runs produced a TTL-bounded LRU that
@@ -333,7 +335,12 @@ which had nobody to check it.
 for the same answer. That is the low-variance result from step 3, measured:
 three wirings of one model converge on one design.
 
-Flat is no strawman and neither is solo — solo won.
+**What flat did buy was latency, and only by overlapping.** Effort is within
+12% — flat is not doing less work, it is doing it at once. Hub's
+effort-to-latency ratio is 1.03, which is serial. That is the one thing a
+smarter single model cannot do for you.
+
+Flat is no strawman and neither is solo — on correctness, solo won.
 
 <!--
 Speaker: say this out loud. If you make flat look stupid the audience
@@ -357,11 +364,15 @@ demo/attempts/, not something a run produced -- say so if anyone asks.
 
 If someone pushes on "then why bother with topology at all": on this
 task, don't. That is the honest answer and it is step 1. The cost
-column is the finding. Wall time is deliberately off this table --
-the three runs were captured concurrently in one sitting, so 49% of
-hub's span is two gaps waiting on the operator. "Finished first" is
-ordinal because the ordering survives that contamination and the
-margin does not.
+column is the finding.
+
+On the timing rows, if asked how they survive the fact that all three
+runs were captured in one sitting: they exclude the lead. An agent is
+counted busy from when something is addressed to it until it answers.
+Hub's raw hop span is 3100s, but 1504s of that is two gaps where Manny
+held the baton and delegated nothing -- that is the operator, and it
+is exactly what excluding the lead drops. Session time is left on the
+metrics table as the thing not to quote.
 -->
 
 ---

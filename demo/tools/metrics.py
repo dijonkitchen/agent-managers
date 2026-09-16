@@ -7,6 +7,7 @@ Usage: metrics.py hub=RUN.jsonl flat=RUN.jsonl -o metrics.md
 import argparse
 from pathlib import Path
 
+import scenarios as sc
 from render_graph import read_jsonl
 
 ROWS = [
@@ -16,12 +17,17 @@ ROWS = [
     ("Total hops", "total"),
     ("Distinct edges", "edges"),
     ("Prompt chars sent", "chars"),
-    ("Work time (s)", "work_seconds"),
+    ("Agent busy (s)", "busy_seconds"),
+    ("Agent effort (s)", "agent_seconds"),
+    ("Parallelism", "parallelism"),
     ("Session time (s)", "wall_seconds"),
 ]
 
 
 def summarize(records: list[dict]) -> dict:
+    # The lead is whoever the session's start record is attributed to; with
+    # no start record nothing is the lead and every agent counts as busy.
+    lead = next((r["from"] for r in records if r["kind"] == "start"), None)
     kinds = {"spawn": 0, "message": 0, "report": 0}
     hop_ts = []
     for r in records:
@@ -43,6 +49,11 @@ def summarize(records: list[dict]) -> dict:
         # the run: first hop to last. A run with no hops has none.
         "work_seconds": round(max(hop_ts) - min(hop_ts), 1) if hop_ts else 0.0,
         "wall_seconds": round(max(ts) - min(ts), 1) if ts else 0.0,
+        # Busy and effort exclude the lead, so a lead that is also the
+        # interactive session cannot charge its operator's idle to the run.
+        "busy_seconds": round(sc.busy_seconds(records, lead), 1),
+        "agent_seconds": round(sc.agent_seconds(records, lead), 1),
+        "parallelism": round(sc.parallelism(records, lead), 2),
     }
 
 

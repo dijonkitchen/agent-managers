@@ -60,6 +60,62 @@ def wall_seconds(records: list[dict]) -> float:
     return max(ts) - min(ts) if ts else 0.0
 
 
+def busy_intervals(records: list[dict], lead: str) -> dict[str, list[tuple[float, float]]]:
+    """Per non-lead agent, the stretches where it owed someone a response.
+
+    An agent is busy from the moment something is addressed to it until its
+    next outgoing event. The lead is excluded on purpose: when the lead is
+    the interactive session, "the lead is thinking" and "the operator walked
+    away" are the same thing in the log, and only one of them is the run.
+    """
+    hops = sorted(hop_records(records), key=lambda r: r["ts"])
+    out: dict[str, list[tuple[float, float]]] = {}
+    for agent in agents(records) - {lead}:
+        spans, opened = [], None
+        for r in hops:
+            if r["to"] == agent and opened is None:
+                opened = r["ts"]
+            elif r["from"] == agent and opened is not None:
+                spans.append((opened, r["ts"]))
+                opened = None
+        out[agent] = spans
+    return out
+
+
+def _union(spans: list[tuple[float, float]]) -> float:
+    merged: list[list[float]] = []
+    for lo, hi in sorted(spans):
+        if merged and lo <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], hi)
+        else:
+            merged.append([lo, hi])
+    return sum(hi - lo for lo, hi in merged)
+
+
+def busy_seconds(records: list[dict], lead: str) -> float:
+    """Wall-clock time with at least one non-lead agent working.
+
+    The run's latency, with the lead's stalls excluded. Use this to compare
+    topologies; `work_seconds` still counts whatever the lead sat on.
+    """
+    return _union([s for spans in busy_intervals(records, lead).values() for s in spans])
+
+
+def agent_seconds(records: list[dict], lead: str) -> float:
+    """Total agent effort: the same intervals summed rather than unioned.
+
+    `busy_seconds` is how long the run took; this is how much work it cost.
+    Their ratio is how much parallelism the topology actually got.
+    """
+    return sum(hi - lo for spans in busy_intervals(records, lead).values() for lo, hi in spans)
+
+
+def parallelism(records: list[dict], lead: str) -> float:
+    """Effort divided by latency. 1.0 is strictly serial."""
+    busy = busy_seconds(records, lead)
+    return agent_seconds(records, lead) / busy if busy else 0.0
+
+
 def work_seconds(records: list[dict]) -> float:
     """First hop to last, ignoring self-edges.
 
