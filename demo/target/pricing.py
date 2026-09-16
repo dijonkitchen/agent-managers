@@ -6,8 +6,14 @@ the point is the design decision, not the code.
 
 import random
 import time
+from collections import OrderedDict
 
 UPSTREAM_LATENCY_SECONDS = 0.5
+TTL_SECONDS = 5.0
+MAX_ENTRIES = 128
+
+# symbol -> (fetched_at, price), ordered least- to most-recently used.
+_cache: OrderedDict[str, tuple[float, float]] = OrderedDict()
 
 
 def _upstream_quote(symbol: str) -> float:
@@ -20,5 +26,20 @@ def _upstream_quote(symbol: str) -> float:
 
 
 def get_quote(symbol: str) -> float:
-    """Return the current price for `symbol`."""
-    return _upstream_quote(symbol)
+    """Return the price for `symbol`, reusing a quote for up to TTL_SECONDS.
+
+    Upstream is slow and rate-limited, so quotes are cached. The cache is
+    capped at MAX_ENTRIES and evicts least-recently-used symbols, which
+    keeps memory flat however many distinct symbols get asked for.
+    """
+    now = time.monotonic()
+    cached = _cache.get(symbol)
+    if cached is not None and now - cached[0] < TTL_SECONDS:
+        _cache.move_to_end(symbol)
+        return cached[1]
+    price = _upstream_quote(symbol)  # raises before we store: errors are not cached
+    _cache[symbol] = (now, price)
+    _cache.move_to_end(symbol)  # plain assignment leaves an existing key in place
+    while len(_cache) > MAX_ENTRIES:
+        _cache.popitem(last=False)
+    return price
