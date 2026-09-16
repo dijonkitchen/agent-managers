@@ -58,9 +58,12 @@ replay the recording on stage instead of running live.
 
 - `demo/tests/test_scenarios.py` asserts each topology's strengths and
   weaknesses from the run logs: solo has zero coordination cost and no
-  second opinion; hub is a star with a validation loop but runs
-  sequentially; flat starts everyone at once and finishes first but
-  talks past the lead with more hops and more context.
+  second opinion; hub is a star with a validation loop that serializes
+  most of the work and pays its context once per agent; flat starts
+  everyone at once and finishes first but talks past the lead with more
+  hops and more context. The captured runs falsified two earlier claims
+  here — that the hub never ran two agents at once, and that its briefs
+  were small — so both were restated. A red test is a finding.
 - `demo/tests/test_attempts.py` scores three caching implementations
   against the four TASK.md constraints: the untouched module, Codie's
   `lru_cache` reflex in `demo/attempts/`, and the TTL-bounded cache
@@ -78,8 +81,9 @@ make pdf      # -> dist/slides.pdf
 ```
 
 `make graphs` uses captured runs from `demo/runs/` only when all three
-are present, and otherwise falls back to the tracked samples in
-`demo/runs/samples/`; the caption under the table states which it used.
+are present, and otherwise falls back to the tracked copies in
+`demo/runs/samples/` — which hold the 2026-09-16 runs, not stand-ins.
+The caption under the table states which source it used.
 Pushes to `main` deploy `dist/` to GitHub Pages via
 `.github/workflows/slides.yml`.
 
@@ -110,5 +114,7 @@ clean clone, so `make promote-runs` is what gets real data as far as Pages.
 | `demo/tools/scenarios.py` | Structural predicates over a run log |
 | `demo/tools/constraints.py` | TASK.md constraints as checks against any pricing module |
 | `demo/attempts/` | Reference caching attempts scored by the tests |
-| `demo/runs/samples/` | Synthetic solo, hub, and flat runs so the deck builds without Claude |
+| `demo/runs/samples/` | The solo, hub, and flat runs the deck builds from |
+| `demo/runs/recorded/` | The same runs unedited, with what normalizing changed |
+| `demo/tools/normalize_run.py` | Resolves a recorded destination onto the agent behind it |
 | `slides/slides.md` | The Marp deck |
