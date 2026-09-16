@@ -1,25 +1,25 @@
 """Score each caching attempt against the four constraints.
 
 This is the code-diff slide as a test: the reflex answer passes half,
-the TTL-bounded cache passes all, and the untouched module passes only
-the checks it satisfies by doing nothing.
+the TTL-bounded cache passes all, and the uncached starting point passes
+only the checks it satisfies by doing nothing.
 """
 
 import pytest
 
 import constraints as c
 import lru_attempt
-import pricing
 import ttl_attempt
+import uncached_attempt
 
 EXPECTED = {
     #                  1 repeats  2 refresh  3 bounded  4 errors
-    "uncached (pricing)": (False, True,  True,  True),
+    "uncached (starting point)": (False, True,  True,  True),
     "lru_cache (Codie, minute 1)": (True, False, False, True),
     "ttl + bounded (Archie's checklist)": (True, True, True, True),
 }
 MODULES = {
-    "uncached (pricing)": pricing,
+    "uncached (starting point)": uncached_attempt,
     "lru_cache (Codie, minute 1)": lru_attempt,
     "ttl + bounded (Archie's checklist)": ttl_attempt,
 }
