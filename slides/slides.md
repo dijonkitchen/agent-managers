@@ -33,9 +33,7 @@ style: |
 <div class="scratched">Multi-Agent Structure</div>
 <div class="scratched">Agent Optimization Science</div>
 
-# <span class="title">How to survive the AI age as a non-manager</span>
-
-## Hub-and-spoke vs flat multi-agent workflows, shown not told
+# <span class="title">How to survive the AI age as an engineer</span>
 
 <div class="byline">JC &middot; 2026-09-17</div>
 
@@ -45,7 +43,8 @@ the honest title is the one nobody would put on a conference abstract.
 Open on the demo, not on theory. The first five minutes are the run,
 the graphs, and the diff. Theory comes after they've seen it.
 
-The closing slide answers this title: you survive by becoming one.
+Do not answer the title here. The closing slide answers it, and the
+answer is that you don't stay one.
 -->
 
 ---
