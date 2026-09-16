@@ -39,7 +39,7 @@ def test_markdown_table_has_one_column_per_run():
     md = m.to_markdown({"hub": m.summarize(HUB), "flat": m.summarize(FLAT)})
     lines = md.splitlines()
     assert lines[0] == "| Metric | hub | flat |"
-    assert "| Peer messages | 0 | 3 |" in lines
+    assert "| Messages | 0 | 3 |" in lines
     assert "| Wall time (s) | 90 | 50 |" in lines
 
 
