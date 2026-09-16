@@ -418,11 +418,55 @@ Scoped per agent with `mcpServers` in the agent file.
 - **The orchestrator's value is decomposition, validation, and synthesis.** Not watching. Manny has no file tools and works better for it.
 - **Keep swarms under five.** Use them for parallelism and isolation, the two things a smarter single model cannot do. Everything else: one agent, smaller task.
 - **Catch errors early.** Archie before Codie. Better requirements and designs mean fewer bugs, less miscommunication, less churn downstream. Same as it ever was.
-- **Start from the org you already have** — but remember your agents are correlated in a way your colleagues never were.
+- **Adopt the org chart's shape, not its rationale.** Hierarchy solves human problems agents do not have: span of attention, careers, politics, accountability. The one thing that transfers is span of control as a **context** limit. And the chart evolved to coordinate people who were already diverse — your agents are the opposite.
 
 ---
 
-# 6. How long does this scaffolding last?
+# 6. So how does this scale?
+
+<div class="columns">
+<div>
+
+```text
+You
+└── Manny              single decision point
+    ├── Archie         single advisor, read-only
+    │   └── N research subagents,
+    │       one per evidence source
+    └── Codie × N      one file-partition and
+                       one worktree each
+```
+
+**Fan out at the leaves.
+Stay singular at the decision points.**
+
+Depth two. Parallelism from the N's, coordination from the single Manny, isolation from the worktrees and from Archie's missing write tools.
+
+</div>
+<div class="small">
+
+**Two nevers**
+
+- **Never a second Manny** until one cannot brief and validate the agents he already has. A layer buys context isolation and costs a lossy summary; Manny has no file tools, so he cannot check a sub-Manny's synthesis against the code.
+- **Never `Agent` on Archie.** He is read-only so he can safely ingest untrusted sources. Let him spawn, and injected content becomes a work order.
+
+**Duplicate Codies** — they do different work.
+**Differentiate researchers by evidence** — identical ones return identical answers, at N times the price.
+
+Depth is capped anyway: subagents nest three layers by default (`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`), and agent-team teammates cannot nest at all.
+
+</div>
+</div>
+
+<!--
+Speaker: the shape is the answer to "does this actually parallelize?"
+Today's hub run does not - one agent alive at a time. Two Codies is
+what turns the pipeline into coordination.
+-->
+
+---
+
+# 7. How long does this scaffolding last?
 
 <div class="columns">
 <div>
@@ -504,8 +548,9 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 3. **Structure cannot fix clones.** Same model plus same context is the same mistake, N times.
 4. **So diversify by evidence.** Minimum context per agent; untrusted sources to the agent that cannot execute.
 5. **Someone still has to decompose, validate, and synthesize.** That is judgment, and it does not automate.
-6. **The scaffolding is temporary; the judgment is not.** Delete roles as models improve.
-7. **Pick the lightest tool.** Single agent → subagents → worktrees → teams.
+6. **Scale by fanning out at the leaves.** Many Codies, many researchers, one Manny, one Archie. Add a layer only when span of control runs out.
+7. **The scaffolding is temporary; the judgment is not.** Delete roles as models improve.
+8. **Pick the lightest tool.** Single agent → subagents → worktrees → teams.
 
 ---
 
