@@ -246,25 +246,21 @@ def get_quote(symbol: str) -> float:
     with _lock:
         hit = _cache.get(symbol)
         if hit is not None and 0.0 <= now - hit[0] < TTL_SECONDS:
-            _cache.move_to_end(symbol)  # read counts as recency
+            _cache.move_to_end(symbol)
             return hit[1]
 
-    # Outside the lock and before any mutation: if this raises, nothing was
-    # ever written, so a failure is never cached.
     price = _upstream_quote(symbol)
 
     with _lock:
-        # `now` is read before the fetch, so an entry is treated as older
-        # than it is -- conservative on the freshness guarantee.
         _cache[symbol] = (now, price)
-        _cache.move_to_end(symbol)  # assigning an existing key does not reorder
+        _cache.move_to_end(symbol)
         while len(_cache) > MAX_ENTRIES:
             _cache.popitem(last=False)
 
     return price
 ```
 
-Verbatim from `1bca134`.
+Shipped code from `1bca134`; explanatory comments elided.
 
 </div>
 </div>
