@@ -3,7 +3,7 @@ marp: true
 theme: default
 paginate: true
 size: 16:9
-title: We're All Managers Now
+title: Surviving the AI Age
 description: Hub-and-spoke vs flat multi-agent workflows, shown not told
 style: |
   section { font-size: 26px; }
@@ -18,6 +18,11 @@ style: |
   .card { border: 2px solid #ddd; border-radius: 10px; padding: 0.6rem 0.9rem; }
   .card h3 { margin: 0 0 0.3rem 0; }
   .sources { font-size: 16px; }
+  .scratched { font-size: 38px; font-weight: 700; color: #b0b0b0;
+    text-decoration: line-through; text-decoration-color: #d64545;
+    text-decoration-thickness: 4px; line-height: 1.3; }
+  .byline { margin-top: 1.8rem; font-size: 24px; color: #555; }
+  section.lead h1 .title { font-size: 52px; line-height: 1.15; }
   pre { font-size: 18px; }
   table { font-size: 21px; }
   img[alt~="center"] { display: block; margin: 0 auto; }
@@ -25,13 +30,22 @@ style: |
 
 <!-- _class: lead -->
 
-# We're All Managers Now
+<div class="scratched">Multi-Agent Structure</div>
+<div class="scratched">Agent Optimization Science</div>
+
+# <span class="title">How to survive the AI age as a non-manager</span>
 
 ## Hub-and-spoke vs flat multi-agent workflows, shown not told
 
+<div class="byline">JC &middot; 2026-09-17</div>
+
 <!--
-Speaker: open on the demo, not on theory. The first five minutes are
-the run, the graphs, and the diff. Theory comes after they've seen it.
+Speaker: let the two crossed-out titles sit for a beat. The joke is that
+the honest title is the one nobody would put on a conference abstract.
+Open on the demo, not on theory. The first five minutes are the run,
+the graphs, and the diff. Theory comes after they've seen it.
+
+The closing slide answers this title: you survive by becoming one.
 -->
 
 ---
