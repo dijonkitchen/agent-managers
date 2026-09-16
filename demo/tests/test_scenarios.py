@@ -13,6 +13,27 @@ from render_graph import read_jsonl
 
 ROOT = Path(__file__).resolve().parents[1]
 
+# A log captured before the hook stopped writing the lead's own SubagentStop
+# records. Every predicate has to agree these are not coordination, or the
+# solo control reads as having hops it could not have had.
+WITH_SELF_EDGES = [
+    {"ts": 100.0, "kind": "start", "from": "solo", "to": "solo", "chars": 0},
+    {"ts": 130.0, "kind": "report", "from": "solo", "to": "solo", "chars": 0},
+    {"ts": 145.0, "kind": "report", "from": "solo", "to": "solo", "chars": 0},
+    {"ts": 160.0, "kind": "end", "from": "solo", "to": "solo", "chars": 0},
+]
+
+
+def test_self_edges_are_not_hops_for_any_predicate():
+    assert sc.hops(WITH_SELF_EDGES) == 0
+    assert sc.count(WITH_SELF_EDGES, "report") == 0
+    assert sc.distinct_edges(WITH_SELF_EDGES) == 0
+    assert sc.peer_edges(WITH_SELF_EDGES, lead="solo") == set()
+    assert sc.work_seconds(WITH_SELF_EDGES) == 0.0
+    assert sc.max_concurrent_delegations(WITH_SELF_EDGES, lead="solo") == 0
+    # The session was still open that long, which is a different question.
+    assert sc.wall_seconds(WITH_SELF_EDGES) == 60.0
+
 
 def load(name: str) -> list[dict]:
     real = ROOT / "runs" / f"{name}.jsonl"

@@ -1,14 +1,17 @@
 """Structural predicates over a run log. Used by the scenario tests.
 
-A "hop" is a spawn, message, or report. Start and end rows only bound
-the run in time.
+A "hop" is a spawn, message, or report between two distinct agents. Start
+and end rows only bound the run in time, and a self-edge is bookkeeping
+rather than coordination -- a log captured before the hook stopped writing
+them holds the lead's own SubagentStop records, which credited the solo
+control with two hops it could not have had.
 """
 
 HOP_KINDS = {"spawn", "message", "report"}
 
 
 def hop_records(records: list[dict]) -> list[dict]:
-    return [r for r in records if r["kind"] in HOP_KINDS]
+    return [r for r in records if r["kind"] in HOP_KINDS and r["from"] != r["to"]]
 
 
 def hops(records: list[dict]) -> int:
@@ -16,7 +19,8 @@ def hops(records: list[dict]) -> int:
 
 
 def count(records: list[dict], kind: str) -> int:
-    return sum(1 for r in records if r["kind"] == kind)
+    """Hops of one kind. Self-edges do not count, same as everywhere else."""
+    return sum(1 for r in hop_records(records) if r["kind"] == kind)
 
 
 def agents(records: list[dict]) -> set[str]:
@@ -38,13 +42,13 @@ def mean_chars(records: list[dict], kind: str) -> float:
 
 
 def distinct_edges(records: list[dict]) -> int:
-    return len({(r["from"], r["to"]) for r in hop_records(records) if r["from"] != r["to"]})
+    return len({(r["from"], r["to"]) for r in hop_records(records)})
 
 
 def peer_edges(records: list[dict], lead: str) -> set[tuple[str, str]]:
     """Directed edges that bypass the lead entirely."""
     return {(r["from"], r["to"]) for r in hop_records(records)
-            if lead not in (r["from"], r["to"]) and r["from"] != r["to"]}
+            if lead not in (r["from"], r["to"])}
 
 
 def is_star(records: list[dict], lead: str) -> bool:
@@ -67,7 +71,7 @@ def work_seconds(records: list[dict]) -> float:
     flat run's peers had all reported back by 983s and the referee session
     then idled for another 2000s.
     """
-    ts = [r["ts"] for r in hop_records(records) if r["from"] != r["to"]]
+    ts = [r["ts"] for r in hop_records(records)]
     return max(ts) - min(ts) if ts else 0.0
 
 
