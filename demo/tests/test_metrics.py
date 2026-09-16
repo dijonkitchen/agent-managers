@@ -54,3 +54,21 @@ def test_start_and_end_set_wall_time_but_do_not_count_as_hops():
     assert s["total"] == 0
     assert s["edges"] == 0
     assert s["wall_seconds"] == 60.0
+
+
+# A real solo run logged these: SubagentStop fired twice in a session started
+# with `--disallowedTools Agent`, so nothing could have reported to anyone.
+SOLO_WITH_PHANTOM_REPORTS = [
+    {"ts": 100.0, "kind": "start", "from": "solo", "to": "solo", "chars": 0},
+    {"ts": 130.0, "kind": "report", "from": "solo", "to": "solo", "chars": 0},
+    {"ts": 145.0, "kind": "report", "from": "solo", "to": "solo", "chars": 0},
+    {"ts": 160.0, "kind": "end", "from": "solo", "to": "solo", "chars": 0},
+]
+
+
+def test_a_report_to_self_is_not_a_hop():
+    s = m.summarize(SOLO_WITH_PHANTOM_REPORTS)
+    assert s["reports"] == 0
+    assert s["total"] == 0
+    assert s["edges"] == 0
+    assert s["wall_seconds"] == 60.0

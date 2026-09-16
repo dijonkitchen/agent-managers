@@ -23,8 +23,10 @@ ROWS = [
 def summarize(records: list[dict]) -> dict:
     kinds = {"spawn": 0, "message": 0, "report": 0}
     for r in records:
+        if r["from"] == r["to"]:
+            continue  # a self-edge is bookkeeping, not coordination
         kinds[r["kind"]] = kinds.get(r["kind"], 0) + 1
-    ts = [r["ts"] for r in records]
+    ts = [r["ts"] for r in records]  # every record, so start/end still set wall time
     hops = kinds["spawn"] + kinds["message"] + kinds["report"]
     return {
         "spawns": kinds["spawn"],

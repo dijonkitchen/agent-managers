@@ -26,6 +26,11 @@ def to_record(event: dict, lead: str, now: float) -> dict | None:
     name = event.get("hook_event_name")
 
     if name == "SubagentStop":
+        if sender == lead:
+            # No agent_type means no subagent behind the event, so there is
+            # nobody to report: a solo run disallows Agent yet still sees
+            # SubagentStop. Logging it would invent a hop.
+            return None
         return {"ts": now, "kind": "report", "from": sender, "to": lead, "chars": 0}
     if name in ("SessionStart", "SessionEnd"):
         kind = "start" if name == "SessionStart" else "end"

@@ -77,3 +77,7 @@ def test_session_start_and_end_record_self_edges_for_the_lead():
 def test_session_start_inside_named_session_uses_agent_type():
     rec = lm.to_record({"hook_event_name": "SessionStart", "agent_type": "manny"}, lead="x", now=1.0)
     assert rec["from"] == "manny"
+
+
+def test_subagent_stop_from_the_lead_itself_is_not_a_report():
+    assert lm.to_record({"hook_event_name": "SubagentStop"}, lead="solo", now=3.0) is None
