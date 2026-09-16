@@ -20,6 +20,10 @@ import time
 
 DEFAULT_LOG = "demo/runs/current.jsonl"
 
+# Names a teammate may use for the main session. It is the lead, so recording
+# the raw name would draw one session as two nodes.
+MAIN_SESSION_ALIASES = frozenset({"main"})
+
 
 def to_record(event: dict, lead: str, now: float) -> dict | None:
     sender = event.get("agent_type") or lead
@@ -41,7 +45,9 @@ def to_record(event: dict, lead: str, now: float) -> dict | None:
         return {"ts": now, "kind": "spawn", "from": sender, "to": to,
                 "chars": len(args.get("prompt", ""))}
     if tool == "SendMessage":
-        return {"ts": now, "kind": "message", "from": sender, "to": args.get("to", "?"),
+        to = args.get("to", "?")
+        return {"ts": now, "kind": "message", "from": sender,
+                "to": lead if to in MAIN_SESSION_ALIASES else to,
                 "chars": len(args.get("message", ""))}
     return None
 
