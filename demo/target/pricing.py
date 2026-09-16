@@ -33,6 +33,10 @@ def get_quote(symbol: str) -> float:
     The cache holds at most `MAX_ENTRIES` symbols, evicting the least
     recently used one, so memory stays flat however many symbols are asked
     for. An upstream failure propagates and leaves nothing behind.
+
+    Not locked: two threads missing on the same symbol will both call
+    upstream. A lock would serialise every symbol behind one 0.5s fetch,
+    and no caller in this repo is threaded.
     """
     now = time.monotonic()
     cached = _cache.get(symbol)

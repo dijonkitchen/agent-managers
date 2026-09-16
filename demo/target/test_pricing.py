@@ -16,10 +16,17 @@ def test_unknown_symbol_raises(monkeypatch):
         pricing.get_quote("NOPE")
 
 
+@pytest.fixture(autouse=True)
+def _clean_cache():
+    """The default suite never reloads the module, so state leaks between tests."""
+    pricing.reset_cache()
+    yield
+    pricing.reset_cache()
+
+
 @pytest.fixture
 def upstream(monkeypatch):
     """Replace the upstream with a call counter and freeze the clock."""
-    pricing.reset_cache()
     calls = []
     now = [1_000.0]
 
@@ -43,6 +50,14 @@ def test_repeat_calls_within_ttl_hit_upstream_once(upstream):
 def test_quote_is_refetched_once_it_exceeds_the_ttl(upstream):
     pricing.get_quote("AAPL")
     upstream.advance(pricing.TTL_SECONDS + 0.001)
+    pricing.get_quote("AAPL")
+    assert upstream.calls == ["AAPL", "AAPL"]
+
+
+def test_quote_is_refetched_at_exactly_the_ttl(upstream):
+    """Age must be strictly under the TTL: at 5.0s the quote is already too old."""
+    pricing.get_quote("AAPL")
+    upstream.advance(pricing.TTL_SECONDS)
     pricing.get_quote("AAPL")
     assert upstream.calls == ["AAPL", "AAPL"]
 
