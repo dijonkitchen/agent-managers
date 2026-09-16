@@ -11,8 +11,13 @@ same task with the same three agents, plus a single-agent control:
   Nobody has authority.
 
 The only thing that changes between the two runs is who is allowed to
-talk to whom. The deck shows three diffs: the wiring diff (tiny), the
-message graph (star vs triangle), and the resulting code diff (large).
+talk to whom.
+
+The deck itself leads with the argument — what an agent is, how to build
+one, and the three reasons (context, parallelism, specialization) to add
+a second — and carries the run as a single summary slide. The wiring
+diff, the task, the metrics, the code diff, and the tests that assert
+every claim live in backup slides after the sources.
 
 ## The cast
 
