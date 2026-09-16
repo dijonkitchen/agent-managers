@@ -93,6 +93,25 @@ def test_least_recently_used_symbol_is_evicted_first(upstream):
     assert upstream.calls == ["S1"]
 
 
+def test_a_stale_refresh_becomes_the_most_recently_used(upstream):
+    """Refreshing a stale entry must move it to the back of the eviction queue.
+
+    Pins the precondition that lets get_quote skip `move_to_end` on the
+    insert path: the stale entry is deleted first, so re-inserting appends.
+    Drop that delete and the refreshed entry keeps its old front position and
+    gets evicted while hot -- which every other test here would still allow.
+    """
+    for i in range(pricing.MAX_ENTRIES):
+        pricing.get_quote(f"S{i}")
+    upstream.advance(pricing.TTL_SECONDS)  # every entry is now stale
+    pricing.get_quote("S0")  # stale refresh: delete, then re-insert at the back
+    pricing.get_quote("NEW")  # evicts the front, which must now be S1
+    del upstream.calls[:]
+    pricing.get_quote("S0")  # still cached and fresh, so no upstream call
+    pricing.get_quote("S1")  # evicted, so this one does call
+    assert upstream.calls == ["S1"]
+
+
 def test_failed_upstream_call_is_not_cached(upstream):
     for _ in range(2):
         with pytest.raises(LookupError):
