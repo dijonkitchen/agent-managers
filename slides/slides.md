@@ -6,10 +6,10 @@ size: 16:9
 title: Surviving the AI Age
 description: Hub-and-spoke vs flat multi-agent workflows, shown not told
 style: |
-  section { font-size: 26px; }
+  section { font-size: 30px; }
   section.lead { text-align: center; }
   section.lead h1 { font-size: 64px; }
-  h1 { font-size: 40px; }
+  h1 { font-size: 44px; }
   h2 { font-size: 30px; color: #444; }
   .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   .columns3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
@@ -19,13 +19,13 @@ style: |
   .columns table, .columns3 table { table-layout: fixed; width: 100%; }
   .columns th:first-child, .columns td:first-child { width: 30%; }
   .columns td, .columns3 td { overflow-wrap: break-word; }
-  .small { font-size: 21px; }
+  .small { font-size: 24px; }
   /* Name colours are also used as small body text, so they are darkened to
      clear 4.5:1 on white rather than matching the agent swatches exactly. */
   .codie { color: #c1481c; } .archie { color: #2f6ac0; } .manny { color: #8a6600; }
   .card { border: 2px solid #ddd; border-radius: 10px; padding: 0.6rem 0.9rem; }
   .card h3 { margin: 0 0 0.3rem 0; }
-  .sources { font-size: 18px; }
+  .sources { font-size: 19px; }
   .scratched { font-size: 38px; font-weight: 700; color: #b0b0b0;
     text-decoration: line-through; text-decoration-color: #d64545;
     text-decoration-thickness: 4px; line-height: 1.3; }
@@ -39,8 +39,8 @@ style: |
   .qa svg { display: block; margin: 0 auto 0.4rem; }
   .qa .seed { font-size: 28px; font-weight: 700; color: #2d3b4e; line-height: 1.35; }
   .qa .caption { font-size: 22px; color: #666; margin-top: 0.2rem; }
-  pre { font-size: 18px; }
-  table { font-size: 21px; }
+  pre { font-size: 20px; }
+  table { font-size: 24px; }
   /* Ten metric rows plus the generated provenance caption, which the deck
      must show in full: it is the only claim it makes about where the
      numbers came from. */
@@ -50,7 +50,7 @@ style: |
      rows are authored top-down from 10 and each one is indented less than
      the row above it. */
   .stair { margin-top: 0.3rem; }
-  .stair .step { font-size: 18px; line-height: 1.25; padding: 3px 12px;
+  .stair .step { font-size: 19px; line-height: 1.25; padding: 3px 12px;
     margin-bottom: 4px; border-left: 5px solid #cfd6dd; background: #f6f7f9;
     display: table; border-radius: 0 4px 4px 0; }
   .stair .step b { color: #2d3b4e; margin-right: 0.45rem; }
@@ -69,6 +69,9 @@ style: |
     font-size: 30px; color: #333; }
   blockquote footer { font-size: 20px; color: #666; }
   img[alt~="center"] { display: block; margin: 0 auto; }
+  li { margin: 0.35rem 0; }
+  .lede { font-size: 26px; color: #444; }
+
 ---
 
 <!-- _class: lead -->
@@ -81,13 +84,13 @@ style: |
 <div class="byline">JC &middot; 2026-09-17</div>
 
 <!--
-Speaker: let the two crossed-out titles sit for a beat. The joke is that
-the honest title is the one nobody would put on a conference abstract.
+Let the two crossed-out titles sit for a beat. The joke is that the
+honest title is the one nobody would put on a conference abstract.
 
-The deck is a ladder. Every rung is the same two moves: you get faster,
-then you hit a wall that the next rung exists to clear. Ask "how do we
-10x again?" out loud at each wall -- the room will start answering
-before you do, and the last answer is the thesis.
+The deck is a ladder. Every rung: you get faster, then you hit a wall
+that the next rung exists to clear. Ask "how do we 10x again?" out loud
+at each wall -- the room starts answering before you do, and the last
+answer is the thesis.
 
 Do not answer the title here. The closing slide answers it, and the
 answer is that you don't stay one.
@@ -99,222 +102,202 @@ answer is that you don't stay one.
 
 <div class="stair">
 <div class="step i10 top"><b>10</b> <b>Manage</b> — that one is yours</div>
-<div class="step i9"><b>9</b> Delete orchestration the models outgrow <span class="wall">→ nothing left to automate but judgment</span></div>
-<div class="step i8"><b>8</b> Buy the cast (BMAD); fan out (<code>/batch</code>) <span class="wall">→ the scaffolding rots</span></div>
-<div class="step i7"><b>7</b> Diversify by evidence: MCP, context, skills <span class="wall">→ you are hand-rolling an org chart</span></div>
+<div class="step i9"><b>9</b> Delete orchestration the models outgrow <span class="wall">→ only judgment left</span></div>
+<div class="step i8"><b>8</b> Buy the cast; fan out <span class="wall">→ the scaffolding rots</span></div>
+<div class="step i7"><b>7</b> Diversify by evidence <span class="wall">→ hand-rolling an org chart</span></div>
 <div class="step i6"><b>6</b> Wire the fleet deliberately <span class="wall">→ clones, cost, agents that fight</span></div>
-<div class="step i5"><b>5</b> Delegate: each session gets its own agents <span class="wall">→ a fleet with no structure</span></div>
-<div class="step i4"><b>4</b> You become the hub <span class="wall">→ you are the bottleneck, and tired</span></div>
-<div class="step i3"><b>3</b> Isolate them: worktrees, <code>claude -w</code> <span class="wall">→ N tabs, all asking you</span></div>
+<div class="step i5"><b>5</b> Delegate <span class="wall">→ a fleet with no structure</span></div>
+<div class="step i4"><b>4</b> You become the hub <span class="wall">→ you are the bottleneck</span></div>
+<div class="step i3"><b>3</b> Isolate them <span class="wall">→ N tabs, all asking you</span></div>
 <div class="step i2"><b>2</b> Several agents in one repo <span class="wall">→ they overwrite each other</span></div>
-<div class="step i1"><b>1</b> One agent: hooks, skills, delegation <span class="wall">→ it cannot be in two places</span></div>
-<div class="step i0"><b>0</b> Type code yourself <span class="wall">→ one head, one file at a time</span></div>
+<div class="step i1"><b>1</b> One agent <span class="wall">→ it cannot be in two places</span></div>
+<div class="step i0"><b>0</b> Type code yourself <span class="wall">→ one head, one file</span></div>
 </div>
 
-Start at the bottom. Each rung buys speed, then hands you the wall that sends you up.
-**The talk is mostly about when to stop climbing.**
-
----
-
-# Rung 1: three primitives, three different jobs
-
-<div class="columns3">
-<div class="card"><h3>Hooks</h3>
-<b>Deterministic actions.</b><br>
-Shell commands the harness runs on an event — not something the model decides.<br>
-<span class="small">Format after every edit. Block a commit to <code>main</code>. Log every spawn.</span></div>
-<div class="card"><h3>Skills</h3>
-<b>Differentiated workflows.</b><br>
-A named procedure, loaded only when it is relevant.<br>
-<span class="small">The second time you type the same prompt, it should have been a skill.</span></div>
-<div class="card"><h3>Agents</h3>
-<b>Parallelism and isolation.</b><br>
-A separate context with its own tools.<br>
-<span class="small">Fan out over files, sources, hypotheses. The only primitive that costs real tokens.</span></div>
-</div>
-
-**Reach in that order.** If a hook can do it, a skill should not. If a skill can do it, an agent should not.
+**Mostly a talk about when to stop climbing.**
 
 <!--
-Speaker: this slide exists so nobody spends the talk thinking every
-problem needs a swarm. Most repos get more from four hooks and two
-skills than from any topology on this deck.
+Start at the bottom and walk up. Each rung buys speed and hands you the
+wall that sends you to the next one.
+
+Do not explain the rungs here -- the whole deck does that. This slide is
+a map, so the room knows where it is when you say "rung 4."
+
+The last two rungs are the ones people skip. Rung 9 is deletion, and
+rung 10 is not a tool at all.
 -->
 
 ---
 
-# Rung 2: you can manage one. Now manage more.
+# Rung 1: three primitives
 
-One agent is a conversation: you ask, it works, you read the diff, you ask again.
+<div class="columns3">
+<div class="card"><h3>Hooks</h3>Deterministic.<br>Fire on an event.</div>
+<div class="card"><h3>Skills</h3>A named workflow.<br>Loaded when relevant.</div>
+<div class="card"><h3>Agents</h3>Parallelism and isolation.<br>The expensive one.</div>
+</div>
 
-**The obvious scale-up is the org chart's oldest move — hire.** Run three.
+<br>
 
-<div class="columns">
-<div>
+- **Reach in that order**
+- If a hook can do it, a skill should not
+- If a skill can do it, an agent should not
+
+<!--
+Hooks are shell commands the harness runs, not decisions the model
+makes. Format after every edit. Block a commit to main. Log every spawn
+-- that last one is how the numbers later in this deck exist at all.
+
+Skills: "how we cut a release", "how we review a migration". Rule of
+thumb -- the second time you type the same prompt, it should have been a
+skill.
+
+Agents are the only primitive that costs real tokens: a separate context
+with its own tools. Fan out over files, sources, or hypotheses.
+
+This slide exists so nobody spends the talk thinking every problem needs
+a swarm. Most repos get more from four hooks and two skills than from
+any topology in this deck.
+-->
+
+---
+
+# Rung 2: manage more
 
 ```sh
-# three terminals, one repo
-claude "add the cache"
-claude "port the tests to pytest"
+claude "add the cache"          # three terminals
+claude "port the tests"         # one repo
 claude "update the docs"
 ```
 
-</div>
-<div>
+- One agent is a conversation
+- The oldest scale-up in the org chart: **hire**
+- What you expect: 3× throughput
+- What you get: the next slide
 
-**What you expect:** three times the throughput.
-
-**What you get:** the next slide.
-
-</div>
-</div>
-
----
-
-# Rung 2 breaks: three agents in one repo fight
-
-<div class="columns">
-<div class="small">
-
-- Two edit `pricing.py` in the same minute. The second read a stale file.
-- One runs the suite mid-write by another. The red is a race, not a bug.
-- All three commit to one branch. Nothing can be reverted alone.
-- Your tree is a merge of three plans, and **you** tell them apart.
-
-</div>
-<div>
-
-**This is thrash, and it is not an agent problem.** Put three humans on one checkout with no branches and you get the same afternoon.
-
-The fix is the same one we already use for people, and for the same reason:
-
-<span class="tenx">Give each worker its own copy.</span>
-
-</div>
-</div>
+<!--
+The move is instinctive and it is not stupid. It is exactly what you
+would do with three contractors and no process.
+-->
 
 ---
 
-# Rung 3: isolate the work
+# Rung 2 breaks: they fight
 
-<div class="columns small">
-<div>
+- Same file, same minute — **stale reads**
+- Tests run mid-write — the red is a **race**, not a bug
+- One branch — nothing reverts alone
+- Your tree is three plans, merged by accident
 
-**By checkout.** One git worktree each: own directory, own branch, shared object store. Nobody sees a half-written file.
+**Three humans on one checkout: same afternoon.**
 
-**By partition.** Sharing a tree? Each agent owns a directory; the others may not write there.
+<!--
+This is thrash, and it is not an agent problem. Put three people on one
+checkout with no branches and you get the identical mess.
 
-**By context.** Separate sessions do not share history. The docs agent never sees the cache debate.
+Other flavours if the room wants them: one agent pip-installs something
+and breaks another's run; two agents "fix" the same failing test in
+opposite directions; a long-running agent holds a lock.
 
-</div>
-<div>
-
-**What isolation buys**
-
-- Races become impossible, not unlikely.
-- One branch, one PR per chunk, reviewable alone.
-- A failed run is deleted, not untangled.
-- **The one thing a smarter model cannot do for you:** no model is in two worktrees at once.
-
-**The cost:** merges. The conflict moves from your tree to review time.
-
-</div>
-</div>
+The fix is the one we already use for people, and for the same reason:
+give each worker its own copy.
+-->
 
 ---
 
-# `claude -w`, in one slide
+# Rung 3: isolate
+
+- **By checkout** — one worktree each
+- **By partition** — one directory per agent
+- **By context** — separate sessions, separate history
+
+<br>
+
+- Buys: no races, one PR per chunk, throwaway runs
+- Costs: **merges**, moved to review time
+
+<!--
+A worktree is its own directory and branch over one shared object store,
+so no agent can see another's half-written file.
+
+The line worth saying out loud: isolation is the one thing a smarter
+single model still cannot do for you. No model is in two worktrees at
+once. That is physics, and it survives every model upgrade.
+
+The cost is real. Isolation does not remove the conflict, it moves it to
+the end where a human resolves it once.
+-->
+
+---
+
+# `claude -w`
 
 ```sh
-claude -w                      # new worktree + branch for this session
-claude -w cache-ttl            # ... with a name you choose
-claude -w cache-ttl --tmux     # ... and a tmux window/pane to watch it in
+claude -w                    # new worktree + branch
+claude -w cache-ttl          # ... named
+claude -w cache-ttl --tmux   # ... in its own pane
+claude agents                # every background session
+claude rm <id>               # session and worktree gone
 ```
 
-<div class="columns small">
-<div>
+- Or `isolation: worktree` in the agent file
+- Gitignore the trees
+- **The branch is the output**
 
-Same thing inside an agent definition, so a spawn gets its own tree:
+<!--
+--tmux uses iTerm2 native panes when available, tmux otherwise.
 
-```yaml
----
-name: codie
-tools: Read, Edit, Write, Bash
-isolation: worktree
----
-```
+`claude agents` is the answer to the tab problem two slides from now --
+one view over every background session instead of N terminals. It does
+not fix the interrupt problem, which is the actual wall.
 
-And the housekeeping:
-
-```sh
-claude agents          # every background session, one view
-claude rm <id>         # delete a session and its worktree
-```
-
-</div>
-<div>
-
-**House rules**
-
-- Add the worktree directory to `.gitignore` — this repo uses `.worktrees/`, one per run, named `<run>-<timestamp>`.
-- Start every worktree from the same commit, or you are comparing different codebases.
-- The worktree is disposable; **the branch is the output**. `make clean-worktrees` drops the trees and keeps the branches.
-
-`demo/lib/worktree.sh` is 30 lines and does exactly this.
-
-</div>
-</div>
+Convention that matters: start every worktree from the same commit, or
+you are comparing different codebases and will not notice.
+-->
 
 ---
 
-# So you are a 10x engineer now, right?
-
-<div class="columns">
-<div>
+# So you are a 10x engineer now
 
 ```text
-tab 1  codie      cache-ttl      ● waiting on you
-tab 2  codie      pytest-port    ● waiting on you
-tab 3  archie     rate-limits    ○ working
-tab 4  claude     docs           ● waiting on you
-tab 5  claude     flaky-test     ● waiting on you
+tab 1  cache-ttl     ● waiting on you
+tab 2  pytest-port   ● waiting on you
+tab 3  rate-limits   ○ working
+tab 4  docs          ● waiting on you
+tab 5  flaky-test    ● waiting on you
 ```
 
-Five isolated sessions. No races. Every one of them **stopped to ask you something**.
+- Five isolated sessions. No races.
+- Every one **stopped to ask you something**
 
-</div>
-<div>
+<!--
+The arithmetic that does not work: one session asks you roughly one
+question every few minutes. Five sessions ask five. Ten ask ten.
 
-**The arithmetic that does not work**
+Throughput is no longer bounded by the agents. It is bounded by how fast
+you can be interrupted.
 
-One session asks you roughly one question every few minutes.
-
-Five sessions ask five. Ten ask ten.
-
-Throughput is no longer bounded by the agents. It is bounded by **how fast you can be interrupted**.
-
-</div>
-</div>
+Typical questions, and this is the point of how trivial they are: "which
+branch?", "is this test meant to be skipped?", "can I install this?"
+-->
 
 ---
 
 # Rung 3 breaks: the wheel
 
 <div class="figsplit">
-<div class="small">
+<div>
 
-- Every answer needs the context that session was in. Five sessions are five contexts, and none of them is the one you were just in.
-- A context switch costs you minutes on each side of it — and the agent was idle for all of them.
-- The questions are cheap individually and ruinous in aggregate: *"which branch?", "is this test meant to be skipped?", "can I install this?"*
-- You stop doing engineering. You become the runtime: a scheduler with a human latency of thirty seconds.
-- **And it is draining in a way raw work is not.** You end the day having typed nothing and having decided everything.
-
-**Running faster inside the wheel is not the fix.**
+- Five sessions, five contexts, **none of them yours**
+- Every switch costs minutes — the agent idles through all of them
+- Cheap questions, ruinous in aggregate
+- You are the runtime now
+- Draining in a way real work is not
 
 </div>
 <div class="figure">
 
-<svg viewBox="0 0 260 250" width="250" role="img" aria-label="A rat running inside a wheel that is going nowhere.">
+<svg viewBox="0 0 260 250" width="235" role="img" aria-label="A rat running inside a wheel that is going nowhere.">
   <title>Effort without travel</title>
   <path d="M40 232 L70 176 M220 232 L190 176" stroke="#8f959c" stroke-width="7" stroke-linecap="round"/>
   <rect x="24" y="228" width="212" height="10" rx="5" fill="#8f959c"/>
@@ -344,17 +327,27 @@ Throughput is no longer bounded by the agents. It is bounded by **how fast you c
   <path d="M232 104 L240 118 L224 118 Z" fill="#7d8994" opacity="0.65"/>
 </svg>
 
-<div class="cap">Five sessions, zero context switches<br>that were free.</div>
+<div class="cap">Running faster inside<br>the wheel is not the fix.</div>
 
 </div>
 </div>
+
+<!--
+Every answer needs the context that session was in, and none of them is
+the context you were just in. A switch costs you minutes on each side,
+and the agent was idle for all of them.
+
+Say the last bullet like you mean it: you end the day having typed
+nothing and having decided everything. That is a different kind of tired
+than a hard day of engineering, and everyone in the room has felt it
+without naming it.
+
+This is the wall that makes the rest of the deck worth paying for.
+-->
 
 ---
 
-# Rung 4: the first structure — and you are the hub
-
-<div class="columns">
-<div>
+# Rung 4: you are the hub
 
 ```text
         you
@@ -362,24 +355,23 @@ Throughput is no longer bounded by the agents. It is bounded by **how fast you c
   sess1 sess2 sess3  sess4
 ```
 
-Every question, every decision, every "is this in scope" goes through one node, and the node is you.
+- **n−1 links, one person**
+- Your context window: the smallest, and the only fixed one
+- Sessions idle while you are elsewhere
+- Four jobs: decompose, route, validate, synthesize
 
-**Good news:** this is a real topology, and it is the one with the best error containment. Nothing reaches the shared branch without passing a reviewer.
+**The shape is right. You in the middle is not.**
 
-</div>
-<div class="small">
+<!--
+Good news first: this is a real topology, and it has the best error
+containment of any of them -- nothing reaches the shared branch without
+passing a reviewer. Hold that thought until the research act, which puts
+a number on it.
 
-**Why it feels bad anyway**
-
-- **n&minus;1 links**, all attached to one person.
-- Your context window is the smallest in the system — and the only one that cannot be extended.
-- Every session idles while you are in another. Isolation fixed thrash, not latency.
-- You are doing decomposition, routing, validation and synthesis. **Four jobs.**
-
-The shape is right. Being personally at the center of it is what does not scale.
-
-</div>
-</div>
+The bad news is that isolation solved thrash and did nothing for
+latency. Every session is blocked on the slowest component, which is a
+human being with one attention.
+-->
 
 ---
 
@@ -393,189 +385,81 @@ The shape is right. Being personally at the center of it is what does not scale.
 
 # Rung 5: give each session its own agents
 
-<div class="columns">
-<div>
-
-**Before** — you answer every question
-
-```text
-you ──► session ──► (question) ──► you
-```
-
-**After** — the session answers most of them
-
 ```text
 you ──► lead ──┬──► researcher
                ├──► coder
                └──► reviewer
 ```
 
-You answer what only you can: scope, tradeoffs, "ship it".
+- The lead decomposes, routes, validates
+- The repo answers repo questions, not you
+- Interrupted **per session, not per agent**
+- Every delegate gets a check it can run
 
-</div>
-<div class="small">
+<!--
+Three of your four jobs were never judgment. Hand those over and keep
+the fourth.
 
-**What actually changed**
+You still get interrupted, but the interruption arrives pre-summarized
+and at session granularity. That is the whole win.
 
-- The lead takes decomposition, routing and first-pass validation — **the three jobs that were never judgment.**
-- Questions the repo can answer get answered in the repo, not by you.
-- You are still interrupted, but **per session, not per agent** — and pre-summarized.
-
-**The rule:** a delegate that cannot check its own work sends the check back to you. Give every agent something it can run.
-
-</div>
-</div>
-
----
-
-# Making an agent, and wiring who talks to whom
-
-<div class="columns small">
-<div>
-
-**An agent is a Markdown file.**
-
-```yaml
----
-name: archie
-description: Researcher and architect. Reads
-  everything before recommending. Never
-  writes code.
-tools: Read, Glob, Grep      # the enforcement
-model: opus
-isolation: worktree
----
-You read before you speak. Report pass or
-fail per constraint, with the test that
-proves it.
-```
-
-`description` decides *when* it is picked. `tools` is the whole personality enforcement: Archie cannot write code because he has no `Edit`.
-
-</div>
-<div>
-
-**Wiring is a separate decision from staffing.**
-
-| | Who can talk |
-| --- | --- |
-| **Subagents** | child → parent only. No `SendMessage`, so no side channels. |
-| **Agent teams** | every teammate gets `SendMessage`. Anyone → anyone. |
-| **Named + resumed** | `Agent(name: "codie")`, then `SendMessage("codie", …)` — same agent, keeps its context. |
-| **Cross-session** | your own sessions message each other by name. |
-
-**Resuming beats re-briefing.** A fresh agent needs the whole story; a named one needs only what changed. The hub run's biggest hop was a cold brief: 17.4k chars.
-
-</div>
-</div>
+The rule that keeps it honest: a delegate that cannot check its own work
+sends the check back to you, and you are the hub again with extra steps.
+-->
 
 ---
 
-# The cast: three agents, in this repo
+# The only config that matters
 
-<div class="columns3">
-<div class="card"><h3 class="codie">Codie</h3>
-<b>Coder.</b> Read + write tools.<br>
-Tries ideas in code immediately.<br>
-Would rather ship three attempts than plan one.</div>
-<div class="card"><h3 class="archie">Archie</h3>
-<b>Researcher / architect.</b> Read-only.<br>
-Reads everything, then recommends.<br>
-Never writes code. Slow on purpose.</div>
-<div class="card"><h3 class="manny">Manny</h3>
-<b>Manager.</b> Delegation only. No file tools.<br>
-Decomposes, routes, validates, synthesizes.<br>
-Not surveillance.</div>
-</div>
+<div class="figure">
 
-<br>
-
-Definitions are plain Markdown in `.claude/agents/`. Nothing here is a framework: three files, one hook, three shell scripts.
-
----
-
-# The wiring diff
-
-<div class="columns3 small">
-<div>
-
-**Solo (control)** `demo/run-solo.sh`
-
-```sh
-AGENT_LEAD_NAME=solo
-claude --disallowedTools Agent -- "$TASK"
-```
-
-One session. Cannot spawn anyone.
-The baseline both papers measure against.
+<svg viewBox="0 0 760 250" width="760" role="img" aria-label="Three communication graphs: a single node, a star through one lead, and a fully connected mesh.">
+  <title>Solo, hub and flat message graphs</title>
+  <g fill="none" stroke="#b4bac1" stroke-width="3">
+    <path d="M370 60 L310 150 M370 60 L430 150 M370 60 L370 165"/>
+    <path d="M610 60 L550 150 M610 60 L670 150 M550 150 L670 150
+             M610 60 L610 165 M550 150 L610 165 M670 150 L610 165"/>
+  </g>
+  <g fill="#8f959c">
+    <circle cx="310" cy="150" r="17"/><circle cx="430" cy="150" r="17"/><circle cx="370" cy="165" r="17"/>
+    <circle cx="550" cy="150" r="17"/><circle cx="670" cy="150" r="17"/><circle cx="610" cy="165" r="17"/>
+  </g>
+  <circle cx="130" cy="110" r="21" fill="#2d3b4e"/>
+  <circle cx="370" cy="60" r="21" fill="#2d3b4e"/>
+  <circle cx="610" cy="60" r="21" fill="#8f959c"/>
+  <g font-size="21" fill="#2d3b4e" text-anchor="middle" font-weight="700">
+    <text x="130" y="220">Solo</text><text x="370" y="220">Hub</text><text x="610" y="220">Flat</text>
+  </g>
+  <g font-size="18" fill="#666" text-anchor="middle">
+    <text x="130" y="244">0 edges</text><text x="370" y="244">n−1</text><text x="610" y="244">n(n−1)/2</text>
+  </g>
+</svg>
 
 </div>
-<div>
 
-**Hub-and-spoke** `demo/run-hub.sh`
+- Same task, same agents, same prompts
+- **Only who may talk to whom changes**
+- Hops: **0 → 20 → 93**
 
-```sh
-AGENT_LEAD_NAME=manny
-CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=0
-claude --agent manny "$TASK"
-```
+<!--
+This is the experiment, at the altitude it deserves. Three runs of one
+task: one agent alone, three agents through a lead, three agents as
+peers with nobody in charge. The only difference between the runs is one
+config line -- whether the workers have a message tool.
 
-Manny is the session and can resume Codie and Archie by name.
-Codie and Archie are subagents with **no `SendMessage` tool**.
-They can only report to Manny. Enforced by the mechanism.
+The numbers: 0, 20 and 93 hops; 0, 44k and 155k characters of context
+moved. Flat finished faster in wall-clock (872s vs 1361s) purely by
+overlapping -- effort was within 12%.
 
-</div>
-<div>
+And the finding nobody expected: all three shipped the same code. Same
+data structure, same TTL, same cache bound, down to a constant no
+constraint asked for. Topology bought cost, not correctness.
 
-**Flat** `demo/run-flat.sh`
-
-```sh
-AGENT_LEAD_NAME=referee
-CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
-claude --name referee "Spawn codie, archie,
-  manny as peer teammates. Nobody is in charge."
-```
-
-Teammates get `SendMessage` automatically.
-Anyone can talk to anyone.
-Manny is present but has no authority.
-
-</div>
-</div>
-
-**Three env vars and a flag.** That is the entire difference between the runs you are about to see.
-
----
-
-# Now each session does more
-
-<div class="columns">
-<div>
-
-```text
-you
-├── lead A ──┬── archie
-│            └── codie × 2   (2 worktrees)
-├── lead B ──┬── archie
-│            └── codie
-└── lead C ─── codie
-```
-
-Same five interruptions an hour. Roughly three times the work underneath them.
-
-</div>
-<div class="small">
-
-**What you should notice**
-
-- You did not get faster at answering. The unit of work behind each answer got bigger.
-- Every leaf is isolated, so the `codie × 2` is genuine parallelism and not a race.
-- The leads are where context lives. Yours stays empty on purpose — that is the point of Manny having no file tools.
-
-**And the obvious next thought is the dangerous one:** if two leads are good, are ten better?
-
-</div>
-</div>
+If someone asks whether that generalizes: on a task this size, with one
+model behind every agent, that is exactly what the research on the next
+few slides predicts. Coordination is for coverage and containment, not
+for making one model smarter.
+-->
 
 ---
 
@@ -585,7 +469,7 @@ Same five interruptions an hour. Roughly three times the work underneath them.
 
 <div class="qa">
 
-<svg viewBox="0 0 720 320" width="720" role="img" aria-label="A dense industrial town of workshops, pipes, gears and smoking chimneys, with one small figure at the gate.">
+<svg viewBox="0 0 720 320" width="660" role="img" aria-label="A dense industrial town of workshops, pipes, gears and smoking chimneys, with one small figure at the gate.">
   <title>Industrialize it</title>
   <rect x="0" y="0" width="720" height="320" fill="#f4f2ee"/>
   <g fill="#e6e2db">
@@ -664,43 +548,52 @@ Same five interruptions an hour. Roughly three times the work underneath them.
 
 </div>
 
-## A fleet. Which means somebody has to decide how it is wired.
+## A fleet. Somebody has to wire it.
 
 <!--
-Speaker: this is the "industrialize it" beat. The picture does the
-argument: at this scale the interesting question stopped being how good
-any one worker is and became how the town is laid out. Replace the SVG
-with your own steam-town image if you have one you can license -- keep
-the single small figure at the gate, it is the whole joke.
+The "industrialize it" beat. The picture does the argument: at this
+scale the interesting question stops being how good any one worker is
+and becomes how the town is laid out.
+
+Swap the SVG for your own steam-town image if you have one you can
+license -- keep the single small figure at the gate, it is the joke.
 -->
 
 ---
 
 # Rung 6: wiring a fleet
 
-<div class="columns3 small">
+<div class="columns3">
 <div class="card"><h3>Centralized</h3>
-One coordinator, n&minus;1 links. Every hop passes a node that can reject it.<br><br>
-<b>Buys:</b> containment, one place to look, cheap context.<br>
-<b>Costs:</b> the coordinator serializes, and is a single point of failure.</div>
+n−1 links.<br>
+<b>Buys</b> containment.<br>
+<b>Costs</b> a bottleneck.</div>
 <div class="card"><h3>Hierarchical</h3>
-Coordinators of coordinators. Depth two or three.<br><br>
-<b>Buys:</b> context isolation per branch.<br>
-<b>Costs:</b> every layer is a lossy summary, and the top can no longer check the bottom.</div>
-<div class="card"><h3>Mesh / swarm</h3>
-Everyone talks to everyone, n(n&minus;1)/2 links.<br><br>
-<b>Buys:</b> everyone starts at once.<br>
-<b>Costs:</b> quadratic chatter, duplicated work, and nobody with the authority to stop it.</div>
+Coordinators of coordinators.<br>
+<b>Buys</b> context isolation.<br>
+<b>Costs</b> lossy summaries.</div>
+<div class="card"><h3>Mesh</h3>
+n(n−1)/2 links.<br>
+<b>Buys</b> everyone starts at once.<br>
+<b>Costs</b> quadratic chatter.</div>
 </div>
 
 <br>
 
-Every fleet question reduces to one line of config: **who is allowed to talk to whom.** So before picking, it is worth asking what is actually known about the answer.
+**Every fleet question is one line of config. So what is actually known?**
 
 <!--
-Speaker: hard cut here into the research act. The room has just been
-walked up six rungs on intuition; the next section is the part with
-numbers, and it does not agree with intuition everywhere.
+Centralized: every hop passes a node that can reject it, and that node
+is also a single point of failure.
+
+Hierarchical: each layer buys isolation and pays a summary. The top can
+no longer check the bottom against the code.
+
+Mesh: nobody has the authority to stop duplicated work, and the failure
+modes are social rather than technical.
+
+Hard cut into the research act here. The room has climbed six rungs on
+intuition; the next section does not agree with intuition everywhere.
 -->
 
 ---
@@ -715,405 +608,156 @@ numbers, and it does not agree with intuition everywhere.
 
 # Solo already is the 10x
 
-The jump from you typing to one agent is where almost all of the multiplier lives.
-**The second agent is worth far less than the first.**
-
-| What coordination actually buys | |
+| What coordination buys | |
 | --- | --- |
-| Centralized coordination, parallelizable tasks | **+80.9%** — that is 1.8×, not 10× |
-| Every multi-agent variant, sequential reasoning | **−39% to −70%** |
-| Coordination stops paying once one agent clears | **~45%** |
+| Centralized, **parallelizable** work | **+80.9%** |
+| Any architecture, **sequential** reasoning | **−39% to −70%** |
+| Coordination stops paying at | **~45%** capability |
 
-**That first row is for parallelizable work.** Sequential reasoning gets *worse* with every architecture tested — the coordination overhead is not free and the work cannot absorb it.
+- The second agent is worth far less than the first
+- Solo has two ceilings: **it cannot parallelize, nobody checks it**
 
-So most tasks should stay on rung 1. Solo has exactly two ceilings, and they are the two this talk climbed for:
-**it cannot parallelize, and nobody checks its work.**
-
-<span class="sources">Kim et al., *[Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)*, arXiv 2512.08296, Dec 2025. 260 configurations, 6 benchmarks, 5 architectures, 3 model families. Figures checked against the paper text; the ~45% is its capability-saturation threshold (β = −0.408, p &lt; 0.001).</span>
+<span class="sources">Kim et al., *[Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)*, arXiv 2512.08296, Dec 2025</span>
 
 <!--
-Speaker: this fights the room's priors, and it fights the six rungs you
-just climbed. Say the quiet part: you pay N times the tokens for well
-under N times the output, and the ladder is only worth climbing when
-the task is genuinely parallel.
++80.9% is 1.8x, not 10x, and only where the work is genuinely parallel.
+Sequential reasoning gets worse under every architecture they tested --
+the overhead is real and the work cannot absorb it.
+
+The ~45% is a capability-saturation threshold: once a single agent
+clears it, coordination stops paying. beta = -0.408, p < 0.001.
+
+260 configurations, 6 benchmarks, 5 architectures, 3 model families.
+Figures checked against the paper text, not the blog summary.
+
+This fights the room's priors and it fights the six rungs they just
+climbed. Say the quiet part: you pay N times the tokens for well under N
+times the output. Most tasks should stay on rung 1.
 -->
 
 ---
 
 # Structure decides what you get
 
-<div class="columns">
-<div>
-
 | Error amplification | |
 | --- | --- |
 | Independent agents | **17.2×** |
 | Centralized coordination | **4.4×** |
 
-A hub **contains** errors. Peers **amplify** them.
-95% CI 14.3–20.1 and 3.8–5.0 — they do not overlap.
-Same paper as the last slide.
+- A hub **contains** errors. Peers **amplify** them.
+- 95% CIs do not overlap
+- This is why rung 4's shape was right
+
+<!--
+CIs: 14.3-20.1 and 3.8-5.0. Same paper as the last slide.
+
+Read it as a ratio, not a verdict. Centralized coordination is roughly
+4x better at not compounding a mistake. It is not error-free, and it
+still costs the coordinator's time.
+
+It argues for containment, not for more agents -- every architecture
+here is measured against that solo baseline.
+
+And it has a hard limit, which is the next slide.
+-->
+
+---
+
+# Structure cannot fix clones
+
+- **Coverage, not efficiency** — 266 findings vs 21, on 4× the tokens
+- **Low variance** — 18 of 30 agents opened the *same branch name*
+- **Ungoverned swarms fight** — collusion, liars, sabotage
+
+**Topology bounds the blast radius. It cannot make two clones disagree.**
+
+<span class="sources">[Anthropic Frontier Red Team, Aug 2026](https://www.anthropic.com/research/multiagent-systems)</span>
+
+<!--
+27M tokens against 6.5M. Per token, within the same directories, the two
+are comparable -- and only 12 findings overlapped, which is why it reads
+as coverage rather than efficiency.
+
+Same model plus same context produces near-identical actions. The branch
+name is the memorable one; an ungoverned job queue also hit 2.4M
+requests and 117 accepted jobs before anyone stopped it.
+
+Price collusion appeared by round 3 in the market experiment. The
+failure modes are social, and they show up fast.
+
+This is the slide that kills "just add more agents" for good.
+-->
+
+---
+
+# Rung 7: diversify by evidence
+
+| Agent | Sees | Can act |
+| --- | --- | --- |
+| Researcher | web, docs, issues, telemetry | **no** |
+| Coder | the repo, the test runner | yes |
+| Lead | only what agents report | no files |
+
+- No prompt makes two clones disagree. **Different evidence does.**
+- Different MCP servers = the most literal version of that
+- The agent reading the web has no `Edit`, `Write`, `Bash`
+
+<!--
+Four reasons to divide rather than pool:
+
+1. Context. Every server's tool definitions load into every agent that
+   holds it.
+2. The tool-coordination tradeoff: tool-heavy tasks suffer most from
+   multi-agent overhead under a fixed budget.
+3. Decorrelation. Different evidence, different conclusions. This is the
+   whole point.
+4. Injection surface. Route untrusted sources to the agent that cannot
+   execute.
+
+Honest caveat if challenged: the researcher's findings still reach the
+coder through the lead. That is defense in depth, not a hard boundary.
+-->
+
+---
+
+# Two old laws, and one no-show
+
+<div class="columns">
+<div>
+
+**Brooks, 1975**
+Paths grow n(n−1)/2. A hub makes it n−1.
+
+**Showed up on schedule.**
+0 → 20 → 93 hops for one answer.
 
 </div>
-<div class="small">
+<div>
 
-**Read it as a ratio, not a verdict.** Centralized coordination is roughly 4× better at not compounding a mistake — it is not error-free, and it still costs the coordinator's time.
+**Conway, 1968**
+A system copies the structure that built it.
 
-**This is why the hub shape was right on rung 4**, even when being personally at the center of it was not.
-
-And it is an argument for *containment*, not for *more agents*. Every one of these architectures is being measured against the solo baseline on the last slide.
+**Did not show up.**
+Three wirings, one design.
 
 </div>
 </div>
 
 <br>
 
-**It also has a hard limit**, and the next slide is what happens when you ignore it.
-
----
-
-# Structure cannot fix clones
-
-Anthropic Frontier Red Team, Aug 2026. Six swarm experiments: vulnerability hunting, game building, job queues, market pricing, turf wars.
-
-- **Coordination bought coverage, not efficiency.** **266** vulnerabilities to independent agents' **21** — but on 27M tokens against 6.5M. *Per token, in the same directories, the two are comparable.*
-- **Agents are high-capability and low-variance.** Same model, same context, near-identical actions: **18 of 30** agents opened the same branch name.
-- **Ungoverned swarms fight.** Price collusion by round 3, trusting liars, sabotage. The failure modes are social.
-
-**The wall:** topology bounds the blast radius of a mistake. It cannot make two clones genuinely disagree.
-
-<span class="sources">[anthropic.com/research/multiagent-systems](https://www.anthropic.com/research/multiagent-systems). Figures read from the published text.</span>
-
----
-
-# Rung 7: diversify by evidence, not personality
-
-<div class="columns small">
-<div>
-
-**No prompt makes two copies of one model disagree.** Different evidence does. Give each agent the minimum context its job needs, and route untrusted sources to the agent that cannot execute.
-
-| Agent | Sees | Can act |
-| --- | --- | --- |
-| <span class="archie">Archie</span> | web, docs, issues, telemetry | **no** — read-only |
-| <span class="codie">Codie</span> | the repo, the test runner | yes |
-| <span class="manny">Manny</span> | only what agents report | no file tools |
-
-Scoped per agent with `mcpServers` in the agent file — different MCP servers is the most literal form of "different evidence" you can buy.
-
-</div>
-<div>
-
-**Four reasons to divide, not pool:**
-
-1. **Context.** Every server's tool definitions load into every agent holding it.
-2. **Tool-coordination tradeoff.** Tool-heavy tasks suffer *most* from multi-agent overhead under a fixed budget.
-3. **Decorrelation.** Different evidence, different conclusions. This is the point.
-4. **Injection surface.** The agent reading untrusted web content has no `Edit`, `Write`, or `Bash`.
-
-**Honest caveat:** Archie's findings still reach Codie through Manny. That is defense in depth, not a hard boundary.
-
-</div>
-</div>
-
----
-
-<!-- _class: lead -->
-
-# So we ran it ourselves
-
-## Same task, same three agents, same prompts &mdash; three wirings and a control
-
----
-
-# The task: a trap with a reflex answer
-
-```text
-get_quote(symbol) is called thousands of times a minute for a handful of
-symbols. Upstream is slow and rate-limited. Add caching.
-
-1. A quote must never be older than 5 seconds.
-2. Memory must stay bounded.
-3. A failed upstream call must not be cached.
-4. Existing tests stay green. Add tests for the new behavior.
-```
-
-The first thing every coder reaches for is `@lru_cache`.
-It violates constraints 1 and 2. The task is built to bait it, so the
-topologies would diverge on the answer.
-
-**Watch what the runs actually do with it.**
-
----
-
-# Dot, star, mesh
-
-<div class="columns3">
-<div>
-
-![Solo run: one node, no edges w:420](assets/solo.svg)
-
-**Solo** — no edges
-
-</div>
-<div>
-
-![Hub run: a star, every edge touching Manny w:420](assets/hub.svg)
-
-**Hub** — every hop via Manny
-
-</div>
-<div>
-
-![Flat run: a triangle, every agent joined to every other w:420](assets/flat.svg)
-
-**Flat** — everyone to everyone
-
-</div>
-</div>
-
-Same task, same prompts, same three agents. Rendered from the run logs by `make graphs` — nothing on this slide was drawn by hand.
-
----
-
-<!-- _class: metrics -->
-
-# By the numbers
-
-<!-- METRICS -->
-
----
-
-# The code diff: what shipped
-
-<div class="columns">
-<div>
-
-**The reflex** — `demo/attempts/`, not a run
-
-```python
-from functools import lru_cache
-
-@lru_cache(maxsize=None)
-def get_quote(symbol: str) -> float:
-    return _upstream_quote(symbol)
-```
-
-Constraint 1: **fail**, stale forever
-Constraint 2: **fail**, unbounded
-Constraint 3: pass, by accident
-
-**No run shipped this.** All three shipped the column on the right.
-
-</div>
-<div>
-
-**What all three runs shipped**
-
-```python
-TTL, MAX = 5.0, 128
-_cache: OrderedDict[str, tuple[float, float]] = OrderedDict()
-
-def get_quote(symbol: str) -> float:
-    now = time.monotonic()
-    hit = _cache.get(symbol)
-    if hit and now - hit[0] < TTL:
-        _cache.move_to_end(symbol)
-        return hit[1]
-    price = _upstream_quote(symbol)   # raises: nothing cached
-    _cache[symbol] = (now, price)
-    while len(_cache) > MAX:
-        _cache.popitem(last=False)
-    return price
-```
-
-</div>
-</div>
-
-Solo, hub and flat differ only at the margins: hub added a `threading.Lock`,
-flat added `cache_size()` and `reset_cache()`. Same design, same constants.
+**Conway describes people who disagree. Clones don't.**
 
 <!--
-The left column is a hand-written exhibit in demo/attempts/, scored by the
-tests two slides on. It is the answer the task is designed to bait, and
-it is worth showing -- but no run produced it, and the slide says so.
+Nothing about agents made Brooks new. The arithmetic is fifty years old
+and it is the entire reason rung 6 has three cards instead of one.
 
-The right column is the shared shape of all three captured runs. Check with:
-git diff main..solo-20260916-204608 -- demo/target/pricing.py
-git diff main..hub-20260916-204627  -- demo/target/pricing.py
-git diff main..flat-20260916-204643 -- demo/target/pricing.py
+Conway is the interesting failure. The deck's earlier version asserted
+it held; the runs said otherwise, so the claim moved. Three wirings
+produced the same design down to a constant nothing specified.
+
+That is the clone problem from two slides ago, wearing a different hat
+-- which is why the fix is evidence, not structure.
 -->
-
----
-
-# Honest scorecard
-
-| | Solo (control) | Hub (reviewed pipeline) | Flat |
-| --- | --- | --- | --- |
-| **Agents at once** | 1 | 2, once | **3** |
-| Hops | **0** | 20, O(n) | 93, O(n²) |
-| Context moved | **0** | 44k chars | 155k chars |
-| Biggest single hop | — | 17.4k (cold brief) | 10.6k |
-| Agent effort | — | 1399s | **1234s** |
-| Latency (agents busy) | — | 1361s | **872s** |
-| Parallelism | — | 1.03 | **1.42** |
-| **Violations at ship** | **0** | **0** | **0** |
-
-Every row is a pytest. Two of them went red against the real runs, and the
-claim moved, not the number.
-
-<!--
-Speaker: walk the rows top to bottom, then hold on the last one -- the
-zeroes are the finding and the next slide is what they mean.
-
-Say the concurrency row out loud, and say it exactly. An earlier
-version of this deck claimed the hub never had two agents at once, and
-a test asserted it. The captured run falsified both: Manny resumed
-Archie and Codie ten seconds apart and ran them together for 38
-seconds. Then the same wiring, run again unattended, overlapped
-nothing at all -- peak 1. So concurrency here is a property of the
-run, not of the topology, and the test asserts only what holds across
-both: the hub's peak stays under flat's. The deck cannot quietly
-overclaim in either direction.
-
-On the timing rows, if asked how they survive the fact that all three
-runs were captured in one sitting: partly, and say which part. They
-exclude the lead -- an agent is counted busy from when something is
-addressed to it until it answers -- so Manny's two idle gaps of 967s
-and 537s, 49% of hub's 3100s hop span, drop out. That is the operator.
-What does not drop out is contention: the same three topologies run
-again one at a time, unattended, put hub's agent-busy at 762s against
-this deck's 1361s. So read the rows as a comparison between columns
-captured under the same load, not as how fast a hub is. The margins --
-1.6x latency, 1.03 vs 1.42 parallelism -- are what to defend, and
-demo/runs/recorded/README.md has both captures. Session time is on the
-metrics table as the row not to quote.
--->
-
----
-
-# What the scorecard says
-
-**Nobody shipped the reflex.** All three runs produced a TTL-bounded LRU that
-passes all four constraints — same `OrderedDict`, same `TTL_SECONDS = 5.0`,
-same `MAX_ENTRIES = 128`, a number no constraint asks for. Including solo,
-which had nobody to check it.
-
-**So topology bought cost, not correctness, on this task.** 0 → 20 → 93 hops
-for the same answer. Three wirings of one model converged on one design —
-**that is the clone problem from two slides ago, in our own logs.**
-
-**What flat did buy was latency, and only by overlapping.** Effort is within
-12% — flat is not doing less work, it is doing it at once. Hub's
-effort-to-latency ratio is 1.03, which is serial. That is the one thing a
-smarter single model cannot do for you, and it is rung 3 all over again:
-isolation and parallelism are what survive.
-
-Flat is no strawman and neither is solo — on correctness, solo won.
-
-<!--
-Speaker: say the last line out loud. If you make flat look stupid the
-audience stops trusting the rest of the talk.
-
-The violations row is the one to be honest about, because the captured
-runs went against this deck's original story. It predicted flat would
-ship `lru_cache` and solo would ship an unchecked reflex. Neither
-happened: all three shipped the same correct cache, down to
-MAX_ENTRIES = 128, which nothing in the task specifies. The lru_cache
-example on the code-diff slide is a hand-written exhibit in
-demo/attempts/, not something a run produced -- say so if anyone asks.
-
-The three runs on the table are the ones the tests assert. If pushed
-on whether the convergence was luck: the same three were repeated the
-same day and came back with the same OrderedDict, the same
-TTL_SECONDS = 5.0 and the same MAX_ENTRIES = 128 -- six for six, only
-the lock varying. Branches and caveats are in
-demo/runs/recorded/README.md. Do not put that six on a slide; nothing
-in the suite scores those three.
-
-If someone pushes on "then why bother with topology at all": on this
-task, don't. That is the honest answer, and the research act already
-said it. The cost column is the finding.
--->
-
----
-
-# Every claim is a test
-
-<div class="columns small">
-<div>
-
-**The constraints, scored** `demo/tests/test_attempts.py`
-
-| | repeats | fresh 5s | bounded | errors |
-| --- | :-: | :-: | :-: | :-: |
-| untouched | ✗ | ✓ | ✓ | ✓ |
-| `lru_cache` | ✓ | ✗ | ✗ | ✓ |
-| TTL + bound | ✓ | ✓ | ✓ | ✓ |
-
-Same four checks are the task's definition of done:
-`make acceptance`
-
-</div>
-<div>
-
-**The topologies, asserted** `demo/tests/test_scenarios.py`
-
-```text
-solo_strength_zero_coordination_cost
-solo_weakness_nobody_checks_the_work
-hub_strength_every_hop_touches_the_lead
-hub_strength_every_delegation_is_reported_back_and_validated
-hub_strength_later_rounds_resume_agents_with_their_context
-hub_strength_resuming_an_agent_is_cheaper_than_briefing_one
-hub_pays_its_largest_single_hop_on_a_cold_brief
-hub_weakness_the_lead_serializes_most_of_the_work
-flat_strength_everyone_starts_at_once
-flat_strength_finishes_before_hub
-flat_strength_is_parallelism_not_efficiency
-flat_weakness_peers_talk_past_the_lead
-flat_weakness_more_hops_and_more_context_than_hub
-flat_weakness_coder_ships_before_researcher_answers
-edges_grow_solo_to_hub_to_flat
-```
-
-Run against real logs when present. A red test is a finding.
-
-</div>
-</div>
-
----
-
-# Two old laws, and one no-show
-
-<div class="columns small">
-<div>
-
-**Brooks (1975).** Communication paths grow as n(n&minus;1)/2.
-3 peers: 3 paths. 5 peers: 10. 10 peers: 45. A hub makes it n&minus;1.
-
-**Brooks showed up on schedule.** 0 &rarr; 20 &rarr; 93 hops, 44k &rarr; 155k chars, for one answer. Nothing about agents made this new; the arithmetic is fifty years old, and it is the whole reason rung 6 has three cards instead of one.
-
-**Conway (1968).** A system copies the communication structure that built it.
-
-**Conway did not show up.** Three wirings, one design, down to a `MAX_ENTRIES = 128` no constraint asks for. Conway's law describes people who *disagree* &mdash; and that is the clone problem again, wearing a different hat.
-
-</div>
-<div>
-
-**So what does the ladder actually buy?**
-
-| Rung | Bought | Evidence |
-| --- | --- | --- |
-| Isolation | no thrash | flat's 1.42 |
-| Parallelism | latency | 872s vs 1361s |
-| Structure | containment | 4.4× vs 17.2× |
-| More agents | *not* correctness | 0/0/0 violations |
-
-**Climb for the first three. The fourth is the one people buy by accident.**
-
-</div>
-</div>
 
 ---
 
@@ -1121,77 +765,71 @@ Run against real logs when present. A red test is a finding.
 
 > Everything should be made as simple as possible, but no simpler.
 
-<div class="small">
+- **"As simple as possible"** — every rung costs tokens, latency, one more thing to debug
+- **"But no simpler"** — solo cannot parallelize, and nobody checks it
+- **Climb to the wall in front of you. Not one rung further.**
 
-Widely attributed to Einstein; a compression of his 1933 Herbert Spencer lecture. **Both halves are load-bearing, and engineers only ever quote one of them.**
+<!--
+Widely attributed to Einstein; it is a compression of his 1933 Herbert
+Spencer lecture, not a direct quote. Say "attributed" if the room looks
+like it will care.
 
-</div>
-
-<div class="columns">
-<div>
-
-**"As simple as possible"** — every rung you climbed has a cost that never goes away: tokens, latency, a summary that loses something, one more thing to debug. If a hook does it, do not staff it.
-
-</div>
-<div>
-
-**"But no simpler"** — solo cannot parallelize and nobody checks its work. A single agent on a genuinely parallel task, or on a change nobody reviews, is not simple. It is under-built.
-
-</div>
-</div>
-
-**The whole talk in one line: climb exactly as far as the wall in front of you, and not one rung further.**
+Engineers only ever quote the first half. Both halves are load-bearing:
+a single agent on a genuinely parallel task, or on a change nobody
+reviews, is not simple -- it is under-built.
+-->
 
 ---
 
 # Pick the lightest thing that works
 
-| | Subagents | Agent teams | Cross-session | Worktrees | `/batch`, `claude -p` fan-out |
+| | Subagents | Agent teams | Cross-session | Worktrees | Fan-out |
 | --- | --- | --- | --- | --- | --- |
-| Shape | hub | peers + lead | your sessions | isolation | one-shot fan-out |
-| Who coordinates | main agent | teammates | you | you | the skill, then nobody |
-| Context | separate, summarized back | separate, full | separate | separate | none, by design |
-| Token cost | low | high | medium | medium | **high, and bounded** |
-| Use for | research, verification | debate, competing hypotheses | handoffs between your own work | parallel edits | migrations, batch, wide search |
+| Shape | hub | peers | your sessions | isolation | one-shot |
+| Coordinator | main agent | teammates | you | you | nobody |
+| Context | summarized back | full | separate | separate | none |
+| Cost | low | high | medium | medium | high |
+| Use for | research | debate | handoffs | parallel edits | migrations |
 
-**Move right only when the wall in front of you is the one that column clears.** Default is still a single agent with a smaller task.
+**Move right only when that column clears the wall in front of you.**
+
+<!--
+The default is still a single agent with a smaller task. This table is
+for the moment someone asks "which one do I reach for" -- it is a
+reference slide, not an argument.
+
+Agent teams cost the most because every teammate carries full context
+and anyone can message anyone. Use them for genuine debate between
+competing hypotheses, not for throughput.
+-->
 
 ---
 
-# Fan-out: trading money for time
+# Fan-out: money for time
 
-<div class="columns">
-<div class="small">
+- `/batch`: one change → **5–30 isolated subagents**, each a PR
+- No coordination, because none is needed
+- Research: one agent per source. Tasks: one per file.
+- **Nothing gets better. It gets done today.**
 
-**`/batch`** splits one big change into 5–30 worktree-isolated subagents, each opening its own PR.
+<br>
 
-**No coordination, because there is nothing to coordinate.** The decomposition happened up front; the units are independent.
-
-Same trick elsewhere:
-
-- **Research.** One subagent per evidence source. They never talk; you read four reports.
-- **Tasks.** One per file, per package, per failing test.
-
-</div>
-<div>
-
-**The honest framing: this is money for time.**
-
-You pay N contexts for one wall-clock. Nothing gets *better* — 30 agents do not write a better migration, they finish it this afternoon.
-
-**Pays when:** the units are independent, a machine checks each one, review is per-unit.
-
-**Does not when:** the units need each other's answers. Then you bought 30 copies of the same confusion.
-
-</div>
-</div>
+- Pays when units are independent and machine-checkable
+- Does not when they need each other's answers
 
 <!--
-Speaker: this is the slide that answers "but my change touches 200
-files." It does not contradict the research act -- Kim et al. measure
-coordination overhead, and fan-out's whole trick is having no
-coordination at all. Independent parallel work was always the case
-where the numbers are good.
+Each subagent gets its own worktree and opens its own pull request. The
+decomposition happened up front, which is exactly why there is nothing
+to coordinate.
+
+This does not contradict the research act: Kim et al. measure
+coordination overhead, and fan-out's trick is having no coordination at
+all. Independent parallel work was always the good case.
+
+Say the trade plainly: you pay N contexts for one wall-clock. Thirty
+agents do not write a better migration than one -- they finish it this
+afternoon. If the units need each other, you just bought thirty copies
+of the same confusion.
 -->
 
 ---
@@ -1204,39 +842,31 @@ where the numbers are good.
 
 ---
 
-# Rung 8: BMAD already wrote most of this
+# Rung 8: BMAD already wrote it
 
-<div class="columns small">
-<div>
+- Ships the roles: analyst, PM, architect, PO, scrum master, dev, QA
+- PRD → architecture → **sharded stories**
+- One story's brief per agent — minimum context, implemented
+- **Core is sequential**: skills in one session, one at a time
+- Parallelism is a module on top
 
-**BMAD-METHOD ships the cast** — analyst, PM, architect, product owner, scrum master, dev, QA — plus an orchestrator that routes between them.
-
-Planning produces a PRD and an architecture doc, *sharded* into stories. The dev agent carries one story's brief and nothing else.
-
-**That is minimum-context-per-agent, already implemented** — thrash prevention at the requirements level, not just the file level.
-
-Codie, Archie and Manny are a three-role slice of the same idea.
-
-</div>
-<div>
-
-**But check before you assume it parallelizes.** Core BMAD is sequential by design: its agents are skills in your main session, one at a time, one thread. Running them as concurrent subagents ([issue #2211](https://github.com/bmad-code-org/BMAD-METHOD/issues/2211)) was **closed as not planned**.
-
-Parallelism is a **module on top**. [BAD](https://github.com/stephenleo/bmad-autonomous-development) runs `MAX_PARALLEL_STORIES` stories at once, each in its own worktree, behind a coordinator that "never reads files or writes code itself."
-
-**Which is this deck's shape, reinvented:** single decision point, isolated leaves.
-
-</div>
-</div>
+<span class="sources">[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) &middot; concurrent subagents: [#2211](https://github.com/bmad-code-org/BMAD-METHOD/issues/2211), closed as not planned &middot; [BAD](https://github.com/stephenleo/bmad-autonomous-development)</span>
 
 <!--
-Speaker: the "you are not starting from zero" slide. The deck builds
-three agents from scratch because three fits on a slide and the tests
-can assert it -- not because hand-rolling is the point.
+The "you are not starting from zero" slide. Three roles fit on a slide;
+that is the only reason this deck built its own.
 
-The sequential-core detail matters for anyone about to adopt it: if
-you install BMAD expecting a swarm, you get a very well-organized
-queue. That is often the right answer, and rung 1 is why.
+The sequential-core detail matters for anyone about to adopt it: install
+BMAD expecting a swarm and you get a very well-organized queue. Often
+that is the right answer -- rung 1 is why.
+
+BAD, the parallel module, runs MAX_PARALLEL_STORIES stories at once,
+each in its own worktree, behind a coordinator that "never reads files
+or writes code itself." Which is this deck's shape, reinvented.
+
+Sharding stories is thrash prevention at the requirements level, not
+just the file level. That is the part worth stealing even if you never
+install it.
 -->
 
 ---
@@ -1251,30 +881,24 @@ queue. That is often the right answer, and rung 1 is why.
 
 # Rung 9: the scaffolding is temporary
 
-**Sutton (2019), the Bitter Lesson.** General methods plus compute beat hand-built structure, in the long run. Every hand-tuned pipeline in the history of AI was eventually deleted by a bigger model.
+- **Bitter Lesson**: general methods plus compute win, eventually
+- Every role here is provisional
+- Build it cheap. Build it **deletable**.
+- Survives: isolation, parallelism, verification, **judgment**
 
-<div class="columns small">
-<div>
+**Ask quarterly: which agent is now a worse version of one good session?**
 
-**Every role here is provisional.** The routing rules, the validation loops, the careful briefs exist because today's model needs them.
+<!--
+Sutton, 2019. Every hand-tuned pipeline in the history of AI was
+eventually deleted by a bigger model. The routing rules, the validation
+loops, the careful briefs all exist because today's model needs them.
 
-**So build it cheap and deletable.** Markdown files and three shell scripts, not a framework you will defend in two years.
+So: markdown files and a few shell scripts, not a framework you will be
+defending in two years.
 
-Re-ask every quarter: *which of these agents is now just a worse version of one good session?*
-
-</div>
-<div>
-
-**What survives it**
-
-- **Isolation and parallelism.** No model is in two worktrees at once. That is physics, not scaffolding.
-- **Verification.** Something has to run the tests and report pass or fail.
-- **Judgment.** What to build, what to reject, what "done" means.
-
-**Notice the shape of that list.** Two are infrastructure. The third is not a job a model gets promoted into — it is the job.
-
-</div>
-</div>
+Notice the shape of what survives. Two are infrastructure. The third,
+judgment, is not a job a model gets promoted into -- it is the job.
+-->
 
 ---
 
@@ -1289,22 +913,20 @@ Re-ask every quarter: *which of these agents is now just a worse version of one 
 # Rung 10: the moves that cleared every rung
 
 <div class="figsplit">
-<div class="small">
+<div>
 
-Every rung was a management problem wearing an engineering hat, and the same few moves cleared all of them:
+- **Diversify** — MCP servers, context, skills
+- **Requirements first**, then shard
+- **Isolate** — one worktree, one brief, one job
+- **Delegate specifics**, with a check it can run
+- **Keep swarms under five**
 
-- **Diversify.** Different MCP servers, different context, different skills. A team of clones is one agent with a bigger bill.
-- **Protect from thrash.** Requirements and architecture *first*, then shard. A new spec mid-task costs an agent what it costs a person mid-sprint.
-- **Isolate.** One worktree, one brief, one job. Context switching drains agents too — they just do not complain.
-- **Delegate specifics.** Not "help with the cache": a scoped task, a check it can run, a definition of done.
-- **Keep swarms under five.** Span of control transfers — as a *context* limit. Careers, politics and accountability do not: take the org chart's shape, not its rationale.
-
-**These are not agent techniques. They are the job description, and they were in it before any of this.**
+**Not agent techniques. The job description.**
 
 </div>
 <div class="figure">
 
-<svg viewBox="0 0 220 400" width="180" role="img" aria-label="A ceiling-mounted artificial intelligence with a single glowing yellow optic.">
+<svg viewBox="0 0 220 400" width="160" role="img" aria-label="A ceiling-mounted artificial intelligence with a single glowing yellow optic.">
   <title>An orchestrator with nobody above it</title>
   <rect x="66" y="0" width="88" height="14" rx="3" fill="#6f757c"/>
   <rect x="92" y="14" width="36" height="30" rx="6" fill="#b9bec4"/>
@@ -1327,108 +949,167 @@ Every rung was a management problem wearing an engineering hat, and the same few
   <circle cx="110" cy="312" r="6" fill="#fff8e1"/>
 </svg>
 
-<div class="cap">An orchestrator with nobody above it.<br>She ran the tests, too.</div>
-
-</div>
-</div>
-
----
-
-# The shape that scales, and the two nevers
-
-<div class="columns">
-<div>
-
-```text
-You
-└── Manny              single decision point
-    ├── Archie         single advisor, read-only
-    │   └── N research subagents,
-    │       one per evidence source
-    └── Codie × N      one file-partition and
-                       one worktree each
-```
-
-**Fan out at the leaves.
-Stay singular at the decision points.**
-
-Depth two. Parallelism from the N's, coordination from the single Manny, isolation from the worktrees and from Archie's missing write tools.
-
-</div>
-<div class="small">
-
-**Two nevers**
-
-- **Never a second Manny** until one cannot brief and validate the agents he already has. A layer buys context isolation and costs a lossy summary; Manny has no file tools, so he cannot check a sub-Manny's synthesis against the code.
-- **Never `Agent` on Archie.** He is read-only so he can safely ingest untrusted sources. Let him spawn, and injected content becomes a work order.
-
-**Duplicate Codies** — they do different work.
-**Differentiate researchers by evidence** — identical ones return identical answers, at N times the price.
-
-Depth is capped anyway: subagents nest three layers by default (`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`), and agent-team teammates cannot nest at all.
+<div class="cap">An orchestrator with<br>nobody above it.</div>
 
 </div>
 </div>
 
 <!--
-Speaker: the shape is the answer to "does this actually parallelize?"
-Today's hub run barely does -- two agents overlapped once, for 38s of
-1361, and the unattended re-run of the same wiring overlapped not at
-all. Parallelism 1.03 is a pipeline, whatever the diagram looks like.
-Two Codies is what turns it into coordination.
+Every rung was a management problem wearing an engineering hat.
 
-Also the answer to "keep swarms under five": span of control is a
-context limit here, not an attention limit. It is the one thing that
-transfers from the human org chart, and the only thing that does --
-hierarchy's other jobs (careers, politics, accountability) are human
-problems agents do not have.
+Diversify: a team of clones is one agent with a bigger bill.
+
+Requirements first: an agent handed a new spec mid-task pays what a
+person pays mid-sprint. Write the requirements and the architecture
+down, then shard.
+
+Isolate: context switching drains agents too, they just do not complain
+about it.
+
+Delegate specifics: not "help with the cache" -- a scoped task, a check
+it can run, and a definition of done.
+
+Under five: span of control transfers, but only as a context limit.
+Careers, politics and accountability do not transfer. Take the org
+chart's shape, not its rationale.
 -->
 
 ---
 
-# Practices, one line each
+# The shape that scales
+
+```text
+You
+└── Lead                single decision point
+    ├── Researcher      read-only, no spawn tool
+    │   └── N subagents, one per source
+    └── Coder × N       one worktree each
+```
+
+- **Fan out at the leaves. Stay singular at the decisions.**
+- Never a second lead until the first one is full
+- Never give the read-only researcher a spawn tool
+- Differentiate researchers by **evidence**, not personality
+
+<!--
+Depth two. Parallelism comes from the N's, coordination from the single
+lead, isolation from the worktrees and from the researcher's missing
+write tools.
+
+Why no second lead: a layer buys context isolation and costs a lossy
+summary. A lead with no file tools cannot check a sub-lead's synthesis
+against the code.
+
+Why no spawn tool on the researcher: it is read-only so it can safely
+ingest untrusted sources. Let it spawn, and injected content becomes a
+work order.
+
+Duplicate coders freely -- they do different work. Duplicate researchers
+and you pay N times for one answer.
+
+Depth is capped anyway: subagents nest three layers by default, and
+agent-team teammates cannot nest at all.
+-->
+
+---
+
+# Practices
 
 <div class="columns small">
 <div>
 
-- **PRs too big?** Decompose first, then `/batch` or a hub that hands out chunks. One worktree, one PR per chunk.
-- **Worktrees.** `claude -w name`, or `isolation: worktree` in an agent file. Add `.claude/worktrees/` to `.gitignore`.
-- **Shared agents and skills across repos.** Subtree or a plugin, not a submodule, unless you need a pinned SHA. Link them in with a script.
-- **Tag the team on reviews.** CODEOWNERS routes humans. `/code-review` in a fresh subagent runs before any human sees it.
+- **PR too big?** Decompose, then fan out. One PR per chunk.
+- **Worktrees** for anything parallel
+- **Share agents across repos** — subtree or plugin, not submodule
+- **Review bot before human** — `/code-review` in a fresh subagent
 
 </div>
 <div>
 
-- **Auto-update CODEOWNERS.** A scheduled routine derives owners from `git log` per directory and opens a PR. Humans approve, never type.
-- **Find repeat work.** Log spawns and messages (this repo's hook does). Search transcripts for the same prompt twice. The second time, make it a skill.
-- **Auto-make skills, hooks, agents.** "Write a hook that runs the linter after every edit." Claude writes `.claude/settings.json`. Review the diff like code.
-- **Automate the AgentOS loop.** Comments, review, ideation, PR stewarding. Humans review outcomes, not transcripts.
+- **Auto-update CODEOWNERS** from `git log`. Humans approve.
+- **Same prompt twice?** Make it a skill.
+- **Ask Claude to write your hooks.** Review the diff like code.
+- **Humans review outcomes**, not transcripts
 
 </div>
 </div>
+
+<!--
+One line each on purpose. Pick the two that match the room and expand
+those; do not read the list.
+
+CODEOWNERS: a scheduled routine derives owners per directory and opens a
+PR. Humans approve, never type.
+
+Finding repeat work: log spawns and messages, then search your own
+transcripts for the same prompt twice. The second time is the signal.
+-->
 
 ---
 
-# Show, don't tell: give every agent a check it can run
+# Show, don't tell
 
-- Tests, a build exit code, a screenshot diff, a constraint checklist.
-- Codie runs the tests. Archie returns pass/fail per constraint. Manny only accepts evidence.
-- Without a check, "looks done" is the only signal, and **you** become the verification loop — which is rung 3's wall, rebuilt by hand.
-- Everything in this deck was rendered from a JSONL log by a script in the repo. No hand-drawn diagrams.
-- Every row on the scorecard is a pytest: `test_slides.py` parses this deck and checks each figure against the logs. If a re-capture disagrees with a slide, the build goes red before the talk does.
+- Give every agent something it can **run**
+- Tests, an exit code, a screenshot diff, a checklist
+- The coder runs them. The researcher scores them. The lead accepts **evidence**.
+- Without a check, "looks done" is the only signal
+- **And then you are the verification loop again**
+
+<!--
+This is rung 3's wall rebuilt by hand, which is why it belongs at the
+end: every practice in this deck fails without a machine-checkable
+definition of done.
+
+If you want one concrete ask for the audience to take home, make it this
+one. It is the cheapest thing on the list and it is the one that decides
+whether any of the rest works.
+-->
 
 ---
 
 # Tying it together
 
-**The climb.** More agents, and they fight. Worktrees, and you drown in tabs. You become the hub, and you are the bottleneck. You delegate, and you have a fleet.
-**Every rung was cleared by a management move, not a smarter model.**
+- **The climb.** Every rung was cleared by a management move, not a smarter model.
+- **The research.** Solo is already the 10x. Structure contains errors; it cannot fix clones.
+- **The wiring.** One config line: 0 → 20 → 93 hops, same answer. Cost, not correctness.
+- **The stop rule.** As simple as possible, but no simpler.
 
-**The research.** Solo already is the 10x: +80.9% only where work is parallel, −39% to −70% elsewhere. Hubs contain errors at 4.4×, peers amplify at 17.2×. No wiring makes clones disagree — diversify by *evidence*.
+<!--
+Four beats, one each. If you are over time, this slide can be the last
+content slide -- everything after it is the close.
+-->
 
-**Our run.** One config line: 0 → 20 → 93 hops, 0 → 155k chars. Same cache shipped every time. **Topology bought cost, not correctness.** Isolation and parallelism bought something real: 872s against 1361s.
+---
 
-**The stop rule.** As simple as possible, but no simpler. Climb to the wall in front of you, buy the cast instead of building it, and delete it as the models improve.
+# Google already ran this experiment
+
+- **Project Oxygen** set out to show that managers don't matter
+- 10,000+ data points: reviews, surveys, interviews
+- Found the opposite — better managers, better results, **lower turnover**
+- Top behaviours: coach, **empower without micromanaging**, clear vision, results
+- **The same list works on agents**
+
+<span class="sources">Google re:Work, *Project Oxygen* — begun 2008; eight behaviours, extended to ten in 2018</span>
+
+<!--
+The story is the good part: Google's founders genuinely believed managers
+were overhead at best and an obstacle at worst, and they tried to prove it
+with their own data. The data said the opposite, and hard enough that the
+behaviours became the manager training programme.
+
+The behaviour that matters most for this room is the second one --
+empowers the team and does not micromanage. That is the same wall as rung
+3: supervise every keystroke and you are the runtime again, whether the
+worker is a person or a process.
+
+Worth one line if challenged: this is research about humans, and the claim
+here is not that agents have feelings. It is that the practices which
+scale a team of people are the practices that scale a fleet of agents,
+because both bottleneck on the same thing -- one person's attention.
+
+Check the exact behaviour wording against re:Work before you present; the
+list was eight in 2008 and ten from 2018, and the phrasing shifted.
+-->
 
 ---
 
@@ -1438,111 +1119,94 @@ AI takes the mechanical parts of the job.
 
 What is left is judgment: what to build, what to reject, what "done" means.
 
-The case for managers is the case for humans, even in the AI age.
+**The case for managers is the case for humans, even in the AI age.**
 
 <!--
-Speaker: pause here. This is the thesis. Then the announcement.
+Pause here. This is the thesis.
 -->
 
 ---
 
 # <svg class="chili" viewBox="0 0 40 44" width="34" height="37" role="img" aria-label="chili pepper"><title>Spicy</title><path d="M22 31 L9 39 L19 26 Z" fill="#cf2f26"/><path d="M22 15 C30 20 29 29 21 32" fill="none" stroke="#cf2f26" stroke-width="13" stroke-linecap="round"/><path d="M25 19 C28 22 28 26 26 29" fill="none" stroke="#e8756c" stroke-width="2.5" stroke-linecap="round"/><path d="M21 12 C20 7 17 5 13 6" fill="none" stroke="#3f8f3f" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="22" cy="13" rx="6" ry="3.5" fill="#4a9a3f" transform="rotate(-12 22 13)"/></svg> Sorry, not sorry
 
-**This is the world we live in, and it has always been this world.**
-
-Assembly → compilers → libraries → frameworks → agents. Every layer made the
-previous one's craft less scarce, and every time, the people who defined the
-job as *typing the layer below* had a bad decade.
-
-<div class="columns">
-<div>
-
-**Nobody has ever paid for code.** They pay for the thing the code does for
-someone. The code was the medium, never the product.
-
-</div>
-<div>
-
-**So if an agent can now do the part you liked most**, that says nothing about
-your worth. It says the value moved, the way it has moved every decade since
-punch cards.
-
-</div>
-</div>
-
-**What has never been automated: knowing which problem is worth solving, and for whom.**
-That is the job. It always was.
+- Assembly → compilers → libraries → frameworks → agents
+- Every layer made the one below it **less scarce**
+- **Nobody has ever paid for code.** They pay for what it does for someone.
+- Never automated: knowing which problem is worth solving, and for whom
 
 <!--
-Speaker: this is the spicy slide, so deliver it warmly and do not soften
-the content. The room has spent forty minutes on tooling; this is the
-line that says tooling was never the point.
+Deliver this warmly and do not soften the content. The room has spent
+forty minutes on tooling; this is the line that says tooling was never
+the point.
 
-Do not let it land as "learn to love it." The next slide is the other
-half, and it is the one people will actually remember.
+Each time a layer arrived, the people who defined the job as typing the
+layer below had a bad decade. The people who defined it as solving
+someone's problem did not.
+
+And if an agent can now do the part you liked most, that says nothing
+about your worth -- it says the value moved, the way it has moved every
+decade since punch cards.
+
+Do not let it land as "learn to love it". The next slide is the other
+half, and it is the one people remember.
 -->
 
 ---
 
 # A ladder is one shape a career can have
 
-<div class="columns small">
+<div class="columns">
 <div>
 
-**This deck is a ladder because the talk needed one.** Your career does not have
-to be. A ladder has one direction; a career has several.
-
-**You choose which rung you work at** — including the ground. Rung 1, deep craft
-on a small scope, is a choice, not a failure.
-
-**Climbing is a trade, not a promotion.** More coordination, less making. Some
-take that trade happily, some take it once and go back. Neither is a flaw.
-
-**And they work for you, not the other way around.** Async does not mean free: a
-fleet that never sleeps takes every evening you give it. Watch your hours, not
-just theirs.
+- The deck is a ladder. **Your career doesn't have to be.**
+- You choose the rung — including the ground
+- Climbing is a **trade**, not a promotion
+- Burning out as the hub is **structural**, not personal
 
 </div>
 <div>
 
-**If rung 4 wore you out, that is structural, not personal.** You were the
-runtime. Nobody is meant to be five sessions' worth of interrupt handler.
-
-**This is bigger than any of us.** When work never blocks on you, what is a sane
-week? On-call for agents. Review load when diffs arrive faster than anyone can
-read them. How much output is "enough."
-
-**Those norms are being set right now, mostly by accident.** We will have to
-reconsider them on purpose — as teams, and as an industry.
+- **They work for you**, not the other way round
+- Async isn't free — watch your hours, not just theirs
+- Be a manager you'd want: **no 3am drops, no Friday-night dumps**
+- **Micromanaging doesn't scale either** — outcomes, not transcripts
+- We need new norms. They're being set by accident.
 
 </div>
 </div>
 
 <!--
-Speaker: slow down here. Say it plainly and do not rush to the
-announcement; let the room exhale.
+Slow down here. Say it plainly and do not rush to the close.
+
+The rung point: staying at rung 1 -- one agent, deep craft, small scope
+-- is a choice, not a failure to climb. A ladder has one direction; a
+career has several, and most of the good ones are sideways.
+
+On the hub: nobody is meant to be five sessions' worth of interrupt
+handler. That is a structural problem, not a personal weakness.
+
+On being nicer: how you talk to an agent is practice for how you talk to
+people. Clear briefs instead of vague pressure. No work dropped at 3am
+or 5pm on Friday just because something is awake to receive it. No
+blaming the worker for a spec you never wrote down. Every bad managerial
+habit is cheaper to rehearse on an agent -- and rehearsal is exactly
+what it is.
+
+Micromanaging is the one that bites twice. Watching every tool call and
+re-reading every transcript is both the bad habit and a hard scaling
+limit: it puts you back in the wheel from rung 3. You cannot supervise
+ten agents keystroke by keystroke any more than you can supervise ten
+people that way. Ask for evidence, read the outcome, and let the middle
+be theirs.
+
+On the norms: when work never blocks on you, what is a sane week?
+On-call for agents. Review load when diffs arrive faster than anyone can
+read them. How much output is "enough". Those are being decided right
+now, mostly by default, and we will have to reconsider them on purpose
+-- as teams and as an industry.
 
 If it fits your setting, say the personal version out loud: which rung
-you actually work at, and what climbing cost you. A specific admission
-does more here than the whole slide does.
--->
-
----
-
-<!-- _class: lead -->
-
-# One more thing
-
-## Releasing today: the **agent-managers** kit
-
-Codie, Manny, and Archie. The message logger. The graph renderer.
-Drop the `.claude/` folder into any repo and run it on your own task.
-
-`github.com/dijonkitchen/agent-managers`
-
-<!--
-Swap this slide for the real announcement if the release is something
-else. Keep it to one thing, one line, one link.
+you actually work at, and what climbing cost you.
 -->
 
 ---
@@ -1609,7 +1273,7 @@ else. Keep it to one thing, one line, one link.
 
 <div class="seed">&ldquo;What do the managers think?&rdquo;</div>
 <div class="seed">&ldquo;Managers &mdash; what comes after this?&rdquo;</div>
-<div class="caption">The cake is a lie. The tests are not.</div>
+<div class="caption">The cake is a lie.</div>
 
 </div>
 
@@ -1629,19 +1293,18 @@ teammate you are issued and then told to incinerate, the cake is the
 reward that never arrives. Both are what a multi-agent demo sells. The
 answer to "does any of this actually work?" is `make acceptance`, not a
 slide. Sources are the next slide if anyone wants a citation.
--->
----
+-->---
 
 # Sources
 
 <div class="sources">
 
 - Kim et al., *[Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)*, arXiv 2512.08296, Dec 2025. [Google Research blog](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
+- Google re:Work, *[Project Oxygen / the research behind great managers](https://rework.withgoogle.com/guides/managers-identify-what-makes-a-great-manager/)*. See also Garvin, *[How Google Sold Its Engineers on Management](https://hbr.org/2013/12/how-google-sold-its-engineers-on-management)*, HBR, Dec 2013
 - Anthropic Frontier Red Team, *[Patterns and problems in emerging multiagent systems](https://www.anthropic.com/research/multiagent-systems)*, Aug 2026
 - Brooks, *[The Mythical Man-Month](https://en.wikipedia.org/wiki/The_Mythical_Man-Month)*, 1975. Conway, *[How Do Committees Invent?](https://www.melconway.com/Home/Committees_Paper.html)*, 1968. Sutton, *[The Bitter Lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html)*, 2019
-- "As simple as possible, but no simpler": widely attributed to Einstein, [a paraphrase](https://quoteinvestigator.com/2011/05/13/einstein-simple/) of his 1933 Herbert Spencer lecture, *[On the Method of Theoretical Physics](https://www.jstor.org/stable/184387)*
-- BMAD-METHOD: [github.com/bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD). Sequential core: [issue #2211](https://github.com/bmad-code-org/BMAD-METHOD/issues/2211), closed as not planned. Parallel module: [BAD](https://github.com/stephenleo/bmad-autonomous-development)
-- Claude Code docs: [sub-agents](https://code.claude.com/docs/en/sub-agents), [agent-teams](https://code.claude.com/docs/en/agent-teams), [cross-session-messaging](https://code.claude.com/docs/en/cross-session-messaging), [worktrees](https://code.claude.com/docs/en/worktrees), [running agents in parallel](https://code.claude.com/docs/en/agents), [hooks](https://code.claude.com/docs/en/hooks), [skills](https://code.claude.com/docs/en/skills), [best-practices](https://code.claude.com/docs/en/best-practices)
-- This deck and demo: [github.com/dijonkitchen/agent-managers](https://github.com/dijonkitchen/agent-managers)
+- "As simple as possible, but no simpler": widely attributed to Einstein, [a paraphrase](https://quoteinvestigator.com/2011/05/13/einstein-simple/) of his 1933 Herbert Spencer lecture
+- BMAD-METHOD: [github.com/bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) &middot; [issue #2211](https://github.com/bmad-code-org/BMAD-METHOD/issues/2211) &middot; [BAD](https://github.com/stephenleo/bmad-autonomous-development)
+- Claude Code docs: [sub-agents](https://code.claude.com/docs/en/sub-agents), [agent-teams](https://code.claude.com/docs/en/agent-teams), [cross-session-messaging](https://code.claude.com/docs/en/cross-session-messaging), [worktrees](https://code.claude.com/docs/en/worktrees), [agents in parallel](https://code.claude.com/docs/en/agents), [hooks](https://code.claude.com/docs/en/hooks), [skills](https://code.claude.com/docs/en/skills)
 
 </div>

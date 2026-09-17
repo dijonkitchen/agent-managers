@@ -1,22 +1,7 @@
 # Build output
 dist/
 node_modules/
-slides/assets/*.svg
-slides/assets/metrics.md
 slides/slides.build.md
-!slides/assets/.gitkeep
-
-# Python
-__pycache__/
-.pytest_cache/
-.venv/
-
-# Per-run worktrees (demo/lib/worktree.sh)
-.worktrees/
-
-# Live demo runs (samples are kept, real runs are not)
-demo/runs/*.jsonl
-demo/runs/*.cast
 
 # Local agent tooling state (Claude Code session worktrees, Serena index)
 .claude/worktrees/
