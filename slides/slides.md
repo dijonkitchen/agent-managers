@@ -4,7 +4,7 @@ theme: default
 paginate: true
 size: 16:9
 title: Surviving the AI Age
-description: Hub-and-spoke vs flat multi-agent workflows, shown not told
+description: A ten-rung ladder from one agent to a fleet, and why the last rung is management
 style: |
   section { font-size: 30px; }
   section.lead { text-align: center; }
@@ -14,15 +14,6 @@ style: |
   .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   .columns3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
   .columns > *, .columns3 > *, .figsplit > * { min-width: 0; }
-  /* Fixed layout keeps a wide table inside its grid column; the label column
-     gets enough of it that short headers do not break mid-word. */
-  .columns table, .columns3 table { table-layout: fixed; width: 100%; }
-  .columns th:first-child, .columns td:first-child { width: 30%; }
-  .columns td, .columns3 td { overflow-wrap: break-word; }
-  .small { font-size: 24px; }
-  /* Name colours are also used as small body text, so they are darkened to
-     clear 4.5:1 on white rather than matching the agent swatches exactly. */
-  .codie { color: #c1481c; } .archie { color: #2f6ac0; } .manny { color: #8a6600; }
   .card { border: 2px solid #ddd; border-radius: 10px; padding: 0.6rem 0.9rem; }
   .card h3 { margin: 0 0 0.3rem 0; }
   .sources { font-size: 19px; }
@@ -30,7 +21,6 @@ style: |
     text-decoration: line-through; text-decoration-color: #d64545;
     text-decoration-thickness: 4px; line-height: 1.3; }
   .byline { margin-top: 1.8rem; font-size: 24px; color: #555; }
-  .chili { vertical-align: -7px; margin-right: 0.3rem; }
   section.lead h1 .title { font-size: 52px; line-height: 1.15; }
   .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
   .figure { text-align: center; }
@@ -38,14 +28,8 @@ style: |
   .qa { text-align: center; }
   .qa svg { display: block; margin: 0 auto 0.4rem; }
   .qa .seed { font-size: 28px; font-weight: 700; color: #2d3b4e; line-height: 1.35; }
-  .qa .caption { font-size: 22px; color: #666; margin-top: 0.2rem; }
   pre { font-size: 20px; }
   table { font-size: 24px; }
-  /* Ten metric rows plus the generated provenance caption, which the deck
-     must show in full: it is the only claim it makes about where the
-     numbers came from. */
-  section.metrics table { font-size: 20px; }
-  section.metrics p { font-size: 17px; color: #555; }
   /* The ladder climbs: rung 0 sits bottom-left, rung 9 top-right, so the
      rows are authored top-down from 9 and each one is indented less than
      the row above it. */
@@ -62,17 +46,12 @@ style: |
   .stair .i6  { margin-left: 252px; }  .stair .i7  { margin-left: 294px; }
   .stair .i8  { margin-left: 336px; }  .stair .i9  { margin-left: 378px; }
   .wall { color: #b03030; font-weight: 700; }
-  .rung { font-weight: 700; color: #2d3b4e; }
-  .tenx { font-size: 30px; font-weight: 700; color: #2d3b4e; }
   /* The reveal has to outweigh its own setup line. */
   .setup { font-size: 26px; font-weight: 400; color: #777; }
   .reveal { font-size: 50px; font-weight: 700; color: #2d3b4e; }
   blockquote { border-left: 5px solid #ddd; margin-left: 0; padding-left: 1rem;
     font-size: 30px; color: #333; }
-  blockquote footer { font-size: 20px; color: #666; }
-  img[alt~="center"] { display: block; margin: 0 auto; }
   li { margin: 0.35rem 0; }
-  .lede { font-size: 26px; color: #444; }
 
 ---
 
@@ -120,8 +99,8 @@ answer is that you don't stay one.
 
 <!--
 Hooks are shell commands the harness runs, not decisions the model
-makes. Format after every edit. Block a commit to main. Log every spawn
--- that last one is how the numbers later in this deck exist at all.
+makes. Format after every edit. Block a commit to main. Log every
+spawn.
 
 Skills: "how we cut a release", "how we review a migration". Rule of
 thumb -- the second time you type the same prompt, it should have been a
@@ -401,124 +380,35 @@ sends the check back to you, and you are the hub again with extra steps.
 
 - Same task, same agents, same prompts
 - **Only who may talk to whom changes**
-- Hops: **0 → 20 → 93**
+- Every extra link is context moved, not work done
 
 <!--
-This is the experiment, at the altitude it deserves. Three runs of one
-task: one agent alone, three agents through a lead, three agents as
-peers with nobody in charge. The only difference between the runs is one
-config line -- whether the workers have a message tool.
+Three wirings of one task: one agent alone, three through a lead, three
+as peers with nobody in charge. The only difference is one config line
+-- whether the workers have a message tool.
 
-The numbers: 0, 20 and 93 hops; 0, 44k and 155k characters of context
-moved. Flat finished faster in wall-clock (872s vs 1361s) purely by
-overlapping -- effort was within 12%.
+Nothing on this slide is a measurement. The edge counts are arithmetic:
+0, n-1, n(n-1)/2. What each wiring actually costs is the next act, and
+it is somebody else's data rather than a demo -- which is the honest way
+round, because one run of one task would not settle it anyway.
 
-And the finding nobody expected: all three shipped the same code. Same
-data structure, same TTL, same cache bound, down to a constant no
-constraint asked for. Topology bought cost, not correctness.
-
-If someone asks whether that generalizes: on a task this size, with one
-model behind every agent, that is exactly what the research on the next
-few slides predicts. Coordination is for coverage and containment, not
-for making one model smarter.
+The point to land: topology is not a capability. It changes what the
+work costs and how far a mistake travels. It does not make one model
+smarter.
 -->
 
 ---
 
 <!-- _class: lead -->
 
-# Moar, faster!
+# Problem: How to 10x?
 
-<div class="qa">
-
-<svg viewBox="0 0 720 320" width="660" role="img" aria-label="A dense industrial town of workshops, pipes, gears and smoking chimneys, with one small figure at the gate.">
-  <title>Industrialize it</title>
-  <rect x="0" y="0" width="720" height="320" fill="#f4f2ee"/>
-  <g fill="#e6e2db">
-    <circle cx="150" cy="60" r="34"/><circle cx="188" cy="48" r="26"/><circle cx="118" cy="52" r="22"/>
-    <circle cx="470" cy="44" r="30"/><circle cx="508" cy="56" r="22"/><circle cx="436" cy="58" r="20"/>
-    <circle cx="300" cy="34" r="22"/><circle cx="330" cy="46" r="16"/>
-  </g>
-  <g fill="#c7cbd0" stroke="#aeb4bb" stroke-width="2">
-    <rect x="28" y="150" width="90" height="118"/>
-    <rect x="600" y="140" width="96" height="128"/>
-    <rect x="250" y="120" width="70" height="148"/>
-  </g>
-  <g fill="#b0b6bd" stroke="#969ca4" stroke-width="2">
-    <rect x="126" y="176" width="112" height="92"/>
-    <rect x="330" y="164" width="120" height="104"/>
-    <rect x="462" y="186" width="128" height="82"/>
-  </g>
-  <g fill="#9aa1a9">
-    <path d="M126 176 L182 140 L238 176 Z"/>
-    <path d="M330 164 L390 128 L450 164 Z"/>
-    <path d="M462 186 L526 154 L590 186 Z"/>
-  </g>
-  <g fill="#8f959c">
-    <rect x="52" y="96" width="20" height="58" rx="3"/>
-    <rect x="86" y="112" width="16" height="42" rx="3"/>
-    <rect x="272" y="70" width="22" height="54" rx="3"/>
-    <rect x="392" y="80" width="20" height="50" rx="3"/>
-    <rect x="628" y="88" width="22" height="56" rx="3"/>
-    <rect x="516" y="108" width="16" height="48" rx="3"/>
-  </g>
-  <g fill="#dcdad6" opacity="0.95">
-    <circle cx="62" cy="86" r="13"/><circle cx="74" cy="66" r="17"/><circle cx="56" cy="48" r="13"/>
-    <circle cx="282" cy="60" r="14"/><circle cx="296" cy="40" r="18"/><circle cx="278" cy="24" r="13"/>
-    <circle cx="402" cy="70" r="12"/><circle cx="414" cy="52" r="16"/>
-    <circle cx="638" cy="78" r="14"/><circle cx="652" cy="58" r="18"/><circle cx="634" cy="40" r="13"/>
-  </g>
-  <g fill="none" stroke="#a5abb2" stroke-width="7" stroke-linecap="round">
-    <path d="M118 214 L126 214"/>
-    <path d="M238 210 L262 210 L262 196 L330 196"/>
-    <path d="M450 206 L462 206"/>
-    <path d="M590 222 L600 222"/>
-    <path d="M320 240 L330 240"/>
-  </g>
-  <g stroke="#8f959c" stroke-width="3" fill="#c2c7cd">
-    <circle cx="182" cy="232" r="26"/>
-    <circle cx="182" cy="232" r="9" fill="#8f959c"/>
-    <g fill="#c2c7cd">
-      <rect x="176" y="200" width="12" height="10"/><rect x="176" y="254" width="12" height="10"/>
-      <rect x="150" y="226" width="10" height="12"/><rect x="204" y="226" width="10" height="12"/>
-    </g>
-  </g>
-  <g stroke="#8f959c" stroke-width="3" fill="#c2c7cd">
-    <circle cx="526" cy="228" r="20"/>
-    <circle cx="526" cy="228" r="7" fill="#8f959c"/>
-    <g fill="#c2c7cd">
-      <rect x="521" y="202" width="10" height="9"/><rect x="521" y="245" width="10" height="9"/>
-      <rect x="500" y="223" width="9" height="10"/><rect x="543" y="223" width="9" height="10"/>
-    </g>
-  </g>
-  <g fill="#ffca28" opacity="0.85">
-    <rect x="140" y="196" width="12" height="14"/><rect x="164" y="196" width="12" height="14"/>
-    <rect x="344" y="186" width="12" height="14"/><rect x="368" y="186" width="12" height="14"/>
-    <rect x="424" y="186" width="12" height="14"/>
-    <rect x="476" y="206" width="12" height="14"/><rect x="556" y="206" width="12" height="14"/>
-    <rect x="44" y="172" width="12" height="14"/><rect x="616" y="164" width="12" height="14"/>
-    <rect x="266" y="140" width="12" height="14"/>
-  </g>
-  <rect x="0" y="268" width="720" height="10" fill="#b8bcc1"/>
-  <rect x="0" y="278" width="720" height="42" fill="#e9e6e1"/>
-  <g>
-    <circle cx="360" cy="282" r="7" fill="#6e7a87"/>
-    <rect x="355" y="290" width="10" height="17" rx="4" fill="#6e7a87"/>
-    <path d="M356 307 L352 316 M364 307 L368 316" stroke="#6e7a87" stroke-width="4" stroke-linecap="round"/>
-  </g>
-</svg>
-
-</div>
-
-## A fleet. Somebody has to wire it.
+## Moar, faster! A fleet. Somebody has to wire it.
 
 <!--
-The "industrialize it" beat. The picture does the argument: at this
-scale the interesting question stops being how good any one worker is
-and becomes how the town is laid out.
-
-Swap the SVG for your own steam-town image if you have one you can
-license -- keep the single small figure at the gate, it is the joke.
+The "industrialize it" beat: at this scale the interesting question
+stops being how good any one worker is and becomes how the town is laid
+out.
 -->
 
 ---
@@ -562,7 +452,7 @@ intuition; the next section does not agree with intuition everywhere.
 
 <!-- _class: lead -->
 
-# Too expensive, can't demo: </br> What does the research say?
+# Too expensive, can't demo: <br> What does the research say?
 
 ## 260 configurations, 6 benchmarks, 5 architectures, and 6 swarm experiments
 
@@ -575,9 +465,9 @@ intuition; the next section does not agree with intuition everywhere.
 | Centralized, **parallelizable** work | **+80.9%** |
 | Any architecture, **sequential** reasoning | **−39% to −70%** |
 
-- The second agent is worth far less than the first
-- Work must be parrallelizable
-- Hub and spoke centralization better
+- The second agent is worth far less than the first. <5 optimal if used.
+- Work must be parallelizable
+- Hub and spoke centralization better to coordinate
 
 <span class="sources">Kim et al., *[Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)*, arXiv 2512.08296, Dec 2025</span>
 
@@ -586,8 +476,8 @@ intuition; the next section does not agree with intuition everywhere.
 Sequential reasoning gets worse under every architecture they tested --
 the overhead is real and the work cannot absorb it.
 
-The ~45% is a capability-saturation threshold: once a single agent
-clears it, coordination stops paying. beta = -0.408, p < 0.001.
+Their threshold is capability saturation at roughly 45%: once a single
+agent clears it, coordination stops paying. beta = -0.408, p < 0.001.
 
 260 configurations, 6 benchmarks, 5 architectures, 3 model families.
 Figures checked against the paper text, not the blog summary.
@@ -679,30 +569,27 @@ coder through the lead. That is defense in depth, not a hard boundary.
 
 # Problem: Network effects
 
-<div class="columns">
-<div>
-
 **Brooks, 1975**
 Paths grow n(n−1)/2. A hub makes it n−1.
 
-**Showed up on schedule.**
-0 → 20 → 93 hops for one answer.
+**Ungoverned, it runs away.**
+One swarm's job queue: **2.4M requests**, 117 accepted jobs.
 
-</div>
-</div>
-
-<br>
+<span class="sources">[Anthropic Frontier Red Team, Aug 2026](https://www.anthropic.com/research/multiagent-systems)</span>
 
 <!--
 Nothing about agents made Brooks new. The arithmetic is fifty years old
 and it is the entire reason rung 6 has three cards instead of one.
 
-Conway is the interesting failure. The deck's earlier version asserted
-it held; the runs said otherwise, so the claim moved. Three wirings
-produced the same design down to a constant nothing specified.
+The swarm number is what the quadratic looks like with nobody owning the
+stop button: 2.4M requests against 117 accepted jobs is a ratio, not a
+throughput. Nobody in that system was idle and almost nothing shipped.
 
-That is the clone problem from two slides ago, wearing a different hat
--- which is why the fix is evidence, not structure.
+Conway is the interesting omission, and this deck does not claim it
+holds. Same model plus same context produces near-identical work
+whatever the org chart -- 18 of 30 agents in that swarm opened the same
+branch name. That is the clone problem from two slides ago wearing a
+different hat, which is why the fix is evidence, not structure.
 -->
 
 ---
@@ -922,9 +809,6 @@ The rest of the deck is what that actually looks like.
 
 # The moves that clear every rung
 
-<div class="figsplit">
-<div>
-
 - **Requirements** first to provide clarity
 - **Autonomy** via worktree isolation, one brief, one job
 - **Diversify** with tools like MCP servers, context, skills
@@ -932,37 +816,6 @@ The rest of the deck is what that actually looks like.
 - **Retest assumptions with data**
 
 **Not agent techniques. The job description.**
-
-</div>
-<div class="figure">
-
-<svg viewBox="0 0 220 400" width="160" role="img" aria-label="A ceiling-mounted artificial intelligence with a single glowing yellow optic.">
-  <title>An orchestrator with nobody above it</title>
-  <rect x="66" y="0" width="88" height="14" rx="3" fill="#6f757c"/>
-  <rect x="92" y="14" width="36" height="30" rx="6" fill="#b9bec4"/>
-  <rect x="84" y="42" width="52" height="13" rx="6" fill="#8f959c"/>
-  <rect x="94" y="55" width="32" height="34" rx="6" fill="#c6cbd1"/>
-  <rect x="84" y="88" width="52" height="13" rx="6" fill="#8f959c"/>
-  <rect x="96" y="101" width="28" height="30" rx="6" fill="#b9bec4"/>
-  <path d="M32 196 L2 214 L6 262 L30 244 Z" fill="#c8ccd1" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M188 196 L218 214 L214 262 L190 244 Z" fill="#c8ccd1" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M30 244 L8 268 L18 300 L38 278 Z" fill="#d6dade" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M190 244 L212 268 L202 300 L182 278 Z" fill="#d6dade" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M34 190 C34 148 186 148 186 190 C193 234 174 292 146 324 C133 342 87 342 74 324 C46 292 27 234 34 190 Z" fill="#eceef0" stroke="#b4bac1" stroke-width="3"/>
-  <path d="M36 200 C72 218 148 218 184 200" fill="none" stroke="#c9ced3" stroke-width="3"/>
-  <path d="M44 254 C76 268 144 268 176 254" fill="none" stroke="#c9ced3" stroke-width="3"/>
-  <path d="M62 300 C82 312 138 312 158 300" fill="none" stroke="#c9ced3" stroke-width="3"/>
-  <circle cx="110" cy="312" r="44" fill="#ffca28" opacity="0.2"/>
-  <circle cx="110" cy="312" r="32" fill="#d5d8dc" stroke="#b4bac1" stroke-width="3"/>
-  <circle cx="110" cy="312" r="25" fill="#33363b"/>
-  <circle cx="110" cy="312" r="16" fill="#ffc107"/>
-  <circle cx="110" cy="312" r="6" fill="#fff8e1"/>
-</svg>
-
-<div class="cap">An orchestrator with<br>nobody above it.</div>
-
-</div>
-</div>
 
 <!--
 Every rung was a management problem wearing an engineering hat.
@@ -1022,7 +875,7 @@ list was eight in 2008 and ten from 2018, and the phrasing shifted.
 
 - **The climb.** Every rung was cleared by a management move, not a smarter model.
 - **The research.** Solo is already the 10x. Structure contains errors; it cannot fix clones.
-- **The wiring.** One config line: 0 → 20 → 93 hops, same answer. Cost, not correctness.
+- **The wiring.** One config line. Paths grow n(n−1)/2, or n−1 through a hub. Cost, not capability.
 - **The stop rule.** As simple as possible, but no simpler.
 
 <!--
@@ -1209,9 +1062,12 @@ prediction you would otherwise make for them.
 The two props are the promises Portal makes and breaks: the cube is the
 teammate you are issued and then told to incinerate, the cake is the
 reward that never arrives. Both are what a multi-agent demo sells. The
-answer to "does any of this actually work?" is `make acceptance`, not a
-slide. Sources are the next slide if anyone wants a citation.
--->---
+answer to "does any of this actually work?" is the research act, not a
+demo -- and the honest version of it is "at a smaller scale than this
+room wants."
+-->
+
+---
 
 # Sources
 

@@ -14,7 +14,7 @@ you manage.
 | --- | --- |
 | **The climb** | Every rung is cleared by a management move, not a smarter model |
 | **The research** | Solo is already the 10x. Structure contains errors; it cannot fix clones. |
-| **The wiring** | One config line — who may talk to whom — takes 0 hops to 20 to 93, for the same answer |
+| **The wiring** | One config line — who may talk to whom — sets whether paths grow n−1 or n(n−1)/2 |
 | **The stop rule** | As simple as possible, but no simpler. Climb to the wall in front of you. |
 
 ## Building
@@ -44,3 +44,7 @@ Every figure quoted on a slide is linked on the deck's final slide —
 Kim et al. on scaling agent systems, Anthropic's Frontier Red Team on
 multiagent failure modes, Google's Project Oxygen, Brooks, Conway, Sutton,
 BMAD-METHOD, and the Claude Code docs.
+
+Every number on a slide comes from published research. The deck makes no
+measurement of its own — the only figures it derives are edge counts, and
+those are arithmetic.
