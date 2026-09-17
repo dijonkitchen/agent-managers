@@ -440,7 +440,7 @@ The jump from you typing to one agent is where almost all of the multiplier live
 So most tasks should stay solo. Solo has exactly two ceilings, and they are the ones the demo hit:
 **it cannot parallelize, and nobody checks its work.**
 
-<span class="sources">Kim et al., *Towards a Science of Scaling Agent Systems*, arXiv 2512.08296, Dec 2025. 260 configurations, 6 benchmarks, 5 architectures, 3 model families. Figures checked against the paper text; the ~45% is its capability-saturation threshold (β = −0.408, p &lt; 0.001).</span>
+<span class="sources">Kim et al., *[Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)*, arXiv 2512.08296, Dec 2025. 260 configurations, 6 benchmarks, 5 architectures, 3 model families. Figures checked against the paper text; the ~45% is its capability-saturation threshold (β = −0.408, p &lt; 0.001).</span>
 
 <!--
 Speaker: this fights the room's priors. Everyone arrived expecting
@@ -492,7 +492,7 @@ Anthropic Frontier Red Team, Aug 2026. Vulnerability hunting, game building, job
 
 **The wall:** topology bounds the blast radius of a mistake. It cannot make two copies of one model genuinely disagree.
 
-<span class="sources">anthropic.com/research/multiagent-systems. Figures read from the published text.</span>
+<span class="sources">[anthropic.com/research/multiagent-systems](https://www.anthropic.com/research/multiagent-systems). Figures read from the published text.</span>
 
 ---
 
@@ -823,12 +823,12 @@ slide. Sources are the next slide if anyone wants a citation.
 
 <div class="sources">
 
-- Kim et al., *Towards a Science of Scaling Agent Systems*, arXiv 2512.08296, Dec 2025. Blog: research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/
-- Anthropic Frontier Red Team, *Patterns and problems in emerging multiagent systems*, Aug 2026. anthropic.com/research/multiagent-systems
-- Brooks, *The Mythical Man-Month*, 1975. Conway, *How Do Committees Invent?*, 1968. Sutton, *The Bitter Lesson*, 2019.
-- BMAD-METHOD: github.com/bmad-code-org/BMAD-METHOD
-- Claude Code docs: sub-agents, agent-teams, cross-session-messaging, worktrees, hooks, best-practices at code.claude.com/docs
-- This deck and demo: github.com/dijonkitchen/agent-managers
+- Kim et al., *[Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)*, arXiv 2512.08296, Dec 2025. [Google Research blog](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
+- Anthropic Frontier Red Team, *[Patterns and problems in emerging multiagent systems](https://www.anthropic.com/research/multiagent-systems)*, Aug 2026
+- Brooks, *[The Mythical Man-Month](https://en.wikipedia.org/wiki/The_Mythical_Man-Month)*, 1975. Conway, *[How Do Committees Invent?](https://www.melconway.com/Home/Committees_Paper.html)*, 1968. Sutton, *[The Bitter Lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html)*, 2019
+- BMAD-METHOD: [github.com/bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)
+- Claude Code docs: [sub-agents](https://code.claude.com/docs/en/sub-agents), [agent-teams](https://code.claude.com/docs/en/agent-teams), [cross-session-messaging](https://code.claude.com/docs/en/cross-session-messaging), [worktrees](https://code.claude.com/docs/en/worktrees), [hooks](https://code.claude.com/docs/en/hooks), [best-practices](https://code.claude.com/docs/en/best-practices)
+- This deck and demo: [github.com/dijonkitchen/agent-managers](https://github.com/dijonkitchen/agent-managers)
 
 </div>
 
