@@ -841,9 +841,6 @@ The rest of the deck is what that actually looks like.
 
 # The moves that clear every rung
 
-<div class="figsplit">
-<div>
-
 - **Requirements** first to provide clarity
 - **Autonomy** via worktree isolation, one brief, one job
 - **Diversify** with tools like MCP servers, context, skills
@@ -851,12 +848,6 @@ The rest of the deck is what that actually looks like.
 - **Retest assumptions with data**
 
 **Not agent techniques. The job description.**
-
-</div>
-<div class="figure">
-
-</div>
-</div>
 
 <!--
 Every rung was a management problem wearing an engineering hat.
