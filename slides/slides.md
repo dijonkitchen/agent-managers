@@ -672,6 +672,37 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 
 ---
 
+# You do not have to hand-roll the cast
+
+<div class="columns small">
+<div>
+
+**BMAD-METHOD already ships most of this.** A full agile cast as plain agent definitions &mdash; analyst, PM, architect, product owner, scrum master, dev, QA &mdash; plus an orchestrator that routes between them.
+
+Its planning phase produces a PRD and an architecture doc. Those get *sharded* into stories, and the dev agent implements one story at a time, carrying that story's brief and nothing else.
+
+**Codie, Archie and Manny are a three-role slice of the same idea**, cut down to what one demo needed.
+
+</div>
+<div>
+
+**What you get for free:** the role definitions, the handoff templates, the orchestrator, and the context discipline &mdash; a story-sized brief per agent is the same "minimum context per agent" rule, already implemented.
+
+**What it cannot decide for you:** the wiring rule, which roles your task actually needs, and what "done" means.
+
+So take the cast and delete from it. BMAD hands you a roster big enough that the Bitter Lesson will make you.
+
+</div>
+</div>
+
+<!--
+Speaker: this is the "you are not starting from zero" slide. The deck
+builds three agents from scratch because three is what fits on a slide
+and what the tests can assert -- not because hand-rolling is the point.
+-->
+
+---
+
 # Practices, one line each
 
 <div class="columns small">
@@ -711,7 +742,7 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 
 **The research.** Solo already is the 10x, and here it won outright. Structure still decides what you get when the task is harder: hubs contain errors at 4.4&times;, peers amplify at 17.2&times;. But no wiring makes two copies of one model disagree &mdash; so diversify by *evidence*, not personality.
 
-**The theory.** Brooks bounds the hops and showed up on schedule. Conway did not &mdash; one design from three wirings. Sutton says the scaffolding is temporary.
+**The theory.** Brooks bounds the hops and showed up on schedule. Conway did not &mdash; one design from three wirings. Sutton says the scaffolding is temporary, and BMAD already wrote most of it for you.
 
 **The management link.** Someone still has to decompose, validate, and synthesize. Fan out at the leaves, stay singular at the decision points, keep the org chart's shape and not its rationale &mdash; and delete roles as the models improve.
 
