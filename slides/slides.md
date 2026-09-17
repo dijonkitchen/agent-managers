@@ -30,13 +30,14 @@ style: |
     text-decoration: line-through; text-decoration-color: #d64545;
     text-decoration-thickness: 4px; line-height: 1.3; }
   .byline { margin-top: 1.8rem; font-size: 24px; color: #555; }
+  .chili { vertical-align: -7px; margin-right: 0.3rem; }
   section.lead h1 .title { font-size: 52px; line-height: 1.15; }
   .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
   .figure { text-align: center; }
   .figure .cap { font-size: 18px; color: #5a5a5a; line-height: 1.35; }
   .qa { text-align: center; }
   .qa svg { display: block; margin: 0 auto 0.4rem; }
-  .qa .seed { font-size: 30px; font-weight: 700; color: #2d3b4e; }
+  .qa .seed { font-size: 28px; font-weight: 700; color: #2d3b4e; line-height: 1.35; }
   .qa .caption { font-size: 22px; color: #666; margin-top: 0.2rem; }
   pre { font-size: 18px; }
   table { font-size: 21px; }
@@ -45,8 +46,22 @@ style: |
      numbers came from. */
   section.metrics table { font-size: 20px; }
   section.metrics p { font-size: 17px; color: #555; }
-  .ladder { font-size: 20px; }
-  .ladder td { padding: 0.15rem 0.5rem; }
+  /* The ladder climbs: rung 0 sits bottom-left, rung 10 top-right, so the
+     rows are authored top-down from 10 and each one is indented less than
+     the row above it. */
+  .stair { margin-top: 0.3rem; }
+  .stair .step { font-size: 18px; line-height: 1.25; padding: 3px 12px;
+    margin-bottom: 4px; border-left: 5px solid #cfd6dd; background: #f6f7f9;
+    display: table; border-radius: 0 4px 4px 0; }
+  .stair .step b { color: #2d3b4e; margin-right: 0.45rem; }
+  .stair .top { border-left-color: #2d3b4e; background: #eef1f5; }
+  .stair .wall { font-weight: 400; }
+  .stair .i0  { margin-left: 0; }      .stair .i1  { margin-left: 42px; }
+  .stair .i2  { margin-left: 84px; }   .stair .i3  { margin-left: 126px; }
+  .stair .i4  { margin-left: 168px; }  .stair .i5  { margin-left: 210px; }
+  .stair .i6  { margin-left: 252px; }  .stair .i7  { margin-left: 294px; }
+  .stair .i8  { margin-left: 336px; }  .stair .i9  { margin-left: 378px; }
+  .stair .i10 { margin-left: 420px; }
   .wall { color: #b03030; font-weight: 700; }
   .rung { font-weight: 700; color: #2d3b4e; }
   .tenx { font-size: 30px; font-weight: 700; color: #2d3b4e; }
@@ -82,25 +97,22 @@ answer is that you don't stay one.
 
 # The ladder
 
-<div class="ladder">
-
-| | You do this | It breaks like this |
-| --- | --- | --- |
-| **0** | Type code yourself | One head, one file at a time |
-| **1** | One agent: hooks, skills, delegation | It cannot be in two places |
-| **2** | Several agents in one repo | <span class="wall">They overwrite each other</span> |
-| **3** | Isolate them — worktrees, `claude -w` | <span class="wall">N tabs, all asking you questions</span> |
-| **4** | You become the hub | <span class="wall">You are the bottleneck, and you are tired</span> |
-| **5** | Delegate: each session gets its own agents | <span class="wall">A fleet with no shared structure</span> |
-| **6** | Wire the fleet deliberately | <span class="wall">Clones, cost, and agents that fight</span> |
-| **7** | Diversify by evidence: MCP, context, skills | <span class="wall">You are hand-rolling an org chart</span> |
-| **8** | Buy the cast (BMAD); fan out (`/batch`) | <span class="wall">The scaffolding rots as models improve</span> |
-| **9** | Delete orchestration the models outgrow | <span class="wall">Nothing left to automate but judgment</span> |
-| **10** | **Manage** | That one is yours |
-
+<div class="stair">
+<div class="step i10 top"><b>10</b> <b>Manage</b> — that one is yours</div>
+<div class="step i9"><b>9</b> Delete orchestration the models outgrow <span class="wall">→ nothing left to automate but judgment</span></div>
+<div class="step i8"><b>8</b> Buy the cast (BMAD); fan out (<code>/batch</code>) <span class="wall">→ the scaffolding rots</span></div>
+<div class="step i7"><b>7</b> Diversify by evidence: MCP, context, skills <span class="wall">→ you are hand-rolling an org chart</span></div>
+<div class="step i6"><b>6</b> Wire the fleet deliberately <span class="wall">→ clones, cost, agents that fight</span></div>
+<div class="step i5"><b>5</b> Delegate: each session gets its own agents <span class="wall">→ a fleet with no structure</span></div>
+<div class="step i4"><b>4</b> You become the hub <span class="wall">→ you are the bottleneck, and tired</span></div>
+<div class="step i3"><b>3</b> Isolate them: worktrees, <code>claude -w</code> <span class="wall">→ N tabs, all asking you</span></div>
+<div class="step i2"><b>2</b> Several agents in one repo <span class="wall">→ they overwrite each other</span></div>
+<div class="step i1"><b>1</b> One agent: hooks, skills, delegation <span class="wall">→ it cannot be in two places</span></div>
+<div class="step i0"><b>0</b> Type code yourself <span class="wall">→ one head, one file at a time</span></div>
 </div>
 
-Each rung costs more than the last. **The talk is mostly about when to stop climbing.**
+Start at the bottom. Each rung buys speed, then hands you the wall that sends you up.
+**The talk is mostly about when to stop climbing.**
 
 ---
 
@@ -1434,6 +1446,87 @@ Speaker: pause here. This is the thesis. Then the announcement.
 
 ---
 
+# <svg class="chili" viewBox="0 0 40 44" width="34" height="37" role="img" aria-label="chili pepper"><title>Spicy</title><path d="M22 31 L9 39 L19 26 Z" fill="#cf2f26"/><path d="M22 15 C30 20 29 29 21 32" fill="none" stroke="#cf2f26" stroke-width="13" stroke-linecap="round"/><path d="M25 19 C28 22 28 26 26 29" fill="none" stroke="#e8756c" stroke-width="2.5" stroke-linecap="round"/><path d="M21 12 C20 7 17 5 13 6" fill="none" stroke="#3f8f3f" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="22" cy="13" rx="6" ry="3.5" fill="#4a9a3f" transform="rotate(-12 22 13)"/></svg> Sorry, not sorry
+
+**This is the world we live in, and it has always been this world.**
+
+Assembly → compilers → libraries → frameworks → agents. Every layer made the
+previous one's craft less scarce, and every time, the people who defined the
+job as *typing the layer below* had a bad decade.
+
+<div class="columns">
+<div>
+
+**Nobody has ever paid for code.** They pay for the thing the code does for
+someone. The code was the medium, never the product.
+
+</div>
+<div>
+
+**So if an agent can now do the part you liked most**, that says nothing about
+your worth. It says the value moved, the way it has moved every decade since
+punch cards.
+
+</div>
+</div>
+
+**What has never been automated: knowing which problem is worth solving, and for whom.**
+That is the job. It always was.
+
+<!--
+Speaker: this is the spicy slide, so deliver it warmly and do not soften
+the content. The room has spent forty minutes on tooling; this is the
+line that says tooling was never the point.
+
+Do not let it land as "learn to love it." The next slide is the other
+half, and it is the one people will actually remember.
+-->
+
+---
+
+# A ladder is one shape a career can have
+
+<div class="columns small">
+<div>
+
+**This deck is a ladder because the talk needed one.** Your career does not have
+to be. A ladder has one direction; a career has several, and most of the good
+ones are sideways.
+
+**You choose which rung you work at** — including the ground. Rung 1, one agent
+and deep craft on a small scope, is a choice, not a failure to climb.
+
+**Climbing is a trade, not a promotion.** More coordination, less making. Some
+take that trade happily, some take it once and go back. Neither is a character
+flaw.
+
+</div>
+<div>
+
+**If rung 4 wore you out, that is structural, not personal.** You were the
+runtime. Nobody is meant to be five sessions' worth of interrupt handler.
+
+**This is bigger than any of us.** When work never blocks on you, what is a sane
+week? On-call for agents. Review load when diffs arrive faster than anyone can
+read them. How much output is "enough."
+
+**Those norms are being set right now, mostly by accident.** We will have to
+reconsider them on purpose — as teams, and as an industry.
+
+</div>
+</div>
+
+<!--
+Speaker: slow down here. Say it plainly and do not rush to the
+announcement; let the room exhale.
+
+If it fits your setting, say the personal version out loud: which rung
+you actually work at, and what climbing cost you. A specific admission
+does more here than the whole slide does.
+-->
+
+---
+
 <!-- _class: lead -->
 
 # One more thing
@@ -1513,15 +1606,21 @@ else. Keep it to one thing, one line, one link.
 </svg>
 
 <div class="seed">&ldquo;What do the managers think?&rdquo;</div>
+<div class="seed">&ldquo;Managers &mdash; what comes after this?&rdquo;</div>
 <div class="caption">The cake is a lie. The tests are not.</div>
 
 </div>
 
 <!--
-Speaker: open the floor with the seed question, not with silence. "What
+Speaker: open the floor with a seed question, not with silence. "What
 do the managers think?" puts the room in the chair the whole talk argued
 for, and it works on engineers too: it asks them to judge the work
 instead of the tooling.
+
+Hold the second one for the lull, and mean it as a real question: the
+people already managing agents have seen rungs this deck has not.
+Whatever they say about what comes next is better data than the
+prediction you would otherwise make for them.
 
 The two props are the promises Portal makes and breaks: the cube is the
 teammate you are issued and then told to incinerate, the cake is the
