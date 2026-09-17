@@ -1490,15 +1490,17 @@ half, and it is the one people will actually remember.
 <div>
 
 **This deck is a ladder because the talk needed one.** Your career does not have
-to be. A ladder has one direction; a career has several, and most of the good
-ones are sideways.
+to be. A ladder has one direction; a career has several.
 
-**You choose which rung you work at** — including the ground. Rung 1, one agent
-and deep craft on a small scope, is a choice, not a failure to climb.
+**You choose which rung you work at** — including the ground. Rung 1, deep craft
+on a small scope, is a choice, not a failure.
 
 **Climbing is a trade, not a promotion.** More coordination, less making. Some
-take that trade happily, some take it once and go back. Neither is a character
-flaw.
+take that trade happily, some take it once and go back. Neither is a flaw.
+
+**And they work for you, not the other way around.** Async does not mean free: a
+fleet that never sleeps takes every evening you give it. Watch your hours, not
+just theirs.
 
 </div>
 <div>
