@@ -81,9 +81,9 @@ style: |
 <div class="scratched">Multi-Agent Structure</div>
 <div class="scratched">Agent Optimization Science</div>
 
-# <span class="title">How to survive the AI age as an engineer</span>
+# <span class="title">How to be a 10x Engineer</span>
 
-<div class="byline">JC &middot; 2026-09-17</div>
+<div class="byline">JC &middot; 2026-09-18</div>
 
 <!--
 Let the two crossed-out titles sit for a beat. The joke is that the
@@ -104,17 +104,17 @@ answer is that you don't stay one.
 
 ---
 
-# Rung 1: three primitives
+# Let's make sure we have our AI tool belt
 
 <div class="columns3">
 <div class="card"><h3>Hooks</h3>Deterministic.<br>Fire on an event.</div>
-<div class="card"><h3>Skills</h3>A named workflow.<br>Loaded when relevant.</div>
-<div class="card"><h3>Agents</h3>Parallelism and isolation.<br>The expensive one.</div>
+<div class="card"><h3>Skills</h3>A custom workflow.<br>Loaded when relevant.</div>
+<div class="card"><h3>Agents</h3>Parallelism and isolation.<br>Expensive.</div>
 </div>
 
 <br>
 
-- **Reach in that order**
+- **Reach for them in that order**
 - If a hook can do it, a skill should not
 - If a skill can do it, an agent should not
 
@@ -137,7 +137,11 @@ any topology in this deck.
 
 ---
 
-# Rung 2: manage more
+# Problem: How to be a 10x engineer
+
+---
+
+# Fix: Multiply
 
 ```sh
 claude "add the cache"          # three terminals
@@ -146,9 +150,8 @@ claude "update the docs"
 ```
 
 - One agent is a conversation
-- The oldest scale-up in the org chart: **hire**
-- What you expect: 3× throughput
-- What you get: the next slide
+- Classic way to scale: **hire more**
+- 3× throughput... right?
 
 <!--
 The move is instinctive and it is not stupid. It is exactly what you
@@ -157,14 +160,11 @@ would do with three contractors and no process.
 
 ---
 
-# Rung 2 breaks: they fight
+# Problem: Thrash
 
-- Same file, same minute — **stale reads**
-- Tests run mid-write — the red is a **race**, not a bug
-- One branch — nothing reverts alone
-- Your tree is three plans, merged by accident
-
-**Three humans on one checkout: same afternoon.**
+- Reading each other's changes that may be unrelated
+- Writing conflicts
+- All on a branch, so it's confusing together
 
 <!--
 This is thrash, and it is not an agent problem. Put three people on one
@@ -180,7 +180,7 @@ give each worker its own copy.
 
 ---
 
-# Rung 3: isolate
+# Fix: Isolation
 
 - **By checkout** — one worktree each
 - **By partition** — one directory per agent
@@ -189,7 +189,7 @@ give each worker its own copy.
 <br>
 
 - Buys: no races, one PR per chunk, throwaway runs
-- Costs: **merges**, moved to review time
+- Costs: **merge conflicts**, moved to review time
 
 <!--
 A worktree is its own directory and branch over one shared object store,
@@ -216,8 +216,7 @@ claude rm <id>               # session and worktree gone
 ```
 
 - Or `isolation: worktree` in the agent file
-- Gitignore the trees
-- **The branch is the output**
+- gitignore the trees
 
 <!--
 --tmux uses iTerm2 native panes when available, tmux otherwise.
@@ -232,6 +231,31 @@ you are comparing different codebases and will not notice.
 
 ---
 
+# Hub and spoke
+
+```text
+        you
+    ┌────┼────┬────────┐
+  sess1 sess2 sess3  sess4
+```
+
+- **n−1 links, one person**
+- Your context window: the smallest, and the only fixed one
+- Sessions idle while you are elsewhere
+- Four jobs: decompose, route, validate, synthesize
+
+<!--
+Good news first: this is a real topology, and it has the best error
+containment of any of them -- nothing reaches the shared branch without
+passing a reviewer. Hold that thought until the research act, which puts
+a number on it.
+
+The bad news is that isolation solved thrash and did nothing for
+latency. Every session is blocked on the slowest component, which is a
+human being with one attention.
+-->
+---
+
 # So you are a 10x engineer now
 
 ```text
@@ -242,8 +266,7 @@ tab 4  docs          ● waiting on you
 tab 5  flaky-test    ● waiting on you
 ```
 
-- Five isolated sessions. No races.
-- Every one **stopped to ask you something**
+- Multiple isolated sessions. No races.
 
 <!--
 The arithmetic that does not work: one session asks you roughly one
@@ -258,16 +281,16 @@ branch?", "is this test meant to be skipped?", "can I install this?"
 
 ---
 
-# Rung 3 breaks: the wheel
+# Problem: The wheel of context switching
 
 <div class="figsplit">
 <div>
 
-- Five sessions, five contexts, **none of them yours**
-- Every switch costs minutes — the agent idles through all of them
-- Cheap questions, ruinous in aggregate
+- Multiple sessions, multiple contexts, **none of them yours**
+- Every switch with potentially a lot to read costs time while the agent idles
+- Death by a thousand questions
 - You are the runtime now
-- Draining in a way real work is not
+- Draining
 
 </div>
 <div class="figure">
@@ -322,43 +345,7 @@ This is the wall that makes the rest of the deck worth paying for.
 
 ---
 
-# Rung 4: you are the hub
-
-```text
-        you
-    ┌────┼────┬────────┐
-  sess1 sess2 sess3  sess4
-```
-
-- **n−1 links, one person**
-- Your context window: the smallest, and the only fixed one
-- Sessions idle while you are elsewhere
-- Four jobs: decompose, route, validate, synthesize
-
-**The shape is right. You in the middle is not.**
-
-<!--
-Good news first: this is a real topology, and it has the best error
-containment of any of them -- nothing reaches the shared branch without
-passing a reviewer. Hold that thought until the research act, which puts
-a number on it.
-
-The bad news is that isolation solved thrash and did nothing for
-latency. Every session is blocked on the slowest component, which is a
-human being with one attention.
--->
-
----
-
-<!-- _class: lead -->
-
-# How do you 10x from here?
-
-## <span class="tenx">Delegation.</span> Stop being the hub. Hire one.
-
----
-
-# Rung 5: give each session its own agents
+# Fix: Delegation
 
 ```text
 you ──► lead ──┬──► researcher
@@ -440,7 +427,7 @@ for making one model smarter.
 
 <!-- _class: lead -->
 
-# How do you 10x again?
+# Moar, faster!
 
 <div class="qa">
 
@@ -536,7 +523,7 @@ license -- keep the single small figure at the gate, it is the joke.
 
 ---
 
-# Rung 6: wiring a fleet
+# Multi-agent fleet structure
 
 <div class="columns3">
 <div class="card"><h3>Centralized</h3>
@@ -575,9 +562,9 @@ intuition; the next section does not agree with intuition everywhere.
 
 <!-- _class: lead -->
 
-# What does the research say?
+# Too expensive, can't demo: </br> What does the research say?
 
-## 260 configurations, 6 benchmarks, 5 architectures &mdash; plus six swarm experiments
+## 260 configurations, 6 benchmarks, 5 architectures, and 6 swarm experiments
 
 ---
 
