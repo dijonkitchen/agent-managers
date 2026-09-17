@@ -48,7 +48,9 @@ style: |
 Speaker: let the two crossed-out titles sit for a beat. The joke is that
 the honest title is the one nobody would put on a conference abstract.
 Open on the demo, not on theory. The first five minutes are the run,
-the graphs, and the diff. Theory comes after they've seen it.
+the graphs, and the diff. Four acts, in this order: the example, the
+research, the theory, the management link. Nothing is argued before it
+has been shown.
 
 Do not answer the title here. The closing slide answers it, and the
 answer is that you don't stay one.
@@ -70,7 +72,7 @@ Same task. Same three agents. Same prompts. Plus a control: **one agent, alone**
 
 <br>
 
-Then: what the research says, why humans stay, and what to do on Monday.
+Then, in that order: **the research**, **the theory**, and **what it means for managers**.
 
 ---
 
@@ -165,39 +167,33 @@ Manny is present but has no authority.
 
 ---
 
-# Hub run: the message graph
-
-![center h:480](assets/hub.svg)
-
----
-
-# Flat run: the message graph
-
-![center h:480](assets/flat.svg)
-
----
-
-# Side by side
+# Dot, star, mesh
 
 <div class="columns3">
 <div>
 
-![w:360](assets/solo.svg)
+![w:420](assets/solo.svg)
+
+**Solo** — no edges
 
 </div>
 <div>
 
-![w:360](assets/hub.svg)
+![w:420](assets/hub.svg)
+
+**Hub** — every hop via Manny
 
 </div>
 <div>
 
-![w:360](assets/flat.svg)
+![w:420](assets/flat.svg)
+
+**Flat** — everyone to everyone
 
 </div>
 </div>
 
-Dot, star, mesh. Same task, same prompts.
+Same task, same prompts, same three agents. Rendered from the run logs by `make graphs`.
 
 ---
 
@@ -314,7 +310,7 @@ Run against real logs when present. A red test is a finding.
 | Violations at ship | one reflex, unchecked | **0** | lru_cache shipped |
 | Context | one window, all of it | small, briefed | large, all read all |
 
-**The hub never had two agents at once, and every run has exactly one writer.** It reviews and contains errors; it does not coordinate. Call it a reviewed pipeline — step 6 is what would change that.
+**The hub never had two agents at once, and every run has exactly one writer.** It reviews and contains errors; it does not coordinate. Call it a reviewed pipeline — the scaling shape later on is what would change that.
 
 Flat is no strawman: it wins on latency, loses on churn. Nor is solo.
 
@@ -332,13 +328,13 @@ the claim would have.
 
 <!-- _class: lead -->
 
-# Why it turned out that way
+# What the research says
 
-## Each step below exists because the one before it hit a wall
+## 260 configurations, 6 benchmarks, 5 architectures &mdash; plus six swarm experiments
 
 ---
 
-# 1. Solo already is the 10x
+# Solo already is the 10x
 
 The jump from you typing to one agent is where almost all of the multiplier lives.
 **The second agent is worth far less than the first.**
@@ -349,7 +345,7 @@ The jump from you typing to one agent is where almost all of the multiplier live
 | Every multi-agent variant, sequential reasoning | **−39% to −70%** |
 | Coordination stops paying once one agent clears | **~45%** |
 
-**That first row is for parallelizable work.** The hub run you just watched parallelizes nothing, so it is not what that number measures. More on this on the scorecard.
+**That first row is for parallelizable work.** The hub run you just watched parallelizes nothing, so it is not what that number measures. The scorecard you just saw says the same thing.
 
 So most tasks should stay solo. Solo has exactly two ceilings, and they are the ones the demo hit:
 **it cannot parallelize, and nobody checks its work.**
@@ -364,7 +360,7 @@ tokens for well under N times the output.
 
 ---
 
-# 2. So add agents. Structure decides what you get.
+# Add agents and structure decides what you get
 
 <div class="columns">
 <div>
@@ -380,22 +376,20 @@ Same numbers, same paper as the last slide.
 </div>
 <div>
 
-**Brooks (1975).** Communication paths grow as n(n−1)/2.
-3 peers: 3 paths. 5 peers: 10. 10 peers: 45.
-A hub makes it n−1.
+**This is the demo you just watched.** One config line moved the run from 4 edges to 12, and changed the code that shipped.
 
-**Conway (1968).** The system copies the communication structure that built it. Wire agents flat, get a flat, negotiated architecture.
+What changed was the *spec Codie received*, not the number of writers — only Codie writes, in every run.
 
 </div>
 </div>
 
 <br>
 
-**This is the demo.** One config line moved the run from 4 edges to 12, and changed the code that shipped. What changed was the *spec Codie received*, not the number of writers — only Codie writes, in every run.
+Containment is the argument for a hub. It is not an argument for *more agents* — and it has a hard limit.
 
 ---
 
-# 3. But structure cannot fix clones
+# Structure cannot fix clones
 
 Anthropic Frontier Red Team, Aug 2026. Six experiments: swarms hunting vulnerabilities, building a game, pricing in a market.
 
@@ -409,7 +403,7 @@ Anthropic Frontier Red Team, Aug 2026. Six experiments: swarms hunting vulnerabi
 
 ---
 
-# 4. So diversify by evidence, not personality
+# So diversify by evidence, not personality
 
 <div class="columns small">
 <div>
@@ -441,7 +435,44 @@ Scoped per agent with `mcpServers` in the agent file.
 
 ---
 
-# 5. Someone still has to decide
+# The theory: three old laws still hold
+
+<div class="columns small">
+<div>
+
+**Brooks (1975).** Communication paths grow as n(n&minus;1)/2.
+3 peers: 3 paths. 5 peers: 10. 10 peers: 45.
+A hub makes it n&minus;1.
+
+That is the 4 edges against 12 you already saw. Nothing about agents made this new; the arithmetic is fifty years old.
+
+**Conway (1968).** A system copies the communication structure that built it. Wire the agents flat and you get a flat, negotiated architecture &mdash; not because anyone chose one, but because that is the shape the conversation had.
+
+</div>
+<div>
+
+**Sutton (2019), the Bitter Lesson.** General methods plus compute beat hand-built structure, in the long run.
+
+So every role in this deck is provisional. BMAD-METHOD mostly mirrors this cast (analyst, architect, PM, dev). As models improve, expect to **delete** roles, not add them.
+
+**What survives it:** isolation and parallelism. A smarter model still cannot be in two worktrees at once.
+
+**And judgment.** Deciding what to build, what to reject, and what "done" means is not scaffolding. It is the job.
+
+</div>
+</div>
+
+---
+
+<!-- _class: lead -->
+
+# Why the humans stay
+
+## The one part of the org chart that transfers
+
+---
+
+# Someone still has to decide
 
 <div class="figsplit">
 <div class="small">
@@ -485,7 +516,7 @@ Scoped per agent with `mcpServers` in the agent file.
 
 ---
 
-# 6. So how does this scale?
+# How this scales
 
 <div class="columns">
 <div>
@@ -526,29 +557,6 @@ Speaker: the shape is the answer to "does this actually parallelize?"
 Today's hub run does not - one agent alive at a time. Two Codies is
 what turns the pipeline into coordination.
 -->
-
----
-
-# 7. How long does this scaffolding last?
-
-<div class="columns">
-<div>
-
-**Sutton (2019), the Bitter Lesson.** General methods plus compute beat hand-built structure, in the long run.
-
-So every role in this deck is provisional. BMAD-METHOD mostly mirrors this cast (analyst, architect, PM, dev). As models improve, expect to **delete** roles, not add them.
-
-</div>
-<div>
-
-**What survives the Bitter Lesson:**
-isolation and parallelism. A smarter model still cannot be in two worktrees at once.
-
-**And judgment.** Deciding what to build, what to reject, and what "done" means is not scaffolding. It is the job.
-
-</div>
-</div>
-
 
 ---
 
@@ -607,14 +615,13 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 
 # Tying it together
 
-1. **Solo already is the 10x**, and it often wins. Its ceilings are parallelism and having nobody check it.
-2. **Structure decides what you get.** Hubs contain errors at 4.4×; peers amplify at 17.2×. It is one config line.
-3. **Structure cannot fix clones.** Same model plus same context is the same mistake, N times.
-4. **So diversify by evidence.** Minimum context per agent; untrusted sources to the agent that cannot execute.
-5. **Someone still has to decompose, validate, and synthesize.** That is judgment, and it does not automate.
-6. **Scale by fanning out at the leaves.** Many Codies, many researchers, one Manny, one Archie. Add a layer only when span of control runs out.
-7. **The scaffolding is temporary; the judgment is not.** Delete roles as models improve.
-8. **Pick the lightest tool.** Single agent → subagents → worktrees → teams.
+**The example.** One config line &mdash; who is allowed to talk to whom &mdash; turned 4 edges into 12 and changed the code that shipped. Nothing else differed.
+
+**The research.** Solo already is the 10x, and often wins; its only ceilings are parallelism and having nobody check it. Structure decides the rest: hubs contain errors at 4.4&times;, peers amplify at 17.2&times;. But no structure makes two copies of one model disagree &mdash; so diversify by *evidence*, not personality.
+
+**The theory.** Brooks bounds the hops, Conway turns your wiring into your architecture, Sutton says the scaffolding is temporary.
+
+**The management link.** Someone still has to decompose, validate, and synthesize. Fan out at the leaves, stay singular at the decision points, keep the org chart's shape and not its rationale &mdash; and delete roles as the models improve.
 
 ---
 
