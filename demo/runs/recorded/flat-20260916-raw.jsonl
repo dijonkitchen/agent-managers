@@ -82,7 +82,7 @@
 {"ts": 1789592468.894731, "kind": "message", "from": "codie", "to": "archie", "chars": 2083}
 {"ts": 1789592477.416538, "kind": "report", "from": "archie", "to": "referee", "chars": 0}
 {"ts": 1789592480.821177, "kind": "report", "from": "referee", "to": "referee", "chars": 0}
-{"ts": 1789592484.938522, "kind": "message", "from": "manny", "to": "referee", "chars": 6266}
+{"ts": 1789592484.938522, "kind": "message", "from": "manny", "to": "main", "chars": 6266}
 {"ts": 1789592485.511703, "kind": "message", "from": "codie", "to": "manny", "chars": 3015}
 {"ts": 1789592497.344815, "kind": "report", "from": "codie", "to": "referee", "chars": 0}
 {"ts": 1789592498.9631832, "kind": "report", "from": "manny", "to": "referee", "chars": 0}
@@ -97,7 +97,7 @@
 {"ts": 1789592527.099054, "kind": "report", "from": "codie", "to": "referee", "chars": 0}
 {"ts": 1789592530.2715242, "kind": "report", "from": "archie", "to": "referee", "chars": 0}
 {"ts": 1789592531.701382, "kind": "report", "from": "referee", "to": "referee", "chars": 0}
-{"ts": 1789592534.511549, "kind": "message", "from": "manny", "to": "referee", "chars": 2786}
+{"ts": 1789592534.511549, "kind": "message", "from": "manny", "to": "main", "chars": 2786}
 {"ts": 1789592537.018473, "kind": "report", "from": "referee", "to": "referee", "chars": 0}
 {"ts": 1789592547.839645, "kind": "report", "from": "manny", "to": "referee", "chars": 0}
 {"ts": 1789592554.111145, "kind": "message", "from": "codie", "to": "archie", "chars": 1579}

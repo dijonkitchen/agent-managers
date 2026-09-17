@@ -29,8 +29,19 @@ Definitions live in `.claude/agents/`.
 `demo/target/` is a tiny pricing module with a slow upstream quote
 function. The task (`demo/target/TASK.md`) is to add caching under a
 freshness and memory constraint. The reflex answer (`functools.lru_cache`)
-violates the freshness constraint, which is what makes the topologies
-diverge: Codie reaches for it first, Archie catches it.
+violates the freshness constraint, which is what the task is designed to
+bait.
+
+**The 2026-09-16 runs did not take the bait.** All three — including solo,
+with nobody to check it — shipped a TTL-bounded LRU that passes all four
+constraints, with the same `OrderedDict`, the same `TTL_SECONDS = 5.0` and
+the same `MAX_ENTRIES = 128`, a number no constraint asks for. Topology
+moved the cost from 0 to 20 to 93 hops, and 3.5x in context moved between
+hub and flat; it did not change the answer. That is the low-variance finding the deck cites
+from Anthropic's swarm work, showing up in the demo's own data, and it is a
+more interesting result than the divergence the task was built to produce.
+The `lru_cache` version lives in `demo/attempts/` as a scored exhibit, not
+as something a run produced.
 
 ## Running the demo
 
@@ -58,13 +69,22 @@ replay the recording on stage instead of running live.
 
 - `demo/tests/test_scenarios.py` asserts each topology's strengths and
   weaknesses from the run logs: solo has zero coordination cost and no
-  second opinion; hub is a star with a validation loop but runs
-  sequentially; flat starts everyone at once and finishes first but
-  talks past the lead with more hops and more context.
+  second opinion; hub is a star with a validation loop that serializes
+  most of the work and pays its context once per agent; flat starts
+  everyone at once and finishes first but talks past the lead with more
+  hops and more context. The captured runs falsified two earlier claims
+  here — that the hub never ran two agents at once, and that its briefs
+  were small — so both were restated. A red test is a finding.
 - `demo/tests/test_attempts.py` scores three caching implementations
   against the four TASK.md constraints: the untouched module, Codie's
   `lru_cache` reflex in `demo/attempts/`, and the TTL-bounded cache
   that passes Archie's checklist.
+- `demo/tests/test_slides.py` holds the deck to the logs: it parses the
+  hardcoded scorecard on `slides/slides.md` and compares every hub and flat
+  figure against the same predicates `make graphs` uses, and checks that the
+  test names printed on the "Every claim is a test" slide are exactly the
+  ones `test_scenarios.py` defines. Re-capture the runs and a stale slide
+  number turns the build red instead of going on stage.
 - `demo/target/test_acceptance.py` is the task's definition of done.
   Deselected by default; `make acceptance` runs it.
 
@@ -77,9 +97,25 @@ make slides   # -> dist/index.html
 make pdf      # -> dist/slides.pdf
 ```
 
-`make graphs` uses real runs from `demo/runs/` when present and falls
-back to the synthetic samples in `demo/runs/samples/`. Pushes to `main`
-deploy `dist/` to GitHub Pages via `.github/workflows/slides.yml`.
+`make graphs` uses captured runs from `demo/runs/` only when all three
+are present, and otherwise falls back to the tracked copies in
+`demo/runs/samples/` — which hold the 2026-09-16 runs, not stand-ins.
+The caption under the table states which source it used.
+Pushes to `main` deploy `dist/` to GitHub Pages via
+`.github/workflows/slides.yml`.
+
+To put real numbers on the deck, capture all three runs and promote them:
+
+```sh
+./demo/run-solo.sh && ./demo/run-hub.sh && ./demo/run-flat.sh
+make promote-runs graphs
+```
+
+Capture before landing any branch that completes `demo/target/TASK.md`.
+`prepare_worktree` starts each run from the main checkout's `HEAD`, so once
+the task is already done on `main` the agents have nothing to do and the
+logs are worthless. `demo/runs/*.jsonl` is gitignored and CI builds from a
+clean clone, so `make promote-runs` is what gets real data as far as Pages.
 
 ## Layout
 
@@ -95,5 +131,7 @@ deploy `dist/` to GitHub Pages via `.github/workflows/slides.yml`.
 | `demo/tools/scenarios.py` | Structural predicates over a run log |
 | `demo/tools/constraints.py` | TASK.md constraints as checks against any pricing module |
 | `demo/attempts/` | Reference caching attempts scored by the tests |
-| `demo/runs/samples/` | Synthetic solo, hub, and flat runs so the deck builds without Claude |
+| `demo/runs/samples/` | The solo, hub, and flat runs the deck builds from |
+| `demo/runs/recorded/` | The same runs unedited, with what normalizing changed |
+| `demo/tools/normalize_run.py` | Resolves a recorded destination onto the agent behind it |
 | `slides/slides.md` | The Marp deck |

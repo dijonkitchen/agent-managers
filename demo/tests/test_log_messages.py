@@ -77,3 +77,39 @@ def test_session_start_and_end_record_self_edges_for_the_lead():
 def test_session_start_inside_named_session_uses_agent_type():
     rec = lm.to_record({"hook_event_name": "SessionStart", "agent_type": "manny"}, lead="x", now=1.0)
     assert rec["from"] == "manny"
+
+
+def test_subagent_stop_sent_by_the_lead_itself_is_not_a_report():
+    """No agent_type means no subagent behind the event, so nobody reported.
+
+    The captured solo run was started with `--disallowedTools Agent` and still
+    saw SubagentStop twice, crediting the control run with two hops of
+    coordination it could not have had. The captured hub run logged 40.
+    """
+    assert lm.to_record({"hook_event_name": "SubagentStop"}, lead="solo", now=3.0) is None
+
+
+def test_send_message_to_the_main_session_resolves_to_the_lead():
+    """A teammate addressing the lead session as "main" is talking to the lead.
+
+    Recording the raw name draws one session as two nodes. In the captured flat
+    run it made seven peer edges out of six.
+    """
+    event = {
+        "hook_event_name": "PreToolUse",
+        "tool_name": "SendMessage",
+        "agent_type": "manny",
+        "tool_input": {"to": "main", "message": "done"},
+    }
+    rec = lm.to_record(event, lead="referee", now=4.0)
+    assert rec == {"ts": 4.0, "kind": "message", "from": "manny", "to": "referee", "chars": 4}
+
+
+def test_send_message_to_a_peer_keeps_the_peer_name():
+    event = {
+        "hook_event_name": "PreToolUse",
+        "tool_name": "SendMessage",
+        "agent_type": "manny",
+        "tool_input": {"to": "codie", "message": "done"},
+    }
+    assert lm.to_record(event, lead="referee", now=4.0)["to"] == "codie"
