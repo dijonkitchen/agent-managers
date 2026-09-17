@@ -403,6 +403,8 @@ sends the check back to you, and you are the hub again with extra steps.
 - **Only who may talk to whom changes**
 - Hops: **0 → 20 → 93**
 
+<span class="sources">One captured run per topology, 2026-09-16 — [logs and provenance](https://github.com/dijonkitchen/agent-managers/tree/8f24af8/demo/runs/recorded)</span>
+
 <!--
 This is the experiment, at the altitude it deserves. Three runs of one
 task: one agent alone, three agents through a lead, three agents as
@@ -1103,14 +1105,17 @@ prediction you would otherwise make for them.
 The two props are the promises Portal makes and breaks: the cube is the
 teammate you are issued and then told to incinerate, the cake is the
 reward that never arrives. Both are what a multi-agent demo sells. The
-answer to "does any of this actually work?" is `make acceptance`, not a
-slide. Sources are the next slide if anyone wants a citation.
--->---
+answer to "does any of this actually work?" is the captured runs behind
+the hop numbers -- one per topology, cited on the next slide.
+-->
+
+---
 
 # Sources
 
 <div class="sources">
 
+- **This deck's runs** — 0 / 20 / 93 hops, 0 / 44k / 155k prompt chars: one capture per topology on the same task, 2026-09-16, n=1 each. [Logs and provenance](https://github.com/dijonkitchen/agent-managers/tree/8f24af8/demo/runs/recorded)
 - Kim et al., *[Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)*, arXiv 2512.08296, Dec 2025. [Google Research blog](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
 - Google re:Work, *[Project Oxygen / the research behind great managers](https://rework.withgoogle.com/guides/managers-identify-what-makes-a-great-manager/)*. See also Garvin, *[How Google Sold Its Engineers on Management](https://hbr.org/2013/12/how-google-sold-its-engineers-on-management)*, HBR, Dec 2013
 - Anthropic Frontier Red Team, *[Patterns and problems in emerging multiagent systems](https://www.anthropic.com/research/multiagent-systems)*, Aug 2026

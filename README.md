@@ -44,3 +44,8 @@ Every figure quoted on a slide is linked on the deck's final slide —
 Kim et al. on scaling agent systems, Anthropic's Frontier Red Team on
 multiagent failure modes, Google's Project Oxygen, Brooks, Conway, Sutton,
 BMAD-METHOD, and the Claude Code docs.
+
+The `0 → 20 → 93` hop figure is the deck's own: one captured run per
+topology on the same task, 2026-09-16. The harness that produced it was
+cut from this repo, so the logs and their provenance live in history at
+[`8f24af8`](https://github.com/dijonkitchen/agent-managers/tree/8f24af8/demo/runs/recorded).
