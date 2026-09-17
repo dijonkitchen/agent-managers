@@ -14,7 +14,7 @@ you manage.
 | --- | --- |
 | **The climb** | Every rung is cleared by a management move, not a smarter model |
 | **The research** | Solo is already the 10x. Structure contains errors; it cannot fix clones. |
-| **The wiring** | One config line — who may talk to whom — takes 0 hops to 20 to 93, for the same answer |
+| **The wiring** | One config line — who may talk to whom — sets whether paths grow n−1 or n(n−1)/2 |
 | **The stop rule** | As simple as possible, but no simpler. Climb to the wall in front of you. |
 
 ## Building
@@ -45,7 +45,6 @@ Kim et al. on scaling agent systems, Anthropic's Frontier Red Team on
 multiagent failure modes, Google's Project Oxygen, Brooks, Conway, Sutton,
 BMAD-METHOD, and the Claude Code docs.
 
-The `0 → 20 → 93` hop figure is the deck's own: one captured run per
-topology on the same task, 2026-09-16. The harness that produced it was
-cut from this repo, so the logs and their provenance live in history at
-[`8f24af8`](https://github.com/dijonkitchen/agent-managers/tree/8f24af8/demo/runs/recorded).
+Every number on a slide comes from published research. The deck makes no
+measurement of its own — the only figures it derives are edge counts, and
+those are arithmetic.

@@ -99,8 +99,8 @@ answer is that you don't stay one.
 
 <!--
 Hooks are shell commands the harness runs, not decisions the model
-makes. Format after every edit. Block a commit to main. Log every spawn
--- that last one is how the numbers later in this deck exist at all.
+makes. Format after every edit. Block a commit to main. Log every
+spawn.
 
 Skills: "how we cut a release", "how we review a migration". Rule of
 thumb -- the second time you type the same prompt, it should have been a
@@ -380,28 +380,21 @@ sends the check back to you, and you are the hub again with extra steps.
 
 - Same task, same agents, same prompts
 - **Only who may talk to whom changes**
-- Hops: **0 → 20 → 93**
-
-<span class="sources">One captured run per topology, 2026-09-16 — [logs and provenance](https://github.com/dijonkitchen/agent-managers/tree/8f24af8/demo/runs/recorded)</span>
+- Every extra link is context moved, not work done
 
 <!--
-This is the experiment, at the altitude it deserves. Three runs of one
-task: one agent alone, three agents through a lead, three agents as
-peers with nobody in charge. The only difference between the runs is one
-config line -- whether the workers have a message tool.
+Three wirings of one task: one agent alone, three through a lead, three
+as peers with nobody in charge. The only difference is one config line
+-- whether the workers have a message tool.
 
-The numbers: 0, 20 and 93 hops; 0, 44k and 155k characters of context
-moved. Flat finished faster in wall-clock (872s vs 1361s) purely by
-overlapping -- effort was within 12%.
+Nothing on this slide is a measurement. The edge counts are arithmetic:
+0, n-1, n(n-1)/2. What each wiring actually costs is the next act, and
+it is somebody else's data rather than a demo -- which is the honest way
+round, because one run of one task would not settle it anyway.
 
-And the finding nobody expected: all three shipped the same code. Same
-data structure, same TTL, same cache bound, down to a constant no
-constraint asked for. Topology bought cost, not correctness.
-
-If someone asks whether that generalizes: on a task this size, with one
-model behind every agent, that is exactly what the research on the next
-few slides predicts. Coordination is for coverage and containment, not
-for making one model smarter.
+The point to land: topology is not a capability. It changes what the
+work costs and how far a mistake travels. It does not make one model
+smarter.
 -->
 
 ---
@@ -579,19 +572,24 @@ coder through the lead. That is defense in depth, not a hard boundary.
 **Brooks, 1975**
 Paths grow n(n−1)/2. A hub makes it n−1.
 
-**Showed up on schedule.**
-0 → 20 → 93 hops for one answer.
+**Ungoverned, it runs away.**
+One swarm's job queue: **2.4M requests**, 117 accepted jobs.
+
+<span class="sources">[Anthropic Frontier Red Team, Aug 2026](https://www.anthropic.com/research/multiagent-systems)</span>
 
 <!--
 Nothing about agents made Brooks new. The arithmetic is fifty years old
 and it is the entire reason rung 6 has three cards instead of one.
 
-Conway is the interesting failure. The deck's earlier version asserted
-it held; the runs said otherwise, so the claim moved. Three wirings
-produced the same design down to a constant nothing specified.
+The swarm number is what the quadratic looks like with nobody owning the
+stop button: 2.4M requests against 117 accepted jobs is a ratio, not a
+throughput. Nobody in that system was idle and almost nothing shipped.
 
-That is the clone problem from two slides ago, wearing a different hat
--- which is why the fix is evidence, not structure.
+Conway is the interesting omission, and this deck does not claim it
+holds. Same model plus same context produces near-identical work
+whatever the org chart -- 18 of 30 agents in that swarm opened the same
+branch name. That is the clone problem from two slides ago wearing a
+different hat, which is why the fix is evidence, not structure.
 -->
 
 ---
@@ -877,7 +875,7 @@ list was eight in 2008 and ten from 2018, and the phrasing shifted.
 
 - **The climb.** Every rung was cleared by a management move, not a smarter model.
 - **The research.** Solo is already the 10x. Structure contains errors; it cannot fix clones.
-- **The wiring.** One config line: 0 → 20 → 93 hops, same answer. Cost, not correctness.
+- **The wiring.** One config line. Paths grow n(n−1)/2, or n−1 through a hub. Cost, not capability.
 - **The stop rule.** As simple as possible, but no simpler.
 
 <!--
@@ -1064,8 +1062,9 @@ prediction you would otherwise make for them.
 The two props are the promises Portal makes and breaks: the cube is the
 teammate you are issued and then told to incinerate, the cake is the
 reward that never arrives. Both are what a multi-agent demo sells. The
-answer to "does any of this actually work?" is the captured runs behind
-the hop numbers -- one per topology, cited on the next slide.
+answer to "does any of this actually work?" is the research act, not a
+demo -- and the honest version of it is "at a smaller scale than this
+room wants."
 -->
 
 ---
@@ -1074,7 +1073,6 @@ the hop numbers -- one per topology, cited on the next slide.
 
 <div class="sources">
 
-- **This deck's runs** — 0 / 20 / 93 hops, 0 / 44k / 155k prompt chars: one capture per topology on the same task, 2026-09-16, n=1 each. [Logs and provenance](https://github.com/dijonkitchen/agent-managers/tree/8f24af8/demo/runs/recorded)
 - Kim et al., *[Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)*, arXiv 2512.08296, Dec 2025. [Google Research blog](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
 - Google re:Work, *[Project Oxygen / the research behind great managers](https://rework.withgoogle.com/guides/managers-identify-what-makes-a-great-manager/)*. See also Garvin, *[How Google Sold Its Engineers on Management](https://hbr.org/2013/12/how-google-sold-its-engineers-on-management)*, HBR, Dec 2013
 - Anthropic Frontier Red Team, *[Patterns and problems in emerging multiagent systems](https://www.anthropic.com/research/multiagent-systems)*, Aug 2026
