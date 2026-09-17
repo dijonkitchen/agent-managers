@@ -427,90 +427,9 @@ for making one model smarter.
 
 <!-- _class: lead -->
 
-# Moar, faster!
+# Problem: How to 10x?
 
-<div class="qa">
-
-<svg viewBox="0 0 720 320" width="660" role="img" aria-label="A dense industrial town of workshops, pipes, gears and smoking chimneys, with one small figure at the gate.">
-  <title>Industrialize it</title>
-  <rect x="0" y="0" width="720" height="320" fill="#f4f2ee"/>
-  <g fill="#e6e2db">
-    <circle cx="150" cy="60" r="34"/><circle cx="188" cy="48" r="26"/><circle cx="118" cy="52" r="22"/>
-    <circle cx="470" cy="44" r="30"/><circle cx="508" cy="56" r="22"/><circle cx="436" cy="58" r="20"/>
-    <circle cx="300" cy="34" r="22"/><circle cx="330" cy="46" r="16"/>
-  </g>
-  <g fill="#c7cbd0" stroke="#aeb4bb" stroke-width="2">
-    <rect x="28" y="150" width="90" height="118"/>
-    <rect x="600" y="140" width="96" height="128"/>
-    <rect x="250" y="120" width="70" height="148"/>
-  </g>
-  <g fill="#b0b6bd" stroke="#969ca4" stroke-width="2">
-    <rect x="126" y="176" width="112" height="92"/>
-    <rect x="330" y="164" width="120" height="104"/>
-    <rect x="462" y="186" width="128" height="82"/>
-  </g>
-  <g fill="#9aa1a9">
-    <path d="M126 176 L182 140 L238 176 Z"/>
-    <path d="M330 164 L390 128 L450 164 Z"/>
-    <path d="M462 186 L526 154 L590 186 Z"/>
-  </g>
-  <g fill="#8f959c">
-    <rect x="52" y="96" width="20" height="58" rx="3"/>
-    <rect x="86" y="112" width="16" height="42" rx="3"/>
-    <rect x="272" y="70" width="22" height="54" rx="3"/>
-    <rect x="392" y="80" width="20" height="50" rx="3"/>
-    <rect x="628" y="88" width="22" height="56" rx="3"/>
-    <rect x="516" y="108" width="16" height="48" rx="3"/>
-  </g>
-  <g fill="#dcdad6" opacity="0.95">
-    <circle cx="62" cy="86" r="13"/><circle cx="74" cy="66" r="17"/><circle cx="56" cy="48" r="13"/>
-    <circle cx="282" cy="60" r="14"/><circle cx="296" cy="40" r="18"/><circle cx="278" cy="24" r="13"/>
-    <circle cx="402" cy="70" r="12"/><circle cx="414" cy="52" r="16"/>
-    <circle cx="638" cy="78" r="14"/><circle cx="652" cy="58" r="18"/><circle cx="634" cy="40" r="13"/>
-  </g>
-  <g fill="none" stroke="#a5abb2" stroke-width="7" stroke-linecap="round">
-    <path d="M118 214 L126 214"/>
-    <path d="M238 210 L262 210 L262 196 L330 196"/>
-    <path d="M450 206 L462 206"/>
-    <path d="M590 222 L600 222"/>
-    <path d="M320 240 L330 240"/>
-  </g>
-  <g stroke="#8f959c" stroke-width="3" fill="#c2c7cd">
-    <circle cx="182" cy="232" r="26"/>
-    <circle cx="182" cy="232" r="9" fill="#8f959c"/>
-    <g fill="#c2c7cd">
-      <rect x="176" y="200" width="12" height="10"/><rect x="176" y="254" width="12" height="10"/>
-      <rect x="150" y="226" width="10" height="12"/><rect x="204" y="226" width="10" height="12"/>
-    </g>
-  </g>
-  <g stroke="#8f959c" stroke-width="3" fill="#c2c7cd">
-    <circle cx="526" cy="228" r="20"/>
-    <circle cx="526" cy="228" r="7" fill="#8f959c"/>
-    <g fill="#c2c7cd">
-      <rect x="521" y="202" width="10" height="9"/><rect x="521" y="245" width="10" height="9"/>
-      <rect x="500" y="223" width="9" height="10"/><rect x="543" y="223" width="9" height="10"/>
-    </g>
-  </g>
-  <g fill="#ffca28" opacity="0.85">
-    <rect x="140" y="196" width="12" height="14"/><rect x="164" y="196" width="12" height="14"/>
-    <rect x="344" y="186" width="12" height="14"/><rect x="368" y="186" width="12" height="14"/>
-    <rect x="424" y="186" width="12" height="14"/>
-    <rect x="476" y="206" width="12" height="14"/><rect x="556" y="206" width="12" height="14"/>
-    <rect x="44" y="172" width="12" height="14"/><rect x="616" y="164" width="12" height="14"/>
-    <rect x="266" y="140" width="12" height="14"/>
-  </g>
-  <rect x="0" y="268" width="720" height="10" fill="#b8bcc1"/>
-  <rect x="0" y="278" width="720" height="42" fill="#e9e6e1"/>
-  <g>
-    <circle cx="360" cy="282" r="7" fill="#6e7a87"/>
-    <rect x="355" y="290" width="10" height="17" rx="4" fill="#6e7a87"/>
-    <path d="M356 307 L352 316 M364 307 L368 316" stroke="#6e7a87" stroke-width="4" stroke-linecap="round"/>
-  </g>
-</svg>
-
-</div>
-
-## A fleet. Somebody has to wire it.
+## Moar, faster! A fleet. Somebody has to wire it.
 
 <!--
 The "industrialize it" beat. The picture does the argument: at this
@@ -575,9 +494,9 @@ intuition; the next section does not agree with intuition everywhere.
 | Centralized, **parallelizable** work | **+80.9%** |
 | Any architecture, **sequential** reasoning | **−39% to −70%** |
 
-- The second agent is worth far less than the first
-- Work must be parrallelizable
-- Hub and spoke centralization better
+- The second agent is worth far less than the first. <5 optimal if used.
+- Work must be parallelizable
+- Hub and spoke centralization better to coordinate
 
 <span class="sources">Kim et al., *[Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)*, arXiv 2512.08296, Dec 2025</span>
 
@@ -935,31 +854,6 @@ The rest of the deck is what that actually looks like.
 
 </div>
 <div class="figure">
-
-<svg viewBox="0 0 220 400" width="160" role="img" aria-label="A ceiling-mounted artificial intelligence with a single glowing yellow optic.">
-  <title>An orchestrator with nobody above it</title>
-  <rect x="66" y="0" width="88" height="14" rx="3" fill="#6f757c"/>
-  <rect x="92" y="14" width="36" height="30" rx="6" fill="#b9bec4"/>
-  <rect x="84" y="42" width="52" height="13" rx="6" fill="#8f959c"/>
-  <rect x="94" y="55" width="32" height="34" rx="6" fill="#c6cbd1"/>
-  <rect x="84" y="88" width="52" height="13" rx="6" fill="#8f959c"/>
-  <rect x="96" y="101" width="28" height="30" rx="6" fill="#b9bec4"/>
-  <path d="M32 196 L2 214 L6 262 L30 244 Z" fill="#c8ccd1" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M188 196 L218 214 L214 262 L190 244 Z" fill="#c8ccd1" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M30 244 L8 268 L18 300 L38 278 Z" fill="#d6dade" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M190 244 L212 268 L202 300 L182 278 Z" fill="#d6dade" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M34 190 C34 148 186 148 186 190 C193 234 174 292 146 324 C133 342 87 342 74 324 C46 292 27 234 34 190 Z" fill="#eceef0" stroke="#b4bac1" stroke-width="3"/>
-  <path d="M36 200 C72 218 148 218 184 200" fill="none" stroke="#c9ced3" stroke-width="3"/>
-  <path d="M44 254 C76 268 144 268 176 254" fill="none" stroke="#c9ced3" stroke-width="3"/>
-  <path d="M62 300 C82 312 138 312 158 300" fill="none" stroke="#c9ced3" stroke-width="3"/>
-  <circle cx="110" cy="312" r="44" fill="#ffca28" opacity="0.2"/>
-  <circle cx="110" cy="312" r="32" fill="#d5d8dc" stroke="#b4bac1" stroke-width="3"/>
-  <circle cx="110" cy="312" r="25" fill="#33363b"/>
-  <circle cx="110" cy="312" r="16" fill="#ffc107"/>
-  <circle cx="110" cy="312" r="6" fill="#fff8e1"/>
-</svg>
-
-<div class="cap">An orchestrator with<br>nobody above it.</div>
 
 </div>
 </div>
