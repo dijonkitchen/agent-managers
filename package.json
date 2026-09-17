@@ -1,11 +1,11 @@
 {
   "name": "agent-managers",
   "private": true,
-  "description": "Marp deck: hub-and-spoke vs flat multi-agent workflows",
+  "description": "Marp deck: how to survive the AI age as an engineer",
   "scripts": {
     "slides:build": "make slides",
     "slides:pdf": "make pdf",
-    "slides:watch": "make graphs && marp --html --watch --preview slides/slides.md"
+    "slides:watch": "npx marp --html --watch --preview slides/slides.md"
   },
   "devDependencies": {
     "@marp-team/marp-cli": "4.5.1"
