@@ -598,19 +598,10 @@ coder through the lead. That is defense in depth, not a hard boundary.
 
 # Problem: Network effects
 
-<div class="columns">
-<div>
+- **Brooks, 1975.** Paths grow n(n−1)/2. A hub makes it n−1.
+- **Showed up on schedule.** 0 → 20 → 93 hops for one answer.
 
-**Brooks, 1975**
-Paths grow n(n−1)/2. A hub makes it n−1.
-
-**Showed up on schedule.**
-0 → 20 → 93 hops for one answer.
-
-</div>
-</div>
-
-<br>
+<span class="sources">Brooks, *[The Mythical Man-Month](https://en.wikipedia.org/wiki/The_Mythical_Man-Month)*, 1975</span>
 
 <!--
 Nothing about agents made Brooks new. The arithmetic is fifty years old
