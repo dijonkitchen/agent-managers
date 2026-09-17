@@ -129,6 +129,18 @@ def test_hub_strength_resuming_an_agent_is_cheaper_than_briefing_one(hub):
     assert sc.mean_chars(hub, "message") < sc.mean_chars(hub, "spawn")
 
 
+def test_hub_pays_its_largest_single_hop_on_a_cold_brief(hub, flat):
+    """The scorecard's "biggest single hop" row, asserted.
+
+    Hub's 17,411-char cold spawn of codie is the largest hop anywhere in the
+    demo -- bigger than flat's largest at 10,610 -- which is the honest
+    version of "hub briefs are small": it is not, it just pays it once.
+    """
+    biggest = max(sc.hop_records(hub), key=lambda r: r.get("chars", 0))
+    assert biggest["kind"] == "spawn"
+    assert sc.max_hop_chars(hub) > sc.max_hop_chars(flat)
+
+
 def test_hub_weakness_the_lead_serializes_most_of_the_work(hub, flat):
     """Not strictly sequential, but close, and capped by the lead's attention.
 
