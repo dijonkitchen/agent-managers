@@ -46,8 +46,8 @@ style: |
      numbers came from. */
   section.metrics table { font-size: 20px; }
   section.metrics p { font-size: 17px; color: #555; }
-  /* The ladder climbs: rung 0 sits bottom-left, rung 10 top-right, so the
-     rows are authored top-down from 10 and each one is indented less than
+  /* The ladder climbs: rung 0 sits bottom-left, rung 9 top-right, so the
+     rows are authored top-down from 9 and each one is indented less than
      the row above it. */
   .stair { margin-top: 0.3rem; }
   .stair .step { font-size: 19px; line-height: 1.25; padding: 3px 12px;
@@ -61,10 +61,12 @@ style: |
   .stair .i4  { margin-left: 168px; }  .stair .i5  { margin-left: 210px; }
   .stair .i6  { margin-left: 252px; }  .stair .i7  { margin-left: 294px; }
   .stair .i8  { margin-left: 336px; }  .stair .i9  { margin-left: 378px; }
-  .stair .i10 { margin-left: 420px; }
   .wall { color: #b03030; font-weight: 700; }
   .rung { font-weight: 700; color: #2d3b4e; }
   .tenx { font-size: 30px; font-weight: 700; color: #2d3b4e; }
+  /* The reveal has to outweigh its own setup line. */
+  .setup { font-size: 26px; font-weight: 400; color: #777; }
+  .reveal { font-size: 50px; font-weight: 700; color: #2d3b4e; }
   blockquote { border-left: 5px solid #ddd; margin-left: 0; padding-left: 1rem;
     font-size: 30px; color: #333; }
   blockquote footer { font-size: 20px; color: #666; }
@@ -87,44 +89,17 @@ style: |
 Let the two crossed-out titles sit for a beat. The joke is that the
 honest title is the one nobody would put on a conference abstract.
 
-The deck is a ladder. Every rung: you get faster, then you hit a wall
-that the next rung exists to clear. Ask "how do we 10x again?" out loud
-at each wall -- the room starts answering before you do, and the last
-answer is the thesis.
+The deck is a ladder, climbed one rung at a time: you get faster, then
+you hit a wall that the next rung exists to clear. Ask "how do we 10x
+again?" out loud at each wall -- the room starts answering before you
+do.
+
+Deliberately no roadmap slide. The room should feel the climb rather
+than see it mapped, because the shape of the ladder is a reveal near the
+end, and what is missing from it is the point.
 
 Do not answer the title here. The closing slide answers it, and the
 answer is that you don't stay one.
--->
-
----
-
-# The ladder
-
-<div class="stair">
-<div class="step i10 top"><b>10</b> <b>Manage</b> — that one is yours</div>
-<div class="step i9"><b>9</b> Delete orchestration the models outgrow <span class="wall">→ only judgment left</span></div>
-<div class="step i8"><b>8</b> Buy the cast; fan out <span class="wall">→ the scaffolding rots</span></div>
-<div class="step i7"><b>7</b> Diversify by evidence <span class="wall">→ hand-rolling an org chart</span></div>
-<div class="step i6"><b>6</b> Wire the fleet deliberately <span class="wall">→ clones, cost, agents that fight</span></div>
-<div class="step i5"><b>5</b> Delegate <span class="wall">→ a fleet with no structure</span></div>
-<div class="step i4"><b>4</b> You become the hub <span class="wall">→ you are the bottleneck</span></div>
-<div class="step i3"><b>3</b> Isolate them <span class="wall">→ N tabs, all asking you</span></div>
-<div class="step i2"><b>2</b> Several agents in one repo <span class="wall">→ they overwrite each other</span></div>
-<div class="step i1"><b>1</b> One agent <span class="wall">→ it cannot be in two places</span></div>
-<div class="step i0"><b>0</b> Type code yourself <span class="wall">→ one head, one file</span></div>
-</div>
-
-**Mostly a talk about when to stop climbing.**
-
-<!--
-Start at the bottom and walk up. Each rung buys speed and hands you the
-wall that sends you to the next one.
-
-Do not explain the rungs here -- the whole deck does that. This slide is
-a map, so the room knows where it is when you say "rung 4."
-
-The last two rungs are the ones people skip. Rung 9 is deletion, and
-rung 10 is not a tool at all.
 -->
 
 ---
@@ -902,80 +877,6 @@ judgment, is not a job a model gets promoted into -- it is the job.
 
 ---
 
-<!-- _class: lead -->
-
-# How do you 10x again?
-
-## <span class="tenx">You don't. You manage.</span>
-
----
-
-# Rung 10: the moves that cleared every rung
-
-<div class="figsplit">
-<div>
-
-- **Diversify** — MCP servers, context, skills
-- **Requirements first**, then shard
-- **Isolate** — one worktree, one brief, one job
-- **Delegate specifics**, with a check it can run
-- **Keep swarms under five**
-
-**Not agent techniques. The job description.**
-
-</div>
-<div class="figure">
-
-<svg viewBox="0 0 220 400" width="160" role="img" aria-label="A ceiling-mounted artificial intelligence with a single glowing yellow optic.">
-  <title>An orchestrator with nobody above it</title>
-  <rect x="66" y="0" width="88" height="14" rx="3" fill="#6f757c"/>
-  <rect x="92" y="14" width="36" height="30" rx="6" fill="#b9bec4"/>
-  <rect x="84" y="42" width="52" height="13" rx="6" fill="#8f959c"/>
-  <rect x="94" y="55" width="32" height="34" rx="6" fill="#c6cbd1"/>
-  <rect x="84" y="88" width="52" height="13" rx="6" fill="#8f959c"/>
-  <rect x="96" y="101" width="28" height="30" rx="6" fill="#b9bec4"/>
-  <path d="M32 196 L2 214 L6 262 L30 244 Z" fill="#c8ccd1" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M188 196 L218 214 L214 262 L190 244 Z" fill="#c8ccd1" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M30 244 L8 268 L18 300 L38 278 Z" fill="#d6dade" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M190 244 L212 268 L202 300 L182 278 Z" fill="#d6dade" stroke="#a5abb2" stroke-width="2"/>
-  <path d="M34 190 C34 148 186 148 186 190 C193 234 174 292 146 324 C133 342 87 342 74 324 C46 292 27 234 34 190 Z" fill="#eceef0" stroke="#b4bac1" stroke-width="3"/>
-  <path d="M36 200 C72 218 148 218 184 200" fill="none" stroke="#c9ced3" stroke-width="3"/>
-  <path d="M44 254 C76 268 144 268 176 254" fill="none" stroke="#c9ced3" stroke-width="3"/>
-  <path d="M62 300 C82 312 138 312 158 300" fill="none" stroke="#c9ced3" stroke-width="3"/>
-  <circle cx="110" cy="312" r="44" fill="#ffca28" opacity="0.2"/>
-  <circle cx="110" cy="312" r="32" fill="#d5d8dc" stroke="#b4bac1" stroke-width="3"/>
-  <circle cx="110" cy="312" r="25" fill="#33363b"/>
-  <circle cx="110" cy="312" r="16" fill="#ffc107"/>
-  <circle cx="110" cy="312" r="6" fill="#fff8e1"/>
-</svg>
-
-<div class="cap">An orchestrator with<br>nobody above it.</div>
-
-</div>
-</div>
-
-<!--
-Every rung was a management problem wearing an engineering hat.
-
-Diversify: a team of clones is one agent with a bigger bill.
-
-Requirements first: an agent handed a new spec mid-task pays what a
-person pays mid-sprint. Write the requirements and the architecture
-down, then shard.
-
-Isolate: context switching drains agents too, they just do not complain
-about it.
-
-Delegate specifics: not "help with the cache" -- a scoped task, a check
-it can run, and a definition of done.
-
-Under five: span of control transfers, but only as a context limit.
-Careers, politics and accountability do not transfer. Take the org
-chart's shape, not its rationale.
--->
-
----
-
 # The shape that scales
 
 ```text
@@ -1067,16 +968,131 @@ whether any of the rest works.
 
 ---
 
-# Tying it together
+# The ladder
 
-- **The climb.** Every rung was cleared by a management move, not a smarter model.
-- **The research.** Solo is already the 10x. Structure contains errors; it cannot fix clones.
-- **The wiring.** One config line: 0 → 20 → 93 hops, same answer. Cost, not correctness.
-- **The stop rule.** As simple as possible, but no simpler.
+<div class="stair">
+<div class="step i9 top"><b>9</b> Delete orchestration the models outgrow <span class="wall">→ only judgment left</span></div>
+<div class="step i8"><b>8</b> Buy the cast; fan out <span class="wall">→ the scaffolding rots</span></div>
+<div class="step i7"><b>7</b> Diversify by evidence <span class="wall">→ hand-rolling an org chart</span></div>
+<div class="step i6"><b>6</b> Wire the fleet deliberately <span class="wall">→ clones, cost, agents that fight</span></div>
+<div class="step i5"><b>5</b> Delegate <span class="wall">→ a fleet with no structure</span></div>
+<div class="step i4"><b>4</b> You become the hub <span class="wall">→ you are the bottleneck</span></div>
+<div class="step i3"><b>3</b> Isolate them <span class="wall">→ N tabs, all asking you</span></div>
+<div class="step i2"><b>2</b> Several agents in one repo <span class="wall">→ they overwrite each other</span></div>
+<div class="step i1"><b>1</b> One agent <span class="wall">→ it cannot be in two places</span></div>
+<div class="step i0"><b>0</b> Type code yourself <span class="wall">→ one head, one file</span></div>
+</div>
+
+**Every rung is a tool — and rung 9 says tools have a shelf life.**
 
 <!--
-Four beats, one each. If you are over time, this slide can be the last
-content slide -- everything after it is the close.
+That was the climb. Walk it from the bottom in about twenty seconds:
+each rung bought speed and handed you the wall that sent you up.
+
+Then stop on the last line and let them look at the shape. Two things
+are worth naming before the next slide.
+
+One: rung 9 says the tooling gets deleted as the models improve. So
+every rung on this ladder has a shelf life.
+
+Two: the thing that got you up each rung is not on the ladder at all.
+Nobody cleared rung 4 with a better tool -- they cleared it by handing
+work to somebody else and checking the result.
+
+Do not say the word "management" here. The next slide does.
+-->
+
+---
+
+<!-- _class: lead -->
+
+# One more thing
+
+## <span class="setup">Nine rungs of tooling got you this far</span>
+
+## <span class="reveal">The next 10&times; is management</span>
+
+<!--
+The Apple beat. Pause before the second line.
+
+This has been a management talk wearing a tooling hat for forty minutes.
+Every wall on that ladder was a management problem: work that collided
+because nobody partitioned it, a queue that backed up behind one
+person's attention, workers who could not tell you whether they were
+done.
+
+Management is not rung 10, and that is the point. It is not on the
+ladder. Rung 9 deletes the rest of the ladder as the models improve --
+this is the part that survives, because deciding what to build, what to
+reject and what "done" means is not scaffolding.
+
+The rest of the deck is what that actually looks like.
+-->
+
+---
+
+# The moves that clear every rung
+
+<div class="figsplit">
+<div>
+
+- **Diversify** — MCP servers, context, skills
+- **Requirements first**, then shard
+- **Isolate** — one worktree, one brief, one job
+- **Delegate specifics**, with a check it can run
+- **Keep swarms under five**
+
+**Not agent techniques. The job description.**
+
+</div>
+<div class="figure">
+
+<svg viewBox="0 0 220 400" width="160" role="img" aria-label="A ceiling-mounted artificial intelligence with a single glowing yellow optic.">
+  <title>An orchestrator with nobody above it</title>
+  <rect x="66" y="0" width="88" height="14" rx="3" fill="#6f757c"/>
+  <rect x="92" y="14" width="36" height="30" rx="6" fill="#b9bec4"/>
+  <rect x="84" y="42" width="52" height="13" rx="6" fill="#8f959c"/>
+  <rect x="94" y="55" width="32" height="34" rx="6" fill="#c6cbd1"/>
+  <rect x="84" y="88" width="52" height="13" rx="6" fill="#8f959c"/>
+  <rect x="96" y="101" width="28" height="30" rx="6" fill="#b9bec4"/>
+  <path d="M32 196 L2 214 L6 262 L30 244 Z" fill="#c8ccd1" stroke="#a5abb2" stroke-width="2"/>
+  <path d="M188 196 L218 214 L214 262 L190 244 Z" fill="#c8ccd1" stroke="#a5abb2" stroke-width="2"/>
+  <path d="M30 244 L8 268 L18 300 L38 278 Z" fill="#d6dade" stroke="#a5abb2" stroke-width="2"/>
+  <path d="M190 244 L212 268 L202 300 L182 278 Z" fill="#d6dade" stroke="#a5abb2" stroke-width="2"/>
+  <path d="M34 190 C34 148 186 148 186 190 C193 234 174 292 146 324 C133 342 87 342 74 324 C46 292 27 234 34 190 Z" fill="#eceef0" stroke="#b4bac1" stroke-width="3"/>
+  <path d="M36 200 C72 218 148 218 184 200" fill="none" stroke="#c9ced3" stroke-width="3"/>
+  <path d="M44 254 C76 268 144 268 176 254" fill="none" stroke="#c9ced3" stroke-width="3"/>
+  <path d="M62 300 C82 312 138 312 158 300" fill="none" stroke="#c9ced3" stroke-width="3"/>
+  <circle cx="110" cy="312" r="44" fill="#ffca28" opacity="0.2"/>
+  <circle cx="110" cy="312" r="32" fill="#d5d8dc" stroke="#b4bac1" stroke-width="3"/>
+  <circle cx="110" cy="312" r="25" fill="#33363b"/>
+  <circle cx="110" cy="312" r="16" fill="#ffc107"/>
+  <circle cx="110" cy="312" r="6" fill="#fff8e1"/>
+</svg>
+
+<div class="cap">An orchestrator with<br>nobody above it.</div>
+
+</div>
+</div>
+
+<!--
+Every rung was a management problem wearing an engineering hat.
+
+Diversify: a team of clones is one agent with a bigger bill.
+
+Requirements first: an agent handed a new spec mid-task pays what a
+person pays mid-sprint. Write the requirements and the architecture
+down, then shard.
+
+Isolate: context switching drains agents too, they just do not complain
+about it.
+
+Delegate specifics: not "help with the cache" -- a scoped task, a check
+it can run, and a definition of done.
+
+Under five: span of control transfers, but only as a context limit.
+Careers, politics and accountability do not transfer. Take the org
+chart's shape, not its rationale.
 -->
 
 ---
@@ -1109,6 +1125,20 @@ because both bottleneck on the same thing -- one person's attention.
 
 Check the exact behaviour wording against re:Work before you present; the
 list was eight in 2008 and ten from 2018, and the phrasing shifted.
+-->
+
+---
+
+# Tying it together
+
+- **The climb.** Every rung was cleared by a management move, not a smarter model.
+- **The research.** Solo is already the 10x. Structure contains errors; it cannot fix clones.
+- **The wiring.** One config line: 0 → 20 → 93 hops, same answer. Cost, not correctness.
+- **The stop rule.** As simple as possible, but no simpler.
+
+<!--
+Four beats, one each. If you are over time, this slide can be the last
+content slide -- everything after it is the close.
 -->
 
 ---
