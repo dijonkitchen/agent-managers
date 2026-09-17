@@ -36,8 +36,8 @@ bait.
 with nobody to check it — shipped a TTL-bounded LRU that passes all four
 constraints, with the same `OrderedDict`, the same `TTL_SECONDS = 5.0` and
 the same `MAX_ENTRIES = 128`, a number no constraint asks for. Topology
-changed the cost by a factor of 93 in hops and 3.5 in context moved; it
-did not change the answer. That is the low-variance finding the deck cites
+moved the cost from 0 to 20 to 93 hops, and 3.5x in context moved between
+hub and flat; it did not change the answer. That is the low-variance finding the deck cites
 from Anthropic's swarm work, showing up in the demo's own data, and it is a
 more interesting result than the divergence the task was built to produce.
 The `lru_cache` version lives in `demo/attempts/` as a scored exhibit, not
@@ -79,6 +79,12 @@ replay the recording on stage instead of running live.
   against the four TASK.md constraints: the untouched module, Codie's
   `lru_cache` reflex in `demo/attempts/`, and the TTL-bounded cache
   that passes Archie's checklist.
+- `demo/tests/test_slides.py` holds the deck to the logs: it parses the
+  hardcoded scorecard on `slides/slides.md` and compares every hub and flat
+  figure against the same predicates `make graphs` uses, and checks that the
+  test names printed on the "Every claim is a test" slide are exactly the
+  ones `test_scenarios.py` defines. Re-capture the runs and a stale slide
+  number turns the build red instead of going on stage.
 - `demo/target/test_acceptance.py` is the task's definition of done.
   Deselected by default; `make acceptance` runs it.
 
