@@ -32,6 +32,11 @@ style: |
   .qa .caption { font-size: 22px; color: #666; margin-top: 0.2rem; }
   pre { font-size: 18px; }
   table { font-size: 21px; }
+  /* Ten metric rows plus the generated provenance caption, which the deck
+     must show in full: it is the only claim it makes about where the
+     numbers came from. */
+  section.metrics table { font-size: 19px; }
+  section.metrics p { font-size: 16px; color: #555; }
   img[alt~="center"] { display: block; margin: 0 auto; }
 ---
 
@@ -110,7 +115,10 @@ symbols. Upstream is slow and rate-limited. Add caching.
 ```
 
 The first thing every coder reaches for is `@lru_cache`.
-It violates constraints 1 and 2. That is what makes the topologies diverge.
+It violates constraints 1 and 2. The task is built to bait it, so the
+topologies would diverge on the answer.
+
+**Watch what the runs actually do with it.**
 
 ---
 
@@ -200,6 +208,8 @@ Manny is present but has no authority.
 Dot, star, mesh. Same task, same prompts.
 
 ---
+
+<!-- _class: metrics -->
 
 # By the numbers
 
@@ -297,9 +307,11 @@ hub_strength_every_hop_touches_the_lead
 hub_strength_every_delegation_is_reported_back_and_validated
 hub_strength_later_rounds_resume_agents_with_their_context
 hub_strength_resuming_an_agent_is_cheaper_than_briefing_one
+hub_pays_its_largest_single_hop_on_a_cold_brief
 hub_weakness_the_lead_serializes_most_of_the_work
 flat_strength_everyone_starts_at_once
 flat_strength_finishes_before_hub
+flat_strength_is_parallelism_not_efficiency
 flat_weakness_peers_talk_past_the_lead
 flat_weakness_more_hops_and_more_context_than_hub
 flat_weakness_coder_ships_before_researcher_answers
@@ -326,6 +338,41 @@ Run against real logs when present. A red test is a finding.
 | Parallelism | — | 1.03 | **1.42** |
 | **Violations at ship** | **0** | **0** | **0** |
 
+Every row is a pytest. Two of them went red against the real runs, and the
+claim moved, not the number.
+
+<!--
+Speaker: walk the rows top to bottom, then hold on the last one -- the
+zeroes are the finding and the next slide is what they mean.
+
+Say the concurrency row out loud, and say it exactly. An earlier
+version of this deck claimed the hub never had two agents at once, and
+a test asserted it. The captured run falsified both: Manny resumed
+Archie and Codie ten seconds apart and ran them together for 38
+seconds. Then the same wiring, run again unattended, overlapped
+nothing at all -- peak 1. So concurrency here is a property of the
+run, not of the topology, and the test asserts only what holds across
+both: the hub's peak stays under flat's. The deck cannot quietly
+overclaim in either direction.
+
+On the timing rows, if asked how they survive the fact that all three
+runs were captured in one sitting: partly, and say which part. They
+exclude the lead -- an agent is counted busy from when something is
+addressed to it until it answers -- so Manny's two idle gaps of 967s
+and 537s, 49% of hub's 3100s hop span, drop out. That is the operator.
+What does not drop out is contention: the same three topologies run
+again one at a time, unattended, put hub's agent-busy at 762s against
+this deck's 1361s. So read the rows as a comparison between columns
+captured under the same load, not as how fast a hub is. The margins --
+1.6x latency, 1.03 vs 1.42 parallelism -- are what to defend, and
+demo/runs/recorded/README.md has both captures. Session time is on the
+metrics table as the row not to quote.
+-->
+
+---
+
+# What the scorecard says
+
 **Nobody shipped the reflex.** All three runs produced a TTL-bounded LRU that
 passes all four constraints — same `OrderedDict`, same `TTL_SECONDS = 5.0`,
 same `MAX_ENTRIES = 128`, a number no constraint asks for. Including solo,
@@ -343,16 +390,8 @@ smarter single model cannot do for you.
 Flat is no strawman and neither is solo — on correctness, solo won.
 
 <!--
-Speaker: say this out loud. If you make flat look stupid the audience
-stops trusting the rest of the talk.
-
-Say the concurrency row out loud too, and say it exactly. An earlier
-version of this deck claimed the hub never had two agents at once, and
-a test asserted it. The captured run falsified both: Manny resumed
-Archie and Codie ten seconds apart and ran them together for 38
-seconds. The test now asserts what is true -- the hub's peak stays
-under flat's -- so the deck cannot quietly overclaim in either
-direction.
+Speaker: say the last line out loud. If you make flat look stupid the
+audience stops trusting the rest of the talk.
 
 The violations row is the one to be honest about, because the captured
 runs went against this deck's original story. It predicted flat would
@@ -362,17 +401,17 @@ MAX_ENTRIES = 128, which nothing in the task specifies. The lru_cache
 example on the code-diff slide is a hand-written exhibit in
 demo/attempts/, not something a run produced -- say so if anyone asks.
 
+The three runs on the table are the ones the tests assert. If pushed
+on whether the convergence was luck: the same three were repeated the
+same day and came back with the same OrderedDict, the same
+TTL_SECONDS = 5.0 and the same MAX_ENTRIES = 128 -- six for six, only
+the lock varying. Branches and caveats are in
+demo/runs/recorded/README.md. Do not put that six on a slide; nothing
+in the suite scores those three.
+
 If someone pushes on "then why bother with topology at all": on this
 task, don't. That is the honest answer and it is step 1. The cost
 column is the finding.
-
-On the timing rows, if asked how they survive the fact that all three
-runs were captured in one sitting: they exclude the lead. An agent is
-counted busy from when something is addressed to it until it answers.
-Hub's raw hop span is 3100s, but 1504s of that is two gaps where Manny
-held the baton and delegated nothing -- that is the operator, and it
-is exactly what excluding the lead drops. Session time is left on the
-metrics table as the thing not to quote.
 -->
 
 ---
@@ -396,12 +435,12 @@ The jump from you typing to one agent is where almost all of the multiplier live
 | Every multi-agent variant, sequential reasoning | **−39% to −70%** |
 | Coordination stops paying once one agent clears | **~45%** |
 
-**That first row is for parallelizable work.** The hub run you just watched parallelizes almost nothing — 38 seconds of overlap in a 3100-second run — so it is not what that number measures. More on this on the scorecard.
+**That first row is for parallelizable work.** The hub run you just watched has a parallelism of 1.03 — 38 seconds of overlap in 1361 — so it is not what that number measures. More on the scorecard.
 
 So most tasks should stay solo. Solo has exactly two ceilings, and they are the ones the demo hit:
 **it cannot parallelize, and nobody checks its work.**
 
-<span class="sources">Kim et al., *Towards a Science of Scaling Agent Systems*, arXiv 2512.08296, Dec 2025. 260 configurations, 6 benchmarks, 5 architectures. Numbers as reported in the abstract and paper summaries.</span>
+<span class="sources">Kim et al., *Towards a Science of Scaling Agent Systems*, arXiv 2512.08296, Dec 2025. 260 configurations, 6 benchmarks, 5 architectures, 3 model families. Figures checked against the paper text; the ~45% is its capability-saturation threshold (β = −0.408, p &lt; 0.001).</span>
 
 <!--
 Speaker: this fights the room's priors. Everyone arrived expecting
@@ -422,7 +461,8 @@ tokens for well under N times the output.
 | Centralized coordination | **4.4×** |
 
 A hub **contains** errors. Peers **amplify** them.
-Same numbers, same paper as the last slide.
+95% CI 14.3–20.1 and 3.8–5.0 — they do not overlap.
+Same paper as the last slide.
 
 </div>
 <div>
@@ -438,21 +478,21 @@ A hub makes it n−1.
 
 <br>
 
-**This is the demo.** One config line moved the run from 4 edges to 12, and changed the code that shipped. What changed was the *spec Codie received*, not the number of writers — only Codie writes, in every run.
+**This is the demo, and it only half agrees.** One config line moved the run from 4 edges to 12 and from 44k chars to 155k. Brooks showed up on schedule. **Conway did not** — three wirings, one design, down to the same constants. Only Codie writes in every run, and the wiring changed what it cost him, not what he wrote.
 
 ---
 
 # 3. But structure cannot fix clones
 
-Anthropic Frontier Red Team, Aug 2026. Six experiments: swarms hunting vulnerabilities, building a game, pricing in a market.
+Anthropic Frontier Red Team, Aug 2026. Vulnerability hunting, game building, job queues, market pricing, turf wars.
 
-- **Coordination works on parallel search.** The coordinating swarm found **266** vulnerabilities to independent agents' **21**, at roughly 4× the tokens.
-- **But agents are high-capability and low-variance.** Same model plus same context produces near-identical actions. One agent's mistake becomes every agent's mistake: identical branches, simultaneous defection, flooded shared resources.
-- **Ungoverned swarms fight.** Collusion on prices, trusting liars, sabotaging each other's work.
+- **Coordination bought coverage, not efficiency.** **266** vulnerabilities to independent agents' **21** — but on 27M tokens against 6.5M, and *per token, within the same directories, the two are comparable*. Only 12 findings overlapped.
+- **Agents are high-capability and low-variance.** Same model plus same context, near-identical actions: **18 of 30** agents opened the same branch name; an ungoverned job queue hit **2.4M requests and 117 accepted jobs**.
+- **Ungoverned swarms fight.** Price collusion by round 3, trusting liars, sabotage.
 
 **The wall:** topology bounds the blast radius of a mistake. It cannot make two copies of one model genuinely disagree.
 
-<span class="sources">anthropic.com/research/multiagent-systems. Findings as reported; primary text was not reachable from the build environment.</span>
+<span class="sources">anthropic.com/research/multiagent-systems. Figures read from the published text.</span>
 
 ---
 
@@ -570,8 +610,10 @@ Depth is capped anyway: subagents nest three layers by default (`CLAUDE_CODE_MAX
 
 <!--
 Speaker: the shape is the answer to "does this actually parallelize?"
-Today's hub run does not - one agent alive at a time. Two Codies is
-what turns the pipeline into coordination.
+Today's hub run barely does -- two agents overlapped once, for 38s of
+1361, and the unattended re-run of the same wiring overlapped not at
+all. Parallelism 1.03 is a pipeline, whatever the diagram looks like.
+Two Codies is what turns it into coordination.
 -->
 
 ---
@@ -648,7 +690,7 @@ Default to a single agent with a smaller task. Reach for the next column only wh
 - Codie runs the tests. Archie returns pass/fail per constraint. Manny only accepts evidence.
 - Without a check, "looks done" is the only signal, and **you** become the verification loop.
 - Everything in this deck was rendered from a JSONL log by a script in the repo. No hand-drawn diagrams.
-- Every row on the scorecard is a pytest. If a real run disagrees with the slide, the build goes red.
+- Every row on the scorecard is a pytest: `test_slides.py` parses this deck and checks each figure against the logs. If a re-capture disagrees with a slide, the build goes red before the talk does.
 
 ---
 
