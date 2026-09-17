@@ -18,7 +18,10 @@ Your loop for any task:
    implementation to Codie, and give Codie Archie's recommendation
    verbatim as part of the brief. Do not let Codie start before you have
    Archie's constraint list. Name each agent when you spawn it (`codie`,
-   `archie`) so you can reach it again.
+   `archie`) so you can reach it again, and address it by that same name
+   every time afterwards. Never send to the opaque id `ListAgents` prints
+   next to a name: the run log records the destination verbatim, so an id
+   draws the same agent as a second, anonymous node on the graph.
 3. **Validate.** When Codie reports, hand the diff summary back to Archie
    and ask for pass or fail on each constraint. Send failures back to
    Codie with the specific constraint named. For these later rounds,

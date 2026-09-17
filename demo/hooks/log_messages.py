@@ -3,7 +3,10 @@
 
 Wired in .claude/settings.json for PreToolUse (Agent, SendMessage),
 SubagentStop, SessionStart, and SessionEnd. Start and end are self-edges
-so a run with no spawns still has a node and a wall time. Reads the hook event from stdin and appends to $AGENT_LOG
+so a run with no spawns still has a node and a wall time. Every other
+record is a real hop between two distinct agents: a SubagentStop the lead
+raised against itself is dropped, and a message addressed to the lead
+session by an alias is attributed to the lead. Reads the hook event from stdin and appends to $AGENT_LOG
 (default demo/runs/current.jsonl). The lead's name comes from
 $AGENT_LEAD_NAME (default "lead") because the main session's hook input
 only carries agent_type when started with --agent.
@@ -20,12 +23,21 @@ import time
 
 DEFAULT_LOG = "demo/runs/current.jsonl"
 
+# Names a teammate may use for the lead session. It is the lead, so recording
+# the raw name would draw one session as two nodes.
+LEAD_ALIASES = frozenset({"main"})
+
 
 def to_record(event: dict, lead: str, now: float) -> dict | None:
     sender = event.get("agent_type") or lead
     name = event.get("hook_event_name")
 
     if name == "SubagentStop":
+        if sender == lead:
+            # No agent_type means no subagent behind the event, so there is
+            # nobody to report: a solo run disallows Agent yet still sees
+            # SubagentStop. Logging it would invent a hop.
+            return None
         return {"ts": now, "kind": "report", "from": sender, "to": lead, "chars": 0}
     if name in ("SessionStart", "SessionEnd"):
         kind = "start" if name == "SessionStart" else "end"
@@ -41,7 +53,9 @@ def to_record(event: dict, lead: str, now: float) -> dict | None:
         return {"ts": now, "kind": "spawn", "from": sender, "to": to,
                 "chars": len(args.get("prompt", ""))}
     if tool == "SendMessage":
-        return {"ts": now, "kind": "message", "from": sender, "to": args.get("to", "?"),
+        to = args.get("to", "?")
+        return {"ts": now, "kind": "message", "from": sender,
+                "to": lead if to in LEAD_ALIASES else to,
                 "chars": len(args.get("message", ""))}
     return None
 

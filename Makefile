@@ -1,4 +1,4 @@
-.PHONY: test acceptance graphs slides pdf clean clean-worktrees
+.PHONY: test acceptance graphs promote-runs slides pdf clean clean-worktrees
 
 test:
 	uv run --group dev pytest -q
@@ -8,8 +8,20 @@ acceptance:
 	uv run --group dev pytest -q -m acceptance demo/target
 
 # Render message graphs and the metrics table from the JSONL runs.
-# Real runs in demo/runs/*.jsonl take precedence over the samples.
-run = $(or $(wildcard demo/runs/$(1).jsonl),demo/runs/samples/$(1).jsonl)
+#
+# Captured runs in demo/runs/ are used only when all three are present.
+# The fallback is deliberately all-or-nothing: one real column beside two
+# synthetic ones reads as a comparison, and is not one.
+captured = $(wildcard demo/runs/solo.jsonl) $(wildcard demo/runs/hub.jsonl) $(wildcard demo/runs/flat.jsonl)
+
+ifeq ($(words $(captured)),3)
+run = demo/runs/$(1).jsonl
+noteflag = --note 'Captured run, not yet promoted. Rebuild with `make graphs`.'
+else
+run = demo/runs/samples/$(1).jsonl
+# By file, not by value: the caption is prose and may hold apostrophes.
+noteflag = --note-file demo/runs/samples/PROVENANCE.txt
+endif
 
 graphs:
 	uv run python demo/tools/render_graph.py $(call run,solo) -o slides/assets/solo.svg
@@ -17,7 +29,27 @@ graphs:
 	uv run python demo/tools/render_graph.py $(call run,flat) -o slides/assets/flat.svg
 	uv run python demo/tools/metrics.py \
 	  solo=$(call run,solo) hub=$(call run,hub) flat=$(call run,flat) \
-	  -o slides/assets/metrics.md
+	  $(noteflag) -o slides/assets/metrics.md
+
+# Copy the three captured runs over the tracked samples, so the deck shows
+# real data everywhere -- including Pages, which only ever builds from a
+# clean clone and so never sees the gitignored demo/runs/*.jsonl.
+#
+# Each log goes through normalize_run.py, which refuses a log holding a
+# destination it cannot pair with an agent. That refusal is the point: it
+# is how the hub run's raw agent ids were caught instead of being published
+# as two extra nodes. Pass the mapping through ALIASES when it trips, e.g.
+#   make promote-runs ALIASES='--alias a08df1e74b04059d2=codie'
+ALIASES ?=
+promote-runs:
+	@test $(words $(captured)) -eq 3 || \
+	  { echo "need all three of demo/runs/{solo,hub,flat}.jsonl; run the three demo/run-*.sh first"; exit 1; }
+	for run in solo hub flat; do \
+	  uv run python demo/tools/normalize_run.py demo/runs/$$run.jsonl $(ALIASES) \
+	    -o demo/runs/samples/$$run.jsonl || exit 1; \
+	done
+	printf 'Captured run, promoted with `make promote-runs`. Rebuild with `make graphs`.\n' \
+	  > demo/runs/samples/PROVENANCE.txt
 
 # Inject the generated metrics table at the <!-- METRICS --> marker.
 slides/slides.build.md: slides/slides.md graphs

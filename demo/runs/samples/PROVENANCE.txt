@@ -1,0 +1,1 @@
+Captured 2026-09-16, one run per topology on the same task. Names resolved with `normalize_run.py`; raw logs and caveats in `demo/runs/recorded/`. Session time measures the sitting, not the run.
