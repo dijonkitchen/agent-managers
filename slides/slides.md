@@ -4,7 +4,7 @@ theme: default
 paginate: true
 size: 16:9
 title: Surviving the AI Age
-description: Hub-and-spoke vs flat multi-agent workflows, shown not told
+description: A ten-rung ladder from one agent to a fleet, and why the last rung is management
 style: |
   section { font-size: 30px; }
   section.lead { text-align: center; }
@@ -413,12 +413,9 @@ for making one model smarter.
 ## Moar, faster! A fleet. Somebody has to wire it.
 
 <!--
-The "industrialize it" beat. The picture does the argument: at this
-scale the interesting question stops being how good any one worker is
-and becomes how the town is laid out.
-
-Swap the SVG for your own steam-town image if you have one you can
-license -- keep the single small figure at the gate, it is the joke.
+The "industrialize it" beat: at this scale the interesting question
+stops being how good any one worker is and becomes how the town is laid
+out.
 -->
 
 ---
@@ -486,8 +483,8 @@ intuition; the next section does not agree with intuition everywhere.
 Sequential reasoning gets worse under every architecture they tested --
 the overhead is real and the work cannot absorb it.
 
-The ~45% is a capability-saturation threshold: once a single agent
-clears it, coordination stops paying. beta = -0.408, p < 0.001.
+Their threshold is capability saturation at roughly 45%: once a single
+agent clears it, coordination stops paying. beta = -0.408, p < 0.001.
 
 260 configurations, 6 benchmarks, 5 architectures, 3 model families.
 Figures checked against the paper text, not the blog summary.
