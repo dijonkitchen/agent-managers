@@ -14,15 +14,6 @@ style: |
   .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   .columns3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
   .columns > *, .columns3 > *, .figsplit > * { min-width: 0; }
-  /* Fixed layout keeps a wide table inside its grid column; the label column
-     gets enough of it that short headers do not break mid-word. */
-  .columns table, .columns3 table { table-layout: fixed; width: 100%; }
-  .columns th:first-child, .columns td:first-child { width: 30%; }
-  .columns td, .columns3 td { overflow-wrap: break-word; }
-  .small { font-size: 24px; }
-  /* Name colours are also used as small body text, so they are darkened to
-     clear 4.5:1 on white rather than matching the agent swatches exactly. */
-  .codie { color: #c1481c; } .archie { color: #2f6ac0; } .manny { color: #8a6600; }
   .card { border: 2px solid #ddd; border-radius: 10px; padding: 0.6rem 0.9rem; }
   .card h3 { margin: 0 0 0.3rem 0; }
   .sources { font-size: 19px; }
@@ -30,7 +21,6 @@ style: |
     text-decoration: line-through; text-decoration-color: #d64545;
     text-decoration-thickness: 4px; line-height: 1.3; }
   .byline { margin-top: 1.8rem; font-size: 24px; color: #555; }
-  .chili { vertical-align: -7px; margin-right: 0.3rem; }
   section.lead h1 .title { font-size: 52px; line-height: 1.15; }
   .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
   .figure { text-align: center; }
@@ -38,14 +28,8 @@ style: |
   .qa { text-align: center; }
   .qa svg { display: block; margin: 0 auto 0.4rem; }
   .qa .seed { font-size: 28px; font-weight: 700; color: #2d3b4e; line-height: 1.35; }
-  .qa .caption { font-size: 22px; color: #666; margin-top: 0.2rem; }
   pre { font-size: 20px; }
   table { font-size: 24px; }
-  /* Ten metric rows plus the generated provenance caption, which the deck
-     must show in full: it is the only claim it makes about where the
-     numbers came from. */
-  section.metrics table { font-size: 20px; }
-  section.metrics p { font-size: 17px; color: #555; }
   /* The ladder climbs: rung 0 sits bottom-left, rung 9 top-right, so the
      rows are authored top-down from 9 and each one is indented less than
      the row above it. */
@@ -62,17 +46,12 @@ style: |
   .stair .i6  { margin-left: 252px; }  .stair .i7  { margin-left: 294px; }
   .stair .i8  { margin-left: 336px; }  .stair .i9  { margin-left: 378px; }
   .wall { color: #b03030; font-weight: 700; }
-  .rung { font-weight: 700; color: #2d3b4e; }
-  .tenx { font-size: 30px; font-weight: 700; color: #2d3b4e; }
   /* The reveal has to outweigh its own setup line. */
   .setup { font-size: 26px; font-weight: 400; color: #777; }
   .reveal { font-size: 50px; font-weight: 700; color: #2d3b4e; }
   blockquote { border-left: 5px solid #ddd; margin-left: 0; padding-left: 1rem;
     font-size: 30px; color: #333; }
-  blockquote footer { font-size: 20px; color: #666; }
-  img[alt~="center"] { display: block; margin: 0 auto; }
   li { margin: 0.35rem 0; }
-  .lede { font-size: 26px; color: #444; }
 
 ---
 
@@ -483,7 +462,7 @@ intuition; the next section does not agree with intuition everywhere.
 
 <!-- _class: lead -->
 
-# Too expensive, can't demo: </br> What does the research say?
+# Too expensive, can't demo: <br> What does the research say?
 
 ## 260 configurations, 6 benchmarks, 5 architectures, and 6 swarm experiments
 
@@ -600,19 +579,11 @@ coder through the lead. That is defense in depth, not a hard boundary.
 
 # Problem: Network effects
 
-<div class="columns">
-<div>
-
 **Brooks, 1975**
 Paths grow n(n−1)/2. A hub makes it n−1.
 
 **Showed up on schedule.**
 0 → 20 → 93 hops for one answer.
-
-</div>
-</div>
-
-<br>
 
 <!--
 Nothing about agents made Brooks new. The arithmetic is fifty years old
@@ -843,9 +814,6 @@ The rest of the deck is what that actually looks like.
 
 # The moves that clear every rung
 
-<div class="figsplit">
-<div>
-
 - **Requirements** first to provide clarity
 - **Autonomy** via worktree isolation, one brief, one job
 - **Diversify** with tools like MCP servers, context, skills
@@ -853,12 +821,6 @@ The rest of the deck is what that actually looks like.
 - **Retest assumptions with data**
 
 **Not agent techniques. The job description.**
-
-</div>
-<div class="figure">
-
-</div>
-</div>
 
 <!--
 Every rung was a management problem wearing an engineering hat.
