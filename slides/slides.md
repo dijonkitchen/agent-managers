@@ -489,12 +489,13 @@ intuition; the next section does not agree with intuition everywhere.
 
 # More != Better
 
-| What coordination buys | |
+| What coordination buys | Change vs. one agent |
 | --- | --- |
 | Centralized, **parallelizable** work | **+80.9%** |
 | Any architecture, **sequential** reasoning | **−39% to −70%** |
 
-- The second agent is worth far less than the first. <5 optimal if used.
+- The second agent is worth far less than the first. Past ~5 agents, each one subtracts.
+- Above **~45%** solo accuracy, coordination stops paying
 - Work must be parallelizable
 - Hub and spoke centralization better to coordinate
 
@@ -505,8 +506,9 @@ intuition; the next section does not agree with intuition everywhere.
 Sequential reasoning gets worse under every architecture they tested --
 the overhead is real and the work cannot absorb it.
 
-The ~45% is a capability-saturation threshold: once a single agent
-clears it, coordination stops paying. beta = -0.408, p < 0.001.
+Point at the ~45% line. It is a capability-saturation threshold: once a
+single agent solves that share of the benchmark on its own, adding agents
+stops paying. beta = -0.408, p < 0.001.
 
 260 configurations, 6 benchmarks, 5 architectures, 3 model families.
 Figures checked against the paper text, not the blog summary.
