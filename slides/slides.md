@@ -403,6 +403,8 @@ sends the check back to you, and you are the hub again with extra steps.
 - **Only who may talk to whom changes**
 - Hops: **0 → 20 → 93**
 
+<span class="sources">Measured: one task, one run per wiring — my own harness, not a published benchmark</span>
+
 <!--
 This is the experiment, at the altitude it deserves. Three runs of one
 task: one agent alone, three agents through a lead, three agents as
