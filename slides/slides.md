@@ -481,7 +481,7 @@ intuition; the next section does not agree with intuition everywhere.
 
 <!-- _class: lead -->
 
-# Too expensive, can't demo: </br> What does the research say?
+# Too expensive, can't demo: <br> What does the research say?
 
 ## 260 configurations, 6 benchmarks, 5 architectures, and 6 swarm experiments
 
