@@ -568,16 +568,16 @@ intuition; the next section does not agree with intuition everywhere.
 
 ---
 
-# Solo already is the 10x
+# More != Better
 
 | What coordination buys | |
 | --- | --- |
 | Centralized, **parallelizable** work | **+80.9%** |
 | Any architecture, **sequential** reasoning | **−39% to −70%** |
-| Coordination stops paying at | **~45%** capability |
 
 - The second agent is worth far less than the first
-- Solo has two ceilings: **it cannot parallelize, nobody checks it**
+- Work must be parrallelizable
+- Hub and spoke centralization better
 
 <span class="sources">Kim et al., *[Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)*, arXiv 2512.08296, Dec 2025</span>
 
@@ -599,16 +599,17 @@ times the output. Most tasks should stay on rung 1.
 
 ---
 
-# Structure decides what you get
+# More errors
 
 | Error amplification | |
 | --- | --- |
-| Independent agents | **17.2×** |
-| Centralized coordination | **4.4×** |
+| Single agent | **1.0×** (baseline)|
+| Centralized hub and spoke coordination | **4.4×** |
+| Decentralized independent agents | **17.2×** |
 
-- A hub **contains** errors. Peers **amplify** them.
-- 95% CIs do not overlap
-- This is why rung 4's shape was right
+- Single agents **contain** errors
+- A hub **amplifies** errors
+- Peers **amplify even more**
 
 <!--
 CIs: 14.3-20.1 and 3.8-5.0. Same paper as the last slide.
@@ -625,13 +626,13 @@ And it has a hard limit, which is the next slide.
 
 ---
 
-# Structure cannot fix clones
+# Problem: Structure cannot fix clones
 
 - **Coverage, not efficiency** — 266 findings vs 21, on 4× the tokens
 - **Low variance** — 18 of 30 agents opened the *same branch name*
 - **Ungoverned swarms fight** — collusion, liars, sabotage
 
-**Topology bounds the blast radius. It cannot make two clones disagree.**
+**Centralization bounds the blast radius. It cannot make two clones disagree.**
 
 <span class="sources">[Anthropic Frontier Red Team, Aug 2026](https://www.anthropic.com/research/multiagent-systems)</span>
 
@@ -652,17 +653,11 @@ This is the slide that kills "just add more agents" for good.
 
 ---
 
-# Rung 7: diversify by evidence
-
-| Agent | Sees | Can act |
-| --- | --- | --- |
-| Researcher | web, docs, issues, telemetry | **no** |
-| Coder | the repo, the test runner | yes |
-| Lead | only what agents report | no files |
+# Fix: Diversify and focus
 
 - No prompt makes two clones disagree. **Different evidence does.**
 - Different MCP servers = the most literal version of that
-- The agent reading the web has no `Edit`, `Write`, `Bash`
+- Keep agents focused with a set of skills and context
 
 <!--
 Four reasons to divide rather than pool:
@@ -682,7 +677,7 @@ coder through the lead. That is defense in depth, not a hard boundary.
 
 ---
 
-# Two old laws, and one no-show
+# Problem: Network effects
 
 <div class="columns">
 <div>
@@ -694,20 +689,9 @@ Paths grow n(n−1)/2. A hub makes it n−1.
 0 → 20 → 93 hops for one answer.
 
 </div>
-<div>
-
-**Conway, 1968**
-A system copies the structure that built it.
-
-**Did not show up.**
-Three wirings, one design.
-
-</div>
 </div>
 
 <br>
-
-**Conway describes people who disagree. Clones don't.**
 
 <!--
 Nothing about agents made Brooks new. The arithmetic is fifty years old
@@ -723,13 +707,12 @@ That is the clone problem from two slides ago, wearing a different hat
 
 ---
 
-# The stop rule
+# Fix: YAGNI (You Aren't Gonna Need It)
 
 > Everything should be made as simple as possible, but no simpler.
 
-- **"As simple as possible"** — every rung costs tokens, latency, one more thing to debug
-- **"But no simpler"** — solo cannot parallelize, and nobody checks it
-- **Climb to the wall in front of you. Not one rung further.**
+- complexity costs tokens, latency, one more thing to debug
+- solo cannot parallelize and nobody checks it
 
 <!--
 Widely attributed to Einstein; it is a compression of his 1933 Herbert
@@ -739,30 +722,6 @@ like it will care.
 Engineers only ever quote the first half. Both halves are load-bearing:
 a single agent on a genuinely parallel task, or on a change nobody
 reviews, is not simple -- it is under-built.
--->
-
----
-
-# Pick the lightest thing that works
-
-| | Subagents | Agent teams | Cross-session | Worktrees | Fan-out |
-| --- | --- | --- | --- | --- | --- |
-| Shape | hub | peers | your sessions | isolation | one-shot |
-| Coordinator | main agent | teammates | you | you | nobody |
-| Context | summarized back | full | separate | separate | none |
-| Cost | low | high | medium | medium | high |
-| Use for | research | debate | handoffs | parallel edits | migrations |
-
-**Move right only when that column clears the wall in front of you.**
-
-<!--
-The default is still a single agent with a smaller task. This table is
-for the moment someone asks "which one do I reach for" -- it is a
-reference slide, not an argument.
-
-Agent teams cost the most because every teammate carries full context
-and anyone can message anyone. Use them for genuine debate between
-competing hypotheses, not for throughput.
 -->
 
 ---
@@ -798,13 +757,11 @@ of the same confusion.
 
 <!-- _class: lead -->
 
-# How do you 10x again?
-
-## <span class="tenx">Stop hand-rolling the cast.</span>
+# Problem: How do you 10x again?
 
 ---
 
-# Rung 8: BMAD already wrote it
+# Fix: BMAD
 
 - Ships the roles: analyst, PM, architect, PO, scrum master, dev, QA
 - PRD → architecture → **sharded stories**
@@ -837,11 +794,10 @@ install it.
 
 # How do you 10x again?
 
-## <span class="tenx">Delete your orchestration.</span>
 
 ---
 
-# Rung 9: the scaffolding is temporary
+# Fix: Remove scaffolding
 
 - **Bitter Lesson**: general methods plus compute win, eventually
 - Every role here is provisional
@@ -901,61 +857,7 @@ agent-team teammates cannot nest at all.
 
 ---
 
-# Practices
-
-<div class="columns small">
-<div>
-
-- **PR too big?** Decompose, then fan out. One PR per chunk.
-- **Worktrees** for anything parallel
-- **Share agents across repos** — subtree or plugin, not submodule
-- **Review bot before human** — `/code-review` in a fresh subagent
-
-</div>
-<div>
-
-- **Auto-update CODEOWNERS** from `git log`. Humans approve.
-- **Same prompt twice?** Make it a skill.
-- **Ask Claude to write your hooks.** Review the diff like code.
-- **Humans review outcomes**, not transcripts
-
-</div>
-</div>
-
-<!--
-One line each on purpose. Pick the two that match the room and expand
-those; do not read the list.
-
-CODEOWNERS: a scheduled routine derives owners per directory and opens a
-PR. Humans approve, never type.
-
-Finding repeat work: log spawns and messages, then search your own
-transcripts for the same prompt twice. The second time is the signal.
--->
-
----
-
-# Show, don't tell
-
-- Give every agent something it can **run**
-- Tests, an exit code, a screenshot diff, a checklist
-- The coder runs them. The researcher scores them. The lead accepts **evidence**.
-- Without a check, "looks done" is the only signal
-- **And then you are the verification loop again**
-
-<!--
-This is rung 3's wall rebuilt by hand, which is why it belongs at the
-end: every practice in this deck fails without a machine-checkable
-definition of done.
-
-If you want one concrete ask for the audience to take home, make it this
-one. It is the cheapest thing on the list and it is the one that decides
-whether any of the rest works.
--->
-
----
-
-# The ladder
+# The ladder summary
 
 <div class="stair">
 <div class="step i9 top"><b>9</b> Delete orchestration the models outgrow <span class="wall">→ only judgment left</span></div>
@@ -997,7 +899,7 @@ Do not say the word "management" here. The next slide does.
 
 ## <span class="setup">Nine rungs of tooling got you this far</span>
 
-## <span class="reveal">The next 10&times; is management</span>
+## <span class="reveal">The next 10x?</span>
 
 <!--
 The Apple beat. Pause before the second line.
@@ -1023,11 +925,11 @@ The rest of the deck is what that actually looks like.
 <div class="figsplit">
 <div>
 
-- **Diversify** — MCP servers, context, skills
-- **Requirements first**, then shard
-- **Isolate** — one worktree, one brief, one job
-- **Delegate specifics**, with a check it can run
-- **Keep swarms under five**
+- **Requirements** first to provide clarity
+- **Autonomy** via worktree isolation, one brief, one job
+- **Diversify** with tools like MCP servers, context, skills
+- **Delegate** up to 5 to move fast, without losing oversight
+- **Retest assumptions with data**
 
 **Not agent techniques. The job description.**
 
@@ -1144,11 +1046,11 @@ Pause here. This is the thesis.
 
 ---
 
-# <svg class="chili" viewBox="0 0 40 44" width="34" height="37" role="img" aria-label="chili pepper"><title>Spicy</title><path d="M22 31 L9 39 L19 26 Z" fill="#cf2f26"/><path d="M22 15 C30 20 29 29 21 32" fill="none" stroke="#cf2f26" stroke-width="13" stroke-linecap="round"/><path d="M25 19 C28 22 28 26 26 29" fill="none" stroke="#e8756c" stroke-width="2.5" stroke-linecap="round"/><path d="M21 12 C20 7 17 5 13 6" fill="none" stroke="#3f8f3f" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="22" cy="13" rx="6" ry="3.5" fill="#4a9a3f" transform="rotate(-12 22 13)"/></svg> Sorry, not sorry
+# 🌶️ Sorry, not sorry
 
 - Assembly → compilers → libraries → frameworks → agents
 - Every layer made the one below it **less scarce**
-- **Nobody has ever paid for code.** They pay for what it does for someone.
+- **Nobody has ever paid for code.** They pay for how it helps someone.
 - Never automated: knowing which problem is worth solving, and for whom
 
 <!--
@@ -1170,7 +1072,7 @@ half, and it is the one people remember.
 
 ---
 
-# A ladder is one shape a career can have
+# Mental health check
 
 <div class="columns">
 <div>
@@ -1183,7 +1085,7 @@ half, and it is the one people remember.
 </div>
 <div>
 
-- **They work for you**, not the other way round
+- **Agents work for us**, not the other way round
 - Async isn't free — watch your hours, not just theirs
 - Be a manager you'd want: **no 3am drops, no Friday-night dumps**
 - **Micromanaging doesn't scale either** — outcomes, not transcripts
@@ -1290,7 +1192,6 @@ you actually work at, and what climbing cost you.
 
 <div class="seed">&ldquo;What do the managers think?&rdquo;</div>
 <div class="seed">&ldquo;Managers &mdash; what comes after this?&rdquo;</div>
-<div class="caption">The cake is a lie.</div>
 
 </div>
 
