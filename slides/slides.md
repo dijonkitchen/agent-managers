@@ -73,12 +73,33 @@ you hit a wall that the next rung exists to clear. Ask "how do we 10x
 again?" out loud at each wall -- the room starts answering before you
 do.
 
-Deliberately no roadmap slide. The room should feel the climb rather
-than see it mapped, because the shape of the ladder is a reveal near the
-end, and what is missing from it is the point.
+The agenda that follows is five words on purpose. The room should feel
+the climb rather than see it mapped, because the shape of the ladder is a
+reveal near the end, and what is missing from it is the point.
 
 Do not answer the title here. The closing slide answers it, and the
 answer is that you don't stay one.
+-->
+
+---
+
+# Agenda
+
+1. **Overview**
+1. **Scaling up**
+1. **Research**
+1. **Theory and practice**
+1. **Questions**
+
+<!--
+Ten seconds, not a minute. Read the five words and move.
+
+The middle three are the talk: we climb, the climb runs out of demos,
+the research says what the demos cannot.
+
+Do not expand "theory and practice" -- the shape of the ladder and what
+is missing from it is a reveal near the end, and naming it here spends
+it early.
 -->
 
 ---

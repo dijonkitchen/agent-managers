@@ -6,3 +6,6 @@ slides/slides.build.md
 # Local agent tooling state (Claude Code session worktrees, Serena index)
 .claude/worktrees/
 .serena/
+
+# Run logs from the demo harness, which the deck no longer ships
+demo/runs/
