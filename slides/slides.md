@@ -58,6 +58,21 @@ style: |
   section.multiply { position: relative; }
   .rabbit { position: absolute; right: 124px; bottom: 18px; height: 312px;
     width: auto; }
+  /* The BMad slide quotes two of the project's own assets, so both keep
+     BMAD's dark navy rather than the deck's green: the banner is their
+     logo lockup and the loop is their drawing, not ours to repaint. The
+     banner sits beside the title; the bullets give up width to the
+     diagram, which needs every pixel it can get to stay legible. */
+  section.bmad { position: relative; }
+  .bmad-banner { position: absolute; top: 58px; right: 64px; width: 420px;
+    border-radius: 8px; }
+  .bmad-split { display: grid; grid-template-columns: 310px 1fr; gap: 26px;
+    align-items: center; margin-top: 0.6rem; }
+  .bmad-split > * { min-width: 0; }
+  .bmad-split ul { margin: 0; padding-left: 1.1rem; }
+  .bmad-split li { font-size: 21px; line-height: 1.3; margin: 0.55rem 0; }
+  .bmad-split .sources { display: block; margin-top: 0.9rem; }
+  .bmad-loop { display: block; width: 100%; height: auto; }
   .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
   .figure { text-align: center; }
   .figure .cap { font-size: 18px; color: #007055; line-height: 1.35; }
@@ -693,13 +708,28 @@ of the same confusion.
 
 ---
 
+<!-- _class: bmad -->
+
+<img class="bmad-banner" src="assets/bmad-banner.png" alt="The BMad Method banner" />
+
 # Fix: There's a package for that
+
+<div class="bmad-split">
+<div>
 
 - BMad or other packages ship the roles: PM, architect, dev, etc.
 - PRD → architecture → **sharded stories**
 - One story's brief per agent — minimum context, implemented
 
 <span class="sources">[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)</span>
+
+</div>
+<div>
+
+<img class="bmad-loop" src="assets/bmad-delivery-loop.svg" alt="The BMad delivery loop: a vague notion enters at Clarify, a big clear idea at Plan, a small change at Build and verify, and Learn and adjust feeds back into Plan" />
+
+</div>
+</div>
 
 <!--
 The "you are not starting from zero" slide. Three roles fit on a slide;
