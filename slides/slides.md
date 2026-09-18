@@ -46,6 +46,11 @@ style: |
   section.agenda { position: relative; }
   .sonic { position: absolute; right: 118px; bottom: 0; height: 260px;
     width: auto; image-rendering: pixelated; }
+  /* The tool belt hangs in the dead space to the right of its own title.
+     It is positioned out of flow on purpose: in flow it costs ~120px of
+     height and pushes the third bullet off the bottom of the slide. */
+  section.belt { position: relative; }
+  .toolbelt { position: absolute; top: 40px; right: 64px; width: 300px; }
   .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
   .figure { text-align: center; }
   .figure .cap { font-size: 18px; color: #007055; line-height: 1.35; }
@@ -156,6 +161,10 @@ it early.
 -->
 
 ---
+
+<!-- _class: belt -->
+
+<img class="toolbelt" src="assets/Batman-utility-belt.png" alt="Batman's utility belt" />
 
 # Let's make sure we have our AI tool belt
 
