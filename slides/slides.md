@@ -67,6 +67,12 @@ style: |
      slide; it reads as dirt on mint, so retint it to the deck's
      secondary-text green. */
   section::after { color: #007055; }
+  /* Links default to browser blue, which is the one colour left on the
+     deck that belongs to no palette -- and the Sources slide is almost
+     nothing but links. Carry them in the secondary green and let the
+     underline, not the hue, mark them as links. */
+  a, a:visited { color: #007055; text-decoration: underline;
+    text-decoration-thickness: 1px; text-underline-offset: 2px; }
 
 ---
 
