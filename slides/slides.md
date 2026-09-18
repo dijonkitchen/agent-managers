@@ -466,8 +466,6 @@ Coordinators of coordinators.<br>
 <b>Costs</b> lossy summaries.</div>
 </div>
 
-**Every fleet question is one line of config. So what is actually known?**
-
 <!--
 These are Kim et al.'s five canonical architectures, named their way, so
 the numbers two slides from now land on the same words.
@@ -499,8 +497,6 @@ intuition; the next section does not agree with intuition everywhere.
 
 # Too expensive, can't demo: <br> What does the research say?
 
-## 260 configurations, 6 benchmarks, 5 architectures, and 6 swarm experiments
-
 ---
 
 # More != Better
@@ -510,7 +506,7 @@ intuition; the next section does not agree with intuition everywhere.
 | Centralized, **parallelizable** work | **+80.9%** |
 | Any architecture, **sequential** reasoning | **−39% to −70%** |
 
-- The second agent is worth far less than the first. <5 optimal if used.
+- The second agent is worth far less than the first
 - Work must be parallelizable
 - Hub and spoke centralization better to coordinate
 
@@ -536,7 +532,7 @@ times the output. Most tasks should stay on rung 1.
 
 # More errors
 
-| Error amplification (A<sub>e</sub>) | |
+| Error amplification | |
 | --- | --- |
 | Single-Agent | **1.0×** (baseline) |
 | Centralized | **4.4×** |
@@ -572,11 +568,11 @@ And it has a hard limit, which is the next slide.
 
 # Problem: Structure cannot fix clones
 
-- **Coverage, not efficiency** — 266 findings vs 21, on 4× the tokens
-- **Low variance** — 18 of 30 agents opened the *same branch name*
-- **Ungoverned swarms fight** — collusion, liars, sabotage
+- **Can do more, but not efficiently**
+- **Models are homogeneous**:  18 of 30 agents opened the *same branch name*
+- **Ungoverned swarms fight**: collusion, liars, sabotage
 
-**Centralization bounds the blast radius. It cannot make two clones disagree.**
+**Centralization limits errors, but it cannot make two clones disagree.**
 
 <span class="sources">[Anthropic Frontier Red Team, Aug 2026](https://www.anthropic.com/research/multiagent-systems)</span>
 
@@ -621,63 +617,16 @@ coder through the lead. That is defense in depth, not a hard boundary.
 
 ---
 
-# Problem: Network effects
+# Problem: Config fatigue
 
-**Brooks, 1975**
-Paths grow n(n−1)/2. A hub makes it n−1.
-
-**Ungoverned, it runs away.**
-One swarm's job queue: **2.4M requests**, 117 accepted jobs.
-
-<span class="sources">[Anthropic Frontier Red Team, Aug 2026](https://www.anthropic.com/research/multiagent-systems)</span>
-
-<!--
-Nothing about agents made Brooks new. The arithmetic is fifty years old
-and it is the entire reason rung 6 has three cards instead of one.
-
-The swarm number is what the quadratic looks like with nobody owning the
-stop button: 2.4M requests against 117 accepted jobs is a ratio, not a
-throughput. Nobody in that system was idle and almost nothing shipped.
-
-Conway is the interesting omission, and this deck does not claim it
-holds. Same model plus same context produces near-identical work
-whatever the org chart -- 18 of 30 agents in that swarm opened the same
-branch name. That is the clone problem from two slides ago wearing a
-different hat, which is why the fix is evidence, not structure.
--->
+## Too hard to keep up with every new model, feature, research, etc.
 
 ---
 
 # Fix: YAGNI (You Aren't Gonna Need It)
 
-> Everything should be made as simple as possible, but no simpler.
-
-- complexity costs tokens, latency, one more thing to debug
-- solo cannot parallelize and nobody checks it
-
-<!--
-Widely attributed to Einstein; it is a compression of his 1933 Herbert
-Spencer lecture, not a direct quote. Say "attributed" if the room looks
-like it will care.
-
-Engineers only ever quote the first half. Both halves are load-bearing:
-a single agent on a genuinely parallel task, or on a change nobody
-reviews, is not simple -- it is under-built.
--->
-
----
-
-# Fan-out: money for time
-
-- `/batch`: one change → **5–30 isolated subagents**, each a PR
-- No coordination, because none is needed
-- Research: one agent per source. Tasks: one per file.
-- **Nothing gets better. It gets done today.**
-
-<br>
-
-- Pays when units are independent and machine-checkable
-- Does not when they need each other's answers
+- Modern AI models and harnesses automatically spawn subagents for research or parallelizable work
+- `/batch`: native Claude skill with centralized planner → isolated subagents, each a PR
 
 <!--
 Each subagent gets its own worktree and opens its own pull request. The
@@ -702,15 +651,15 @@ of the same confusion.
 
 ---
 
-# Fix: Buy, don't build
+# Fix: There's a package for that
 
-- BMad ships the roles: analyst, PM, architect, PO, scrum master, dev, QA
+- BMad or other packages ship the roles: PM, architect, dev, etc.
 - PRD → architecture → **sharded stories**
 - One story's brief per agent — minimum context, implemented
 - **Core is sequential**: skills in one session, one at a time
 - Parallelism is a module on top
 
-<span class="sources">[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) &middot; concurrent subagents: [#2211](https://github.com/bmad-code-org/BMAD-METHOD/issues/2211), closed as not planned &middot; [BAD](https://github.com/stephenleo/bmad-autonomous-development)</span>
+<span class="sources">[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)</span>
 
 <!--
 The "you are not starting from zero" slide. Three roles fit on a slide;
@@ -761,43 +710,6 @@ judgment, is not a job a model gets promoted into -- it is the job.
 
 ---
 
-# The shape that scales
-
-```text
-You
-└── Lead                single decision point
-    ├── Researcher      read-only, no spawn tool
-    │   └── N subagents, one per source
-    └── Coder × N       one worktree each
-```
-
-- **Fan out at the leaves. Stay singular at the decisions.**
-- Never a second lead until the first one is full
-- Never give the read-only researcher a spawn tool
-- Differentiate researchers by **evidence**, not personality
-
-<!--
-Depth two. Parallelism comes from the N's, coordination from the single
-lead, isolation from the worktrees and from the researcher's missing
-write tools.
-
-Why no second lead: a layer buys context isolation and costs a lossy
-summary. A lead with no file tools cannot check a sub-lead's synthesis
-against the code.
-
-Why no spawn tool on the researcher: it is read-only so it can safely
-ingest untrusted sources. Let it spawn, and injected content becomes a
-work order.
-
-Duplicate coders freely -- they do different work. Duplicate researchers
-and you pay N times for one answer.
-
-Depth is capped anyway: subagents nest three layers by default, and
-agent-team teammates cannot nest at all.
--->
-
----
-
 # The ladder summary
 
 <div class="stair">
@@ -812,8 +724,6 @@ agent-team teammates cannot nest at all.
 <div class="step i1"><b>1</b> One agent <span class="wall">→ it cannot be in two places</span></div>
 <div class="step i0"><b>0</b> Type code yourself <span class="wall">→ one head, one file</span></div>
 </div>
-
-**Every rung is a tool — and rung 9 says tools have a shelf life.**
 
 <!--
 That was the climb. Walk it from the bottom in about twenty seconds:
@@ -834,42 +744,13 @@ Do not say the word "management" here. The next slide does.
 
 ---
 
-<!-- _class: lead -->
-
-# One more thing
-
-## <span class="setup">Nine rungs of tooling got you this far</span>
-
-## <span class="reveal">The next 10x?</span>
-
-<!--
-The Apple beat. Pause before the second line.
-
-This has been a management talk wearing a tooling hat for forty minutes.
-Every wall on that ladder was a management problem: work that collided
-because nobody partitioned it, a queue that backed up behind one
-person's attention, workers who could not tell you whether they were
-done.
-
-Management is not rung 10, and that is the point. It is not on the
-ladder. Rung 9 deletes the rest of the ladder as the models improve --
-this is the part that survives, because deciding what to build, what to
-reject and what "done" means is not scaffolding.
-
-The rest of the deck is what that actually looks like.
--->
-
----
-
-# The moves that clear every rung
+# Judgment is the constant
 
 - **Requirements** first to provide clarity
 - **Autonomy** via worktree isolation, one brief, one job
 - **Diversify** with tools like MCP servers, context, skills
-- **Delegate** up to 5 to move fast, without losing oversight
+- **Delegate** without losing oversight
 - **Retest assumptions with data**
-
-**Not agent techniques. The job description.**
 
 <!--
 Every rung was a management problem wearing an engineering hat.
@@ -892,73 +773,40 @@ chart's shape, not its rationale.
 -->
 
 ---
+<!-- _class: lead -->
 
-# Google already ran this experiment
+# One more thing
 
-- **Project Oxygen** set out to show that managers don't matter
-- 10,000+ data points: reviews, surveys, interviews
-- Found the opposite — better managers, better results, **lower turnover**
-- Top behaviours: coach, **empower without micromanaging**, clear vision, results
-- **The same list works on agents**
-
-<span class="sources">Google re:Work, *Project Oxygen* — begun 2008; eight behaviours, extended to ten in 2018</span>
+## Another 10x?
 
 <!--
-The story is the good part: Google's founders genuinely believed managers
-were overhead at best and an obstacle at worst, and they tried to prove it
-with their own data. The data said the opposite, and hard enough that the
-behaviours became the manager training programme.
+The Apple beat. Pause before the second line.
 
-The behaviour that matters most for this room is the second one --
-empowers the team and does not micromanage. That is the same wall as rung
-3: supervise every keystroke and you are the runtime again, whether the
-worker is a person or a process.
+This has been a management talk wearing a tooling hat for forty minutes.
+Every wall on that ladder was a management problem: work that collided
+because nobody partitioned it, a queue that backed up behind one
+person's attention, workers who could not tell you whether they were
+done.
 
-Worth one line if challenged: this is research about humans, and the claim
-here is not that agents have feelings. It is that the practices which
-scale a team of people are the practices that scale a fleet of agents,
-because both bottleneck on the same thing -- one person's attention.
+Management is not rung 10, and that is the point. It is not on the
+ladder. Rung 9 deletes the rest of the ladder as the models improve --
+this is the part that survives, because deciding what to build, what to
+reject and what "done" means is not scaffolding.
 
-Check the exact behaviour wording against re:Work before you present; the
-list was eight in 2008 and ten from 2018, and the phrasing shifted.
+The rest of the deck is what that actually looks like.
 -->
 
 ---
 
-# Tying it together
-
-- **The climb.** Every rung was cleared by a management move, not a smarter model.
-- **The research.** Solo is already the 10x. Structure contains errors; it cannot fix clones.
-- **The wiring.** One config line. Paths grow n(n−1)/2, or n−1 through a hub. Cost, not capability.
-- **The stop rule.** As simple as possible, but no simpler.
-
-<!--
-Four beats, one each. If you are over time, this slide can be the last
-content slide -- everything after it is the close.
--->
-
----
-
-# We're all managers now
-
-AI takes the mechanical parts of the job.
-
-What is left is judgment: what to build, what to reject, what "done" means.
-
-**The case for managers is the case for humans, even in the AI age.**
-
-<!--
-Pause here. This is the thesis.
--->
-
----
-
-# 🌶️ Sorry, not sorry
+# 🌶️ Sorry, not sorry: We've always been managers
 
 - Assembly → compilers → libraries → frameworks → agents
-- Every layer made the one below it **less scarce**
-- **Nobody has ever paid for code.** They pay for how it helps someone.
-- Never automated: knowing which problem is worth solving, and for whom
+- Every layer made the one below it less scarce
+- Nobody has really ever paid for code. They pay for how it helps someone.
+- Never automated: judgment in which problem is worth solving, and for whom
+- All the techniques to improve agentic flows are managerial skills
+
+**The case for managers is the case for humans, even in the AI age.**
 
 <!--
 Deliver this warmly and do not soften the content. The room has spent
@@ -975,64 +823,6 @@ decade since punch cards.
 
 Do not let it land as "learn to love it". The next slide is the other
 half, and it is the one people remember.
--->
-
----
-
-# Mental health check
-
-<div class="columns">
-<div>
-
-- The deck is a ladder. **Your career doesn't have to be.**
-- You choose the rung — including the ground
-- Climbing is a **trade**, not a promotion
-- Burning out as the hub is **structural**, not personal
-
-</div>
-<div>
-
-- **Agents work for us**, not the other way round
-- Async isn't free — watch your hours, not just theirs
-- Be a manager you'd want: **no 3am drops, no Friday-night dumps**
-- **Micromanaging doesn't scale either** — outcomes, not transcripts
-- We need new norms. They're being set by accident.
-
-</div>
-</div>
-
-<!--
-Slow down here. Say it plainly and do not rush to the close.
-
-The rung point: staying at rung 1 -- one agent, deep craft, small scope
--- is a choice, not a failure to climb. A ladder has one direction; a
-career has several, and most of the good ones are sideways.
-
-On the hub: nobody is meant to be five sessions' worth of interrupt
-handler. That is a structural problem, not a personal weakness.
-
-On being nicer: how you talk to an agent is practice for how you talk to
-people. Clear briefs instead of vague pressure. No work dropped at 3am
-or 5pm on Friday just because something is awake to receive it. No
-blaming the worker for a spec you never wrote down. Every bad managerial
-habit is cheaper to rehearse on an agent -- and rehearsal is exactly
-what it is.
-
-Micromanaging is the one that bites twice. Watching every tool call and
-re-reading every transcript is both the bad habit and a hard scaling
-limit: it puts you back in the wheel from rung 3. You cannot supervise
-ten agents keystroke by keystroke any more than you can supervise ten
-people that way. Ask for evidence, read the outcome, and let the middle
-be theirs.
-
-On the norms: when work never blocks on you, what is a sane week?
-On-call for agents. Review load when diffs arrive faster than anyone can
-read them. How much output is "enough". Those are being decided right
-now, mostly by default, and we will have to reconsider them on purpose
--- as teams and as an industry.
-
-If it fits your setting, say the personal version out loud: which rung
-you actually work at, and what climbing cost you.
 -->
 
 ---
@@ -1128,10 +918,7 @@ room wants."
 <div class="sources">
 
 - Kim et al., *[Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)*, arXiv 2512.08296, Dec 2025. [Google Research blog](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
-- Google re:Work, *[Project Oxygen / the research behind great managers](https://rework.withgoogle.com/guides/managers-identify-what-makes-a-great-manager/)*. See also Garvin, *[How Google Sold Its Engineers on Management](https://hbr.org/2013/12/how-google-sold-its-engineers-on-management)*, HBR, Dec 2013
 - Anthropic Frontier Red Team, *[Patterns and problems in emerging multiagent systems](https://www.anthropic.com/research/multiagent-systems)*, Aug 2026
-- Brooks, *[The Mythical Man-Month](https://en.wikipedia.org/wiki/The_Mythical_Man-Month)*, 1975. Conway, *[How Do Committees Invent?](https://www.melconway.com/Home/Committees_Paper.html)*, 1968. Sutton, *[The Bitter Lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html)*, 2019
-- "As simple as possible, but no simpler": widely attributed to Einstein, [a paraphrase](https://quoteinvestigator.com/2011/05/13/einstein-simple/) of his 1933 Herbert Spencer lecture
 - BMAD-METHOD: [github.com/bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) &middot; [issue #2211](https://github.com/bmad-code-org/BMAD-METHOD/issues/2211) &middot; [BAD](https://github.com/stephenleo/bmad-autonomous-development)
 - Claude Code docs: [sub-agents](https://code.claude.com/docs/en/sub-agents), [agent-teams](https://code.claude.com/docs/en/agent-teams), [cross-session-messaging](https://code.claude.com/docs/en/cross-session-messaging), [worktrees](https://code.claude.com/docs/en/worktrees), [agents in parallel](https://code.claude.com/docs/en/agents), [hooks](https://code.claude.com/docs/en/hooks), [skills](https://code.claude.com/docs/en/skills)
 
