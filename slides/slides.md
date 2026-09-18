@@ -14,20 +14,23 @@ style: |
   .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   .columns3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
   .columns > *, .columns3 > *, .figsplit > * { min-width: 0; }
-  .card { border: 2px solid #ddd; border-radius: 10px; padding: 0.6rem 0.9rem; }
+  .card { border: 2px solid #a8d9b8; border-radius: 10px; padding: 0.6rem 0.9rem; background: #e5ffe9; }
   .card h3 { margin: 0 0 0.3rem 0; }
-  .sources { font-size: 19px; }
-  .scratched { font-size: 38px; font-weight: 700; color: #b0b0b0;
-    text-decoration: line-through; text-decoration-color: #d64545;
+  .sources { font-size: 19px; color: #007055; }
+  /* .scratched is dead, struck-through text on the title slide -- kept
+     deliberately low-contrast (Spring's own --gray-2) so it reads as dead,
+     not live, copy. The strikethrough uses --winter-red (#90201b). */
+  .scratched { font-size: 38px; font-weight: 700; color: #9c9b98;
+    text-decoration: line-through; text-decoration-color: #90201b;
     text-decoration-thickness: 4px; line-height: 1.3; }
-  .byline { margin-top: 1.8rem; font-size: 24px; color: #555; }
+  .byline { margin-top: 1.8rem; font-size: 24px; color: #007055; }
   section.lead h1 .title { font-size: 52px; line-height: 1.15; }
   .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
   .figure { text-align: center; }
-  .figure .cap { font-size: 18px; color: #5a5a5a; line-height: 1.35; }
+  .figure .cap { font-size: 18px; color: #007055; line-height: 1.35; }
   .qa { text-align: center; }
   .qa svg { display: block; margin: 0 auto 0.4rem; }
-  .qa .seed { font-size: 28px; font-weight: 700; color: #2d3b4e; line-height: 1.35; }
+  .qa .seed { font-size: 28px; font-weight: 700; color: #01382e; line-height: 1.35; }
   pre { font-size: 20px; }
   table { font-size: 24px; }
   /* The ladder climbs: rung 0 sits bottom-left, rung 9 top-right, so the
