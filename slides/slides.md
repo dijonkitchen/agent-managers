@@ -667,8 +667,8 @@ coder through the lead. That is defense in depth, not a hard boundary.
 
 # Fix: YAGNI (You Aren't Gonna Need It)
 
-- Modern AI models and harnesses automatically spawn subagents for research or parallelizable work
-- `/batch`: native Claude skill with centralized planner → isolated subagents, each a PR
+- Modern tools automatically spawn subagents for research or parallelizable work
+- `/batch`: native skill with centralized planner → isolated subagents, each a PR
 
 <!--
 Each subagent gets its own worktree and opens its own pull request. The
