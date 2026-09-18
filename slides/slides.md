@@ -382,22 +382,22 @@ sends the check back to you, and you are the hub again with extra steps.
 
 <svg viewBox="0 0 760 250" width="760" role="img" aria-label="Three communication graphs: a single node, a star through one lead, and a fully connected mesh.">
   <title>Solo, hub and flat message graphs</title>
-  <g fill="none" stroke="#b4bac1" stroke-width="3">
+  <g fill="none" stroke="#a8d9b8" stroke-width="3">
     <path d="M370 60 L310 150 M370 60 L430 150 M370 60 L370 165"/>
     <path d="M610 60 L550 150 M610 60 L670 150 M550 150 L670 150
              M610 60 L610 165 M550 150 L610 165 M670 150 L610 165"/>
   </g>
-  <g fill="#8f959c">
+  <g fill="#068262">
     <circle cx="310" cy="150" r="17"/><circle cx="430" cy="150" r="17"/><circle cx="370" cy="165" r="17"/>
     <circle cx="550" cy="150" r="17"/><circle cx="670" cy="150" r="17"/><circle cx="610" cy="165" r="17"/>
   </g>
-  <circle cx="130" cy="110" r="21" fill="#2d3b4e"/>
-  <circle cx="370" cy="60" r="21" fill="#2d3b4e"/>
-  <circle cx="610" cy="60" r="21" fill="#8f959c"/>
-  <g font-size="21" fill="#2d3b4e" text-anchor="middle" font-weight="700">
+  <circle cx="130" cy="110" r="21" fill="#01382e"/>
+  <circle cx="370" cy="60" r="21" fill="#01382e"/>
+  <circle cx="610" cy="60" r="21" fill="#068262"/>
+  <g font-size="21" fill="#01382e" text-anchor="middle" font-weight="700">
     <text x="130" y="220">Solo</text><text x="370" y="220">Hub</text><text x="610" y="220">Flat</text>
   </g>
-  <g font-size="18" fill="#666" text-anchor="middle">
+  <g font-size="18" fill="#007055" text-anchor="middle">
     <text x="130" y="244">0 edges</text><text x="370" y="244">n−1</text><text x="610" y="244">n(n−1)/2</text>
   </g>
 </svg>
