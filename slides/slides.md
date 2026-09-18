@@ -1059,7 +1059,7 @@ you actually work at, and what climbing cost you.
   </g>
 
   <g transform="translate(360,0)">
-    <ellipse cx="180" cy="252" rx="152" ry="22" fill="#d7f5dc" stroke="#a8d9b8" stroke-width="2"/>
+    <ellipse cx="180" cy="252" rx="152" ry="22" fill="#e8e8ee" stroke="#cdcdd8" stroke-width="2"/>
     <path d="M70 140 L70 236 A110 26 0 0 0 290 236 L290 140 Z" fill="#3b2318"/>
     <g stroke="#2a180f" stroke-width="3" stroke-linecap="round" opacity="0.7">
       <path d="M96 168 L96 222"/><path d="M124 178 L124 236"/><path d="M152 182 L152 242"/>
