@@ -4,7 +4,7 @@ theme: default
 paginate: true
 size: 16:9
 title: Surviving the AI Age
-description: A ten-rung ladder from one agent to a fleet, and why the last rung is management
+description: A ten-rung ladder from one agent to a fleet, and why
 style: |
   section { font-size: 30px; }
   /* Spring Health brand: light green surface, dark green ink everywhere by default. */
@@ -86,7 +86,7 @@ style: |
 <div class="scratched">Multi-Agent Structure</div>
 <div class="scratched">Agent Optimization Science</div>
 
-# <span class="title">How to be a 10x Engineer</span>
+# <span class="title">Surviving the AI Age: How to be a 10x Engineer</span>
 
 <div class="byline">JC &middot; 2026-09-18</div>
 
@@ -111,9 +111,9 @@ answer is that you don't stay one.
 
 # Agenda
 
-1. **Overview**
-1. **Scaling up**
-1. **Research**
+1. **Speed run overview of the basics**
+1. **Scaling up with agents**
+1. **Research to ground us**
 1. **Theory and practice**
 1. **Questions**
 
@@ -135,7 +135,13 @@ it early.
 <div class="columns3">
 <div class="card"><h3>Hooks</h3>Deterministic.<br>Fire on an event.</div>
 <div class="card"><h3>Skills</h3>A custom workflow.<br>Loaded when relevant.</div>
-<div class="card"><h3>Agents</h3>Parallelism and isolation.<br>Expensive.</div>
+<div class="card"><h3>Agents</h3>
+Parallelism
+<br>
+Isolation
+<br>
+Expensive
+</div>
 </div>
 
 <br>
@@ -188,9 +194,10 @@ would do with three contractors and no process.
 
 # Problem: Thrash
 
+- Changing, conflicting requirements
 - Reading each other's changes that may be unrelated
 - Writing conflicts
-- All on a branch, so it's confusing together
+- All on one branch, so it's confusing together
 
 <!--
 This is thrash, and it is not an agent problem. Put three people on one
@@ -280,31 +287,6 @@ The bad news is that isolation solved thrash and did nothing for
 latency. Every session is blocked on the slowest component, which is a
 human being with one attention.
 -->
----
-
-# So you are a 10x engineer now
-
-```text
-tab 1  cache-ttl     ● waiting on you
-tab 2  pytest-port   ● waiting on you
-tab 3  rate-limits   ○ working
-tab 4  docs          ● waiting on you
-tab 5  flaky-test    ● waiting on you
-```
-
-- Multiple isolated sessions. No races.
-
-<!--
-The arithmetic that does not work: one session asks you roughly one
-question every few minutes. Five sessions ask five. Ten ask ten.
-
-Throughput is no longer bounded by the agents. It is bounded by how fast
-you can be interrupted.
-
-Typical questions, and this is the point of how trivial they are: "which
-branch?", "is this test meant to be skipped?", "can I install this?"
--->
-
 ---
 
 # Problem: The wheel of context switching
@@ -695,9 +677,9 @@ of the same confusion.
 
 ---
 
-# Fix: BMAD
+# Fix: Buy, don't build
 
-- Ships the roles: analyst, PM, architect, PO, scrum master, dev, QA
+- BMad ships the roles: analyst, PM, architect, PO, scrum master, dev, QA
 - PRD → architecture → **sharded stories**
 - One story's brief per agent — minimum context, implemented
 - **Core is sequential**: skills in one session, one at a time
