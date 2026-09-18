@@ -15,6 +15,12 @@ style: |
   h2 { font-size: 30px; color: #007055; }
   .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   .columns3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  /* Five cards is the widest row in the deck -- one per canonical
+     architecture in Kim et al. -- so it gets its own tighter type. */
+  .columns5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.6rem; }
+  .columns5 > * { min-width: 0; }
+  .columns5 .card { font-size: 19px; line-height: 1.3; padding: 0.45rem 0.6rem; }
+  .columns5 .card h3 { font-size: 21px; margin: 0 0 0.2rem 0; }
   .columns > *, .columns3 > *, .figsplit > * { min-width: 0; }
   .card { border: 2px solid #a8d9b8; border-radius: 10px; padding: 0.6rem 0.9rem; background: #e5ffe9; }
   .card h3 { margin: 0 0 0.3rem 0; }
@@ -278,8 +284,9 @@ you are comparing different codebases and will not notice.
 - Four jobs: decompose, route, validate, synthesize
 
 <!--
-Good news first: this is a real topology, and it has the best error
-containment of any of them -- nothing reaches the shared branch without
+Good news first: this is a real topology -- Centralized, in the
+paper's terms -- and it has the best error containment of any
+multi-agent wiring: nothing reaches the shared branch without
 passing a reviewer. Hold that thought until the research act, which puts
 a number on it.
 
@@ -397,61 +404,90 @@ out.
 
 <div class="figure">
 
-<svg viewBox="0 0 760 250" width="500" role="img" aria-label="Three communication graphs: a single node, a star through one lead, and a fully connected mesh.">
-  <title>Solo, hub and flat message graphs</title>
+<svg viewBox="0 0 1000 238" width="1060" role="img" aria-label="Five message graphs: a single node; four unconnected nodes; four nodes wired through one hub; four fully connected nodes; and a five-node tree whose two leaves also talk to each other.">
+  <title>The five canonical architectures as message graphs</title>
   <g fill="none" stroke="#a8d9b8" stroke-width="3">
-    <path d="M370 60 L310 150 M370 60 L430 150 M370 60 L370 165"/>
-    <path d="M610 60 L550 150 M610 60 L670 150 M550 150 L670 150
-             M610 60 L610 165 M550 150 L610 165 M670 150 L610 165"/>
+    <!-- Centralized: one hub, n-1 spokes. -->
+    <path d="M500 45 L455 130 M500 45 L500 145 M500 45 L545 130"/>
+    <!-- Decentralized: the same four nodes, fully connected. -->
+    <path d="M655 55 L745 55 M655 130 L745 130 M655 55 L655 130 M745 55 L745 130
+             M655 55 L745 130 M745 55 L655 130"/>
+    <!-- Hybrid: a two-layer tree whose leaves also talk sideways. -->
+    <path d="M900 40 L855 100 M900 40 L945 100 M855 100 L855 160 M945 100 L945 160
+             M855 160 L945 160"/>
   </g>
   <g fill="#068262">
-    <circle cx="310" cy="150" r="17"/><circle cx="430" cy="150" r="17"/><circle cx="370" cy="165" r="17"/>
-    <circle cx="550" cy="150" r="17"/><circle cx="670" cy="150" r="17"/><circle cx="610" cy="165" r="17"/>
+    <circle cx="255" cy="55" r="15"/><circle cx="345" cy="55" r="15"/>
+    <circle cx="255" cy="130" r="15"/><circle cx="345" cy="130" r="15"/>
+    <circle cx="455" cy="130" r="15"/><circle cx="500" cy="145" r="15"/><circle cx="545" cy="130" r="15"/>
+    <circle cx="655" cy="55" r="15"/><circle cx="745" cy="55" r="15"/>
+    <circle cx="655" cy="130" r="15"/><circle cx="745" cy="130" r="15"/>
+    <circle cx="855" cy="160" r="15"/><circle cx="945" cy="160" r="15"/>
   </g>
-  <circle cx="130" cy="110" r="21" fill="#01382e"/>
-  <circle cx="370" cy="60" r="21" fill="#01382e"/>
-  <circle cx="610" cy="60" r="21" fill="#068262"/>
-  <g font-size="21" fill="#01382e" text-anchor="middle" font-weight="700">
-    <text x="130" y="220">Solo</text><text x="370" y="220">Hub</text><text x="610" y="220">Flat</text>
+  <g fill="#01382e">
+    <circle cx="100" cy="92" r="19"/>
+    <circle cx="500" cy="45" r="19"/>
+    <circle cx="900" cy="40" r="17"/><circle cx="855" cy="100" r="15"/><circle cx="945" cy="100" r="15"/>
+  </g>
+  <g font-size="20" fill="#01382e" text-anchor="middle" font-weight="700">
+    <text x="100" y="205">Single-Agent</text><text x="300" y="205">Independent</text>
+    <text x="500" y="205">Centralized</text><text x="700" y="205">Decentralized</text>
+    <text x="900" y="205">Hybrid</text>
   </g>
   <g font-size="18" fill="#007055" text-anchor="middle">
-    <text x="130" y="244">0 edges</text><text x="370" y="244">n−1</text><text x="610" y="244">n(n−1)/2</text>
+    <text x="100" y="230">0 edges</text><text x="300" y="230">0</text>
+    <text x="500" y="230">n&#8722;1</text><text x="700" y="230">n(n&#8722;1)/2</text>
+    <text x="900" y="230">layers + peers</text>
   </g>
 </svg>
 
 </div>
 
-<div class="columns3">
-<div class="card"><h3>Centralized</h3>
-n−1 links.<br>
+<div class="columns5">
+<div class="card"><h3>Single-Agent</h3>
+One context.<br>
 <b>Buys</b> containment.<br>
+<b>Costs</b> no parallelism.</div>
+<div class="card"><h3>Independent</h3>
+Parallel, no talking.<br>
+<b>Buys</b> full fan-out.<br>
+<b>Costs</b> nothing checks anything.</div>
+<div class="card"><h3>Centralized</h3>
+Hub and spoke.<br>
+<b>Buys</b> supervised aggregation.<br>
 <b>Costs</b> a bottleneck.</div>
-<div class="card"><h3>Hierarchical</h3>
+<div class="card"><h3>Decentralized</h3>
+Peer-to-peer mesh.<br>
+<b>Buys</b> everyone starts at once.<br>
+<b>Costs</b> quadratic chatter.</div>
+<div class="card"><h3>Hybrid</h3>
 Coordinators of coordinators.<br>
 <b>Buys</b> context isolation.<br>
 <b>Costs</b> lossy summaries.</div>
-<div class="card"><h3>Mesh</h3>
-n(n−1)/2 links.<br>
-<b>Buys</b> everyone starts at once.<br>
-<b>Costs</b> quadratic chatter.</div>
 </div>
 
 **Every fleet question is one line of config. So what is actually known?**
 
 <!--
-The figure is arithmetic, not measurement: solo has 0 edges, a hub n-1,
-a flat mesh n(n-1)/2. Same task, same agents, same prompts -- only who
-may talk to whom changes, and every extra link is context moved rather
+These are Kim et al.'s five canonical architectures, named their way, so
+the numbers two slides from now land on the same words.
+
+The figure is arithmetic, not measurement: the same four agents appear
+in Independent, Centralized and Decentralized, and only the edges
+change -- 0, n-1, n(n-1)/2. Every extra link is context moved rather
 than work done.
+
+Independent: parallel workers that never talk and never check. The
+cheapest to wire and, as it turns out, the most dangerous.
 
 Centralized: every hop passes a node that can reject it, and that node
 is also a single point of failure.
 
-Hierarchical: each layer buys isolation and pays a summary. The top can
-no longer check the bottom against the code.
+Decentralized: nobody has the authority to stop duplicated work, and the
+failure modes are social rather than technical.
 
-Mesh: nobody has the authority to stop duplicated work, and the failure
-modes are social rather than technical.
+Hybrid: each layer buys isolation and pays a summary. The top can no
+longer check the bottom against the code.
 
 Hard cut into the research act here. The room has climbed six rungs on
 intuition; the next section does not agree with intuition everywhere.
@@ -500,25 +536,34 @@ times the output. Most tasks should stay on rung 1.
 
 # More errors
 
-| Error amplification | |
+| Error amplification (A<sub>e</sub>) | |
 | --- | --- |
-| Single agent | **1.0×** (baseline)|
-| Centralized hub and spoke coordination | **4.4×** |
-| Decentralized independent agents | **17.2×** |
+| Single-Agent | **1.0×** (baseline) |
+| Centralized | **4.4×** |
+| Hybrid | **5.1×** |
+| Decentralized | **7.8×** |
+| Independent | **17.2×** |
 
-- Single agents **contain** errors
-- A hub **amplifies** errors
-- Peers **amplify even more**
+- What amplifies errors is **missing verification**, not chatter
+- The **cheapest** fleet to wire is the **most dangerous**
 
 <!--
-CIs: 14.3-20.1 and 3.8-5.0. Same paper as the last slide.
+Read the order, not just the numbers. The worst architecture here is the
+one that does the least talking: Independent agents fan out, never
+compare notes, and nothing catches a mistake before it lands in the
+aggregate. Chatty peers are twice as bad as a hub, but less than half as
+bad as silence.
 
-Read it as a ratio, not a verdict. Centralized coordination is roughly
-4x better at not compounding a mistake. It is not error-free, and it
-still costs the coordinator's time.
+Which kills the intuition that coordination overhead is the enemy.
+Coordination is what buys the check. Centralized contains to 4.4x
+through supervised aggregation -- the orchestrator reviewing outputs
+before they merge is the whole mechanism.
 
-It argues for containment, not for more agents -- every architecture
-here is measured against that solo baseline.
+CIs where the paper gives them: Independent [14.3, 20.1], Centralized
+[3.8, 5.0]. Table 5, same paper as the last slide.
+
+Every number here is measured against that solo baseline, so it argues
+for containment rather than for more agents.
 
 And it has a hard limit, which is the next slide.
 -->
