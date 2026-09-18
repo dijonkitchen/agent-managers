@@ -38,6 +38,14 @@ style: |
   section.lead { position: relative; }
   .glados { position: absolute; top: -18px; right: 56px; height: 310px; width: auto; }
   section.lead h1 .title { font-size: 52px; line-height: 1.15; }
+  /* Sonic taps his foot through the agenda because the agenda is five
+     words and should take ten seconds -- he stands on the bottom edge so
+     the tapping foot, which is the whole joke, stays visible. Nearest-
+     neighbour scaling keeps the sprite's pixels square instead of
+     blurring them. */
+  section.agenda { position: relative; }
+  .sonic { position: absolute; right: 118px; bottom: 0; height: 260px;
+    width: auto; image-rendering: pixelated; }
   .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
   .figure { text-align: center; }
   .figure .cap { font-size: 18px; color: #007055; line-height: 1.35; }
@@ -123,6 +131,10 @@ answer is that you don't stay one.
 -->
 
 ---
+
+<!-- _class: agenda -->
+
+<img class="sonic" src="assets/Sonic.png" alt="Sonic the Hedgehog, tapping his foot while he waits" />
 
 # Agenda
 
