@@ -37,20 +37,20 @@ style: |
      the row above it. */
   .stair { margin-top: 0.3rem; }
   .stair .step { font-size: 19px; line-height: 1.25; padding: 3px 12px;
-    margin-bottom: 4px; border-left: 5px solid #cfd6dd; background: #f6f7f9;
+    margin-bottom: 4px; border-left: 5px solid #a8d9b8; background: #d7f5dc;
     display: table; border-radius: 0 4px 4px 0; }
-  .stair .step b { color: #2d3b4e; margin-right: 0.45rem; }
-  .stair .top { border-left-color: #2d3b4e; background: #eef1f5; }
+  .stair .step b { color: #01382e; margin-right: 0.45rem; }
+  .stair .top { border-left-color: #01382e; background: #b2ffbd; }
   .stair .wall { font-weight: 400; }
   .stair .i0  { margin-left: 0; }      .stair .i1  { margin-left: 42px; }
   .stair .i2  { margin-left: 84px; }   .stair .i3  { margin-left: 126px; }
   .stair .i4  { margin-left: 168px; }  .stair .i5  { margin-left: 210px; }
   .stair .i6  { margin-left: 252px; }  .stair .i7  { margin-left: 294px; }
   .stair .i8  { margin-left: 336px; }  .stair .i9  { margin-left: 378px; }
-  .wall { color: #b03030; font-weight: 700; }
+  .wall { color: #90201b; font-weight: 700; }
   /* The reveal has to outweigh its own setup line. */
-  .setup { font-size: 26px; font-weight: 400; color: #777; }
-  .reveal { font-size: 50px; font-weight: 700; color: #2d3b4e; }
+  .setup { font-size: 26px; font-weight: 400; color: #007055; }
+  .reveal { font-size: 50px; font-weight: 700; color: #01382e; }
   blockquote { border-left: 5px solid #ddd; margin-left: 0; padding-left: 1rem;
     font-size: 30px; color: #333; }
   li { margin: 0.35rem 0; }
