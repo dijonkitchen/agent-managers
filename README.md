@@ -36,7 +36,7 @@ Pushes to `main` deploy `dist/` to GitHub Pages via
 | Path | Purpose |
 | ---- | ------- |
 | `slides/slides.md` | The deck. Speaker notes live in HTML comments. |
-| `slides/assets/` | Images, if any. The current deck needs none. |
+| `slides/assets/` | Raster images. Diagrams are inline SVG in the deck; these are the pictorial characters (GLaDOS, Sonic, the utility belt, the White Rabbit). |
 
 ## Sources
 

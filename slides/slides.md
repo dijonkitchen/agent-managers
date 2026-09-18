@@ -38,6 +38,41 @@ style: |
   section.lead { position: relative; }
   .glados { position: absolute; top: -18px; right: 56px; height: 310px; width: auto; }
   section.lead h1 .title { font-size: 52px; line-height: 1.15; }
+  /* Sonic taps his foot through the agenda because the agenda is five
+     words and should take ten seconds -- he stands on the bottom edge so
+     the tapping foot, which is the whole joke, stays visible. Nearest-
+     neighbour scaling keeps the sprite's pixels square instead of
+     blurring them. */
+  section.agenda { position: relative; }
+  .sonic { position: absolute; right: 118px; bottom: 0; height: 260px;
+    width: auto; image-rendering: pixelated; }
+  /* The tool belt hangs in the dead space to the right of its own title.
+     It is positioned out of flow on purpose: in flow it costs ~120px of
+     height and pushes the third bullet off the bottom of the slide. */
+  section.belt { position: relative; }
+  .toolbelt { position: absolute; top: 40px; right: 64px; width: 300px; }
+  /* Tenniel's White Rabbit is late and hurrying, which is the instinct
+     this slide describes: more hands, more speed, no process. He stands
+     in the empty right half, clear of the page number, and stays in the
+     engraving's own black ink like the deck's other pictorial figures. */
+  section.multiply { position: relative; }
+  .rabbit { position: absolute; right: 124px; bottom: 18px; height: 312px;
+    width: auto; }
+  /* The BMad slide quotes two of the project's own assets, so both keep
+     BMAD's dark navy rather than the deck's green: the banner is their
+     logo lockup and the loop is their drawing, not ours to repaint. The
+     banner sits beside the title; the bullets give up width to the
+     diagram, which needs every pixel it can get to stay legible. */
+  section.bmad { position: relative; }
+  .bmad-banner { position: absolute; top: 58px; right: 64px; width: 420px;
+    border-radius: 8px; }
+  .bmad-split { display: grid; grid-template-columns: 310px 1fr; gap: 26px;
+    align-items: center; margin-top: 0.6rem; }
+  .bmad-split > * { min-width: 0; }
+  .bmad-split ul { margin: 0; padding-left: 1.1rem; }
+  .bmad-split li { font-size: 21px; line-height: 1.3; margin: 0.55rem 0; }
+  .bmad-split .sources { display: block; margin-top: 0.9rem; }
+  .bmad-loop { display: block; width: 100%; height: auto; }
   .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
   .figure { text-align: center; }
   .figure .cap { font-size: 18px; color: #007055; line-height: 1.35; }
@@ -124,6 +159,10 @@ answer is that you don't stay one.
 
 ---
 
+<!-- _class: agenda -->
+
+<img class="sonic" src="assets/Sonic.png" alt="Sonic the Hedgehog, tapping his foot while he waits" />
+
 # Agenda
 
 1. **Speed run overview of the basics**
@@ -144,6 +183,10 @@ it early.
 -->
 
 ---
+
+<!-- _class: belt -->
+
+<img class="toolbelt" src="assets/Batman-utility-belt.png" alt="Batman's utility belt" />
 
 # Let's make sure we have our AI tool belt
 
@@ -187,6 +230,10 @@ any topology in this deck.
 # Problem: How to be a 10x engineer
 
 ---
+
+<!-- _class: multiply -->
+
+<img class="rabbit" src="assets/White-rabbit.png" alt="Tenniel's White Rabbit, checking his pocket watch" />
 
 # Fix: Multiply
 
@@ -635,8 +682,8 @@ coder through the lead. That is defense in depth, not a hard boundary.
 
 # Fix: YAGNI (You Aren't Gonna Need It)
 
-- Modern AI models and harnesses automatically spawn subagents for research or parallelizable work
-- `/batch`: native Claude skill with centralized planner → isolated subagents, each a PR
+- Modern tools automatically spawn subagents for research or parallelizable work
+- `/batch`: native skill with centralized planner → isolated subagents, each a PR
 
 <!--
 Each subagent gets its own worktree and opens its own pull request. The
@@ -661,13 +708,28 @@ of the same confusion.
 
 ---
 
+<!-- _class: bmad -->
+
+<img class="bmad-banner" src="assets/bmad-banner.png" alt="The BMad Method banner" />
+
 # Fix: There's a package for that
+
+<div class="bmad-split">
+<div>
 
 - BMad or other packages ship the roles: PM, architect, dev, etc.
 - PRD → architecture → **sharded stories**
 - One story's brief per agent — minimum context, implemented
 
 <span class="sources">[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)</span>
+
+</div>
+<div>
+
+<img class="bmad-loop" src="assets/bmad-delivery-loop.svg" alt="The BMad delivery loop: a vague notion enters at Clarify, a big clear idea at Plan, a small change at Build and verify, and Learn and adjust feeds back into Plan" />
+
+</div>
+</div>
 
 <!--
 The "you are not starting from zero" slide. Three roles fit on a slide;

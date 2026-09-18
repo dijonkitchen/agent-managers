@@ -1,8 +1,9 @@
 .PHONY: slides pdf clean
 
-# The deck is self-contained: every figure on it is inline SVG apart from
-# the one raster asset in slides/assets, so a build is Markdown in, HTML or
-# PDF out. Nothing is generated, nothing is fetched.
+# The deck is self-contained: every diagram on it is inline SVG, and the
+# handful of pictorial characters are raster files checked into
+# slides/assets, so a build is Markdown in, HTML or PDF out. Nothing is
+# generated, nothing is fetched.
 slides/slides.build.md: slides/slides.md
 	cp slides/slides.md $@
 
