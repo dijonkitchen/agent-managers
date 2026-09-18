@@ -379,11 +379,25 @@ sends the check back to you, and you are the hub again with extra steps.
 
 ---
 
-# The only config that matters
+<!-- _class: lead -->
+
+# Problem: How to 10x?
+
+## Moar, faster! A fleet. Somebody has to wire it.
+
+<!--
+The "industrialize it" beat: at this scale the interesting question
+stops being how good any one worker is and becomes how the town is laid
+out.
+-->
+
+---
+
+# Multi-agent fleet structure
 
 <div class="figure">
 
-<svg viewBox="0 0 760 250" width="760" role="img" aria-label="Three communication graphs: a single node, a star through one lead, and a fully connected mesh.">
+<svg viewBox="0 0 760 250" width="500" role="img" aria-label="Three communication graphs: a single node, a star through one lead, and a fully connected mesh.">
   <title>Solo, hub and flat message graphs</title>
   <g fill="none" stroke="#a8d9b8" stroke-width="3">
     <path d="M370 60 L310 150 M370 60 L430 150 M370 60 L370 165"/>
@@ -407,43 +421,6 @@ sends the check back to you, and you are the hub again with extra steps.
 
 </div>
 
-- Same task, same agents, same prompts
-- **Only who may talk to whom changes**
-- Every extra link is context moved, not work done
-
-<!--
-Three wirings of one task: one agent alone, three through a lead, three
-as peers with nobody in charge. The only difference is one config line
--- whether the workers have a message tool.
-
-Nothing on this slide is a measurement. The edge counts are arithmetic:
-0, n-1, n(n-1)/2. What each wiring actually costs is the next act, and
-it is somebody else's data rather than a demo -- which is the honest way
-round, because one run of one task would not settle it anyway.
-
-The point to land: topology is not a capability. It changes what the
-work costs and how far a mistake travels. It does not make one model
-smarter.
--->
-
----
-
-<!-- _class: lead -->
-
-# Problem: How to 10x?
-
-## Moar, faster! A fleet. Somebody has to wire it.
-
-<!--
-The "industrialize it" beat: at this scale the interesting question
-stops being how good any one worker is and becomes how the town is laid
-out.
--->
-
----
-
-# Multi-agent fleet structure
-
 <div class="columns3">
 <div class="card"><h3>Centralized</h3>
 n−1 links.<br>
@@ -459,11 +436,14 @@ n(n−1)/2 links.<br>
 <b>Costs</b> quadratic chatter.</div>
 </div>
 
-<br>
-
 **Every fleet question is one line of config. So what is actually known?**
 
 <!--
+The figure is arithmetic, not measurement: solo has 0 edges, a hub n-1,
+a flat mesh n(n-1)/2. Same task, same agents, same prompts -- only who
+may talk to whom changes, and every extra link is context moved rather
+than work done.
+
 Centralized: every hop passes a node that can reject it, and that node
 is also a single point of failure.
 
