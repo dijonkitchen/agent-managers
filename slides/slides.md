@@ -314,32 +314,32 @@ human being with one attention.
 
 <svg viewBox="0 0 260 250" width="235" role="img" aria-label="A rat running inside a wheel that is going nowhere.">
   <title>Effort without travel</title>
-  <path d="M40 232 L70 176 M220 232 L190 176" stroke="#007055" stroke-width="7" stroke-linecap="round"/>
-  <rect x="24" y="228" width="212" height="10" rx="5" fill="#007055"/>
-  <circle cx="130" cy="120" r="92" fill="none" stroke="#016c53" stroke-width="7"/>
-  <circle cx="130" cy="120" r="80" fill="none" stroke="#a8d9b8" stroke-width="4"/>
-  <g stroke="#a8d9b8" stroke-width="4">
+  <path d="M40 232 L70 176 M220 232 L190 176" stroke="#8f959c" stroke-width="7" stroke-linecap="round"/>
+  <rect x="24" y="228" width="212" height="10" rx="5" fill="#8f959c"/>
+  <circle cx="130" cy="120" r="92" fill="none" stroke="#b4bac1" stroke-width="7"/>
+  <circle cx="130" cy="120" r="80" fill="none" stroke="#c9ced3" stroke-width="4"/>
+  <g stroke="#ccd1d6" stroke-width="4">
     <path d="M130 40 L130 200"/><path d="M50 120 L210 120"/>
     <path d="M73 63 L187 177"/><path d="M187 63 L73 177"/>
     <path d="M92 47 L168 193"/><path d="M168 47 L92 193"/>
     <path d="M57 82 L203 158"/><path d="M203 82 L57 158"/>
   </g>
-  <circle cx="130" cy="120" r="12" fill="#016c53"/>
+  <circle cx="130" cy="120" r="12" fill="#b4bac1"/>
   <g>
-    <path d="M96 176 C 96 150 118 140 140 142 C 168 144 182 160 180 176 Z" fill="#01382e"/>
-    <path d="M178 150 C 192 146 200 154 198 164 C 196 174 186 178 180 176 Z" fill="#068262"/>
+    <path d="M96 176 C 96 150 118 140 140 142 C 168 144 182 160 180 176 Z" fill="#9aa0a8"/>
+    <path d="M178 150 C 192 146 200 154 198 164 C 196 174 186 178 180 176 Z" fill="#a8aeb6"/>
     <circle cx="176" cy="147" r="10" fill="#c3a3ad"/>
     <circle cx="176" cy="147" r="5" fill="#d8bcc4"/>
-    <circle cx="192" cy="158" r="3.2" fill="#01382e"/>
-    <circle cx="199" cy="166" r="2.4" fill="#016c53"/>
+    <circle cx="192" cy="158" r="3.2" fill="#2f3338"/>
+    <circle cx="199" cy="166" r="2.4" fill="#5a6068"/>
     <path d="M96 168 C 72 168 62 152 54 140" fill="none" stroke="#b6a0a6" stroke-width="5" stroke-linecap="round"/>
-    <path d="M118 176 L112 194 M146 176 L152 194 M132 176 L130 196" stroke="#01382e" stroke-width="6" stroke-linecap="round"/>
+    <path d="M118 176 L112 194 M146 176 L152 194 M132 176 L130 196" stroke="#9aa0a8" stroke-width="6" stroke-linecap="round"/>
   </g>
-  <g fill="none" stroke="#068262" stroke-width="4" stroke-linecap="round" opacity="0.65">
+  <g fill="none" stroke="#7d8994" stroke-width="4" stroke-linecap="round" opacity="0.65">
     <path d="M214 74 A 96 96 0 0 1 226 110"/>
     <path d="M196 50 A 96 96 0 0 1 210 66"/>
   </g>
-  <path d="M232 104 L240 118 L224 118 Z" fill="#068262" opacity="0.65"/>
+  <path d="M232 104 L240 118 L224 118 Z" fill="#7d8994" opacity="0.65"/>
 </svg>
 
 <div class="cap">Running faster inside<br>the wheel is not the fix.</div>
@@ -857,7 +857,7 @@ half, and it is the one people remember.
   </g>
 
   <g transform="translate(360,0)">
-    <ellipse cx="180" cy="252" rx="152" ry="22" fill="#d7f5dc" stroke="#a8d9b8" stroke-width="2"/>
+    <ellipse cx="180" cy="252" rx="152" ry="22" fill="#e8e8ee" stroke="#cdcdd8" stroke-width="2"/>
     <path d="M70 140 L70 236 A110 26 0 0 0 290 236 L290 140 Z" fill="#3b2318"/>
     <g stroke="#2a180f" stroke-width="3" stroke-linecap="round" opacity="0.7">
       <path d="M96 168 L96 222"/><path d="M124 178 L124 236"/><path d="M152 182 L152 242"/>
