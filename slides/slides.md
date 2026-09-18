@@ -54,9 +54,30 @@ style: |
   /* The reveal has to outweigh its own setup line. */
   .setup { font-size: 26px; font-weight: 400; color: #007055; }
   .reveal { font-size: 50px; font-weight: 700; color: #01382e; }
-  blockquote { border-left: 5px solid #ddd; margin-left: 0; padding-left: 1rem;
-    font-size: 30px; color: #333; }
+  blockquote { border-left: 5px solid #a8d9b8; margin-left: 0; padding-left: 1rem;
+    font-size: 30px; color: #01382e; }
   li { margin: 0.35rem 0; }
+  /* The default theme's pre is a near-white card with a light gray
+     border, which reads as a dirt smudge on the mint background. Give
+     it the same green-tinted code surface used across the deck. */
+  pre { background: #e5ffe9; border: 1px solid #a8d9b8; color: #01382e; }
+  .hljs-string { color: #016c53; }
+  .hljs-built_in { color: #007055; }
+  .hljs-comment { color: #068262; }
+  table { color: #01382e; }
+  table tr, table tr:nth-child(2n) { background: transparent; border-top: 1px solid #a8d9b8; }
+  table td, table th { border: 1px solid #a8d9b8; }
+  table th { background: #e5ffe9; }
+  /* The theme's page number defaults to a mid-gray built for a white
+     slide; it reads as dirt on mint, so retint it to the deck's
+     secondary-text green. */
+  section::after { color: #007055; }
+  /* Links default to browser blue, which is the one colour left on the
+     deck that belongs to no palette -- and the Sources slide is almost
+     nothing but links. Carry them in the secondary green and let the
+     underline, not the hue, mark them as links. */
+  a, a:visited { color: #007055; text-decoration: underline;
+    text-decoration-thickness: 1px; text-underline-offset: 2px; }
 
 ---
 
