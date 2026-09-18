@@ -7,27 +7,32 @@ title: Surviving the AI Age
 description: A ten-rung ladder from one agent to a fleet, and why the last rung is management
 style: |
   section { font-size: 30px; }
+  /* Spring Health brand: light green surface, dark green ink everywhere by default. */
+  section { background: #ecffef; color: #01382e; }
   section.lead { text-align: center; }
-  section.lead h1 { font-size: 64px; }
-  h1 { font-size: 44px; }
-  h2 { font-size: 30px; color: #444; }
+  section.lead h1 { font-size: 64px; color: #01382e; }
+  h1 { font-size: 44px; color: #01382e; }
+  h2 { font-size: 30px; color: #007055; }
   .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   .columns3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
   .columns > *, .columns3 > *, .figsplit > * { min-width: 0; }
-  .card { border: 2px solid #ddd; border-radius: 10px; padding: 0.6rem 0.9rem; }
+  .card { border: 2px solid #a8d9b8; border-radius: 10px; padding: 0.6rem 0.9rem; background: #e5ffe9; }
   .card h3 { margin: 0 0 0.3rem 0; }
-  .sources { font-size: 19px; }
-  .scratched { font-size: 38px; font-weight: 700; color: #b0b0b0;
-    text-decoration: line-through; text-decoration-color: #d64545;
+  .sources { font-size: 19px; color: #007055; }
+  /* .scratched is dead, struck-through text on the title slide -- kept
+     deliberately low-contrast (Spring's own --gray-2) so it reads as dead,
+     not live, copy. The strikethrough uses --winter-red (#90201b). */
+  .scratched { font-size: 38px; font-weight: 700; color: #9c9b98;
+    text-decoration: line-through; text-decoration-color: #90201b;
     text-decoration-thickness: 4px; line-height: 1.3; }
-  .byline { margin-top: 1.8rem; font-size: 24px; color: #555; }
+  .byline { margin-top: 1.8rem; font-size: 24px; color: #007055; }
   section.lead h1 .title { font-size: 52px; line-height: 1.15; }
   .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
   .figure { text-align: center; }
-  .figure .cap { font-size: 18px; color: #5a5a5a; line-height: 1.35; }
+  .figure .cap { font-size: 18px; color: #007055; line-height: 1.35; }
   .qa { text-align: center; }
   .qa svg { display: block; margin: 0 auto 0.4rem; }
-  .qa .seed { font-size: 28px; font-weight: 700; color: #2d3b4e; line-height: 1.35; }
+  .qa .seed { font-size: 28px; font-weight: 700; color: #01382e; line-height: 1.35; }
   pre { font-size: 20px; }
   table { font-size: 24px; }
   /* The ladder climbs: rung 0 sits bottom-left, rung 9 top-right, so the
@@ -35,20 +40,20 @@ style: |
      the row above it. */
   .stair { margin-top: 0.3rem; }
   .stair .step { font-size: 19px; line-height: 1.25; padding: 3px 12px;
-    margin-bottom: 4px; border-left: 5px solid #cfd6dd; background: #f6f7f9;
+    margin-bottom: 4px; border-left: 5px solid #a8d9b8; background: #d7f5dc;
     display: table; border-radius: 0 4px 4px 0; }
-  .stair .step b { color: #2d3b4e; margin-right: 0.45rem; }
-  .stair .top { border-left-color: #2d3b4e; background: #eef1f5; }
+  .stair .step b { color: #01382e; margin-right: 0.45rem; }
+  .stair .top { border-left-color: #01382e; background: #b2ffbd; }
   .stair .wall { font-weight: 400; }
   .stair .i0  { margin-left: 0; }      .stair .i1  { margin-left: 42px; }
   .stair .i2  { margin-left: 84px; }   .stair .i3  { margin-left: 126px; }
   .stair .i4  { margin-left: 168px; }  .stair .i5  { margin-left: 210px; }
   .stair .i6  { margin-left: 252px; }  .stair .i7  { margin-left: 294px; }
   .stair .i8  { margin-left: 336px; }  .stair .i9  { margin-left: 378px; }
-  .wall { color: #b03030; font-weight: 700; }
+  .wall { color: #90201b; font-weight: 700; }
   /* The reveal has to outweigh its own setup line. */
-  .setup { font-size: 26px; font-weight: 400; color: #777; }
-  .reveal { font-size: 50px; font-weight: 700; color: #2d3b4e; }
+  .setup { font-size: 26px; font-weight: 400; color: #007055; }
+  .reveal { font-size: 50px; font-weight: 700; color: #01382e; }
   blockquote { border-left: 5px solid #a8d9b8; margin-left: 0; padding-left: 1rem;
     font-size: 30px; color: #01382e; }
   li { margin: 0.35rem 0; }
@@ -318,32 +323,32 @@ branch?", "is this test meant to be skipped?", "can I install this?"
 
 <svg viewBox="0 0 260 250" width="235" role="img" aria-label="A rat running inside a wheel that is going nowhere.">
   <title>Effort without travel</title>
-  <path d="M40 232 L70 176 M220 232 L190 176" stroke="#8f959c" stroke-width="7" stroke-linecap="round"/>
-  <rect x="24" y="228" width="212" height="10" rx="5" fill="#8f959c"/>
-  <circle cx="130" cy="120" r="92" fill="none" stroke="#b4bac1" stroke-width="7"/>
-  <circle cx="130" cy="120" r="80" fill="none" stroke="#c9ced3" stroke-width="4"/>
-  <g stroke="#ccd1d6" stroke-width="4">
+  <path d="M40 232 L70 176 M220 232 L190 176" stroke="#007055" stroke-width="7" stroke-linecap="round"/>
+  <rect x="24" y="228" width="212" height="10" rx="5" fill="#007055"/>
+  <circle cx="130" cy="120" r="92" fill="none" stroke="#016c53" stroke-width="7"/>
+  <circle cx="130" cy="120" r="80" fill="none" stroke="#a8d9b8" stroke-width="4"/>
+  <g stroke="#a8d9b8" stroke-width="4">
     <path d="M130 40 L130 200"/><path d="M50 120 L210 120"/>
     <path d="M73 63 L187 177"/><path d="M187 63 L73 177"/>
     <path d="M92 47 L168 193"/><path d="M168 47 L92 193"/>
     <path d="M57 82 L203 158"/><path d="M203 82 L57 158"/>
   </g>
-  <circle cx="130" cy="120" r="12" fill="#b4bac1"/>
+  <circle cx="130" cy="120" r="12" fill="#016c53"/>
   <g>
-    <path d="M96 176 C 96 150 118 140 140 142 C 168 144 182 160 180 176 Z" fill="#9aa0a8"/>
-    <path d="M178 150 C 192 146 200 154 198 164 C 196 174 186 178 180 176 Z" fill="#a8aeb6"/>
+    <path d="M96 176 C 96 150 118 140 140 142 C 168 144 182 160 180 176 Z" fill="#01382e"/>
+    <path d="M178 150 C 192 146 200 154 198 164 C 196 174 186 178 180 176 Z" fill="#068262"/>
     <circle cx="176" cy="147" r="10" fill="#c3a3ad"/>
     <circle cx="176" cy="147" r="5" fill="#d8bcc4"/>
-    <circle cx="192" cy="158" r="3.2" fill="#2f3338"/>
-    <circle cx="199" cy="166" r="2.4" fill="#5a6068"/>
+    <circle cx="192" cy="158" r="3.2" fill="#01382e"/>
+    <circle cx="199" cy="166" r="2.4" fill="#016c53"/>
     <path d="M96 168 C 72 168 62 152 54 140" fill="none" stroke="#b6a0a6" stroke-width="5" stroke-linecap="round"/>
-    <path d="M118 176 L112 194 M146 176 L152 194 M132 176 L130 196" stroke="#9aa0a8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M118 176 L112 194 M146 176 L152 194 M132 176 L130 196" stroke="#01382e" stroke-width="6" stroke-linecap="round"/>
   </g>
-  <g fill="none" stroke="#7d8994" stroke-width="4" stroke-linecap="round" opacity="0.65">
+  <g fill="none" stroke="#068262" stroke-width="4" stroke-linecap="round" opacity="0.65">
     <path d="M214 74 A 96 96 0 0 1 226 110"/>
     <path d="M196 50 A 96 96 0 0 1 210 66"/>
   </g>
-  <path d="M232 104 L240 118 L224 118 Z" fill="#7d8994" opacity="0.65"/>
+  <path d="M232 104 L240 118 L224 118 Z" fill="#068262" opacity="0.65"/>
 </svg>
 
 <div class="cap">Running faster inside<br>the wheel is not the fix.</div>
@@ -398,22 +403,22 @@ sends the check back to you, and you are the hub again with extra steps.
 
 <svg viewBox="0 0 760 250" width="760" role="img" aria-label="Three communication graphs: a single node, a star through one lead, and a fully connected mesh.">
   <title>Solo, hub and flat message graphs</title>
-  <g fill="none" stroke="#b4bac1" stroke-width="3">
+  <g fill="none" stroke="#a8d9b8" stroke-width="3">
     <path d="M370 60 L310 150 M370 60 L430 150 M370 60 L370 165"/>
     <path d="M610 60 L550 150 M610 60 L670 150 M550 150 L670 150
              M610 60 L610 165 M550 150 L610 165 M670 150 L610 165"/>
   </g>
-  <g fill="#8f959c">
+  <g fill="#068262">
     <circle cx="310" cy="150" r="17"/><circle cx="430" cy="150" r="17"/><circle cx="370" cy="165" r="17"/>
     <circle cx="550" cy="150" r="17"/><circle cx="670" cy="150" r="17"/><circle cx="610" cy="165" r="17"/>
   </g>
-  <circle cx="130" cy="110" r="21" fill="#2d3b4e"/>
-  <circle cx="370" cy="60" r="21" fill="#2d3b4e"/>
-  <circle cx="610" cy="60" r="21" fill="#8f959c"/>
-  <g font-size="21" fill="#2d3b4e" text-anchor="middle" font-weight="700">
+  <circle cx="130" cy="110" r="21" fill="#01382e"/>
+  <circle cx="370" cy="60" r="21" fill="#01382e"/>
+  <circle cx="610" cy="60" r="21" fill="#068262"/>
+  <g font-size="21" fill="#01382e" text-anchor="middle" font-weight="700">
     <text x="130" y="220">Solo</text><text x="370" y="220">Hub</text><text x="610" y="220">Flat</text>
   </g>
-  <g font-size="18" fill="#666" text-anchor="middle">
+  <g font-size="18" fill="#007055" text-anchor="middle">
     <text x="130" y="244">0 edges</text><text x="370" y="244">n−1</text><text x="610" y="244">n(n−1)/2</text>
   </g>
 </svg>
@@ -1054,7 +1059,7 @@ you actually work at, and what climbing cost you.
   </g>
 
   <g transform="translate(360,0)">
-    <ellipse cx="180" cy="252" rx="152" ry="22" fill="#e8e8ee" stroke="#cdcdd8" stroke-width="2"/>
+    <ellipse cx="180" cy="252" rx="152" ry="22" fill="#d7f5dc" stroke="#a8d9b8" stroke-width="2"/>
     <path d="M70 140 L70 236 A110 26 0 0 0 290 236 L290 140 Z" fill="#3b2318"/>
     <g stroke="#2a180f" stroke-width="3" stroke-linecap="round" opacity="0.7">
       <path d="M96 168 L96 222"/><path d="M124 178 L124 236"/><path d="M152 182 L152 242"/>
