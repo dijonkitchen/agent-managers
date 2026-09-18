@@ -92,7 +92,9 @@ style: |
 <div class="scratched">Multi-Agent Structure</div>
 <div class="scratched">Agent Optimization Science</div>
 
-# <span class="title">Surviving the AI Age: How to be a 10x Engineer</span>
+# Surviving the AI Age
+
+## How to be a 10x Engineer
 
 <div class="byline">JC &middot; 2026-09-18</div>
 
@@ -139,8 +141,8 @@ it early.
 # Let's make sure we have our AI tool belt
 
 <div class="columns3">
-<div class="card"><h3>Hooks</h3>Deterministic.<br>Fire on an event.</div>
-<div class="card"><h3>Skills</h3>A custom workflow.<br>Loaded when relevant.</div>
+<div class="card"><h3>Hooks</h3>Deterministic<br>When events happen</div>
+<div class="card"><h3>Skills</h3>Custom workflows<br>Loaded when relevant</div>
 <div class="card"><h3>Agents</h3>
 Parallelism
 <br>
@@ -278,7 +280,7 @@ you are comparing different codebases and will not notice.
   sess1 sess2 sess3  sess4
 ```
 
-- **n−1 links, one person**
+- **n links, 1 person**
 - Your context window: the smallest, and the only fixed one
 - Sessions idle while you are elsewhere
 - Four jobs: decompose, route, validate, synthesize
@@ -302,7 +304,7 @@ human being with one attention.
 <div>
 
 - Multiple sessions, multiple contexts, **none of them yours**
-- Every switch with potentially a lot to read costs time while the agent idles
+- Every switch, with potentially a lot to read, costs time
 - Death by a thousand questions
 - You are the runtime now
 - Draining
@@ -495,7 +497,8 @@ intuition; the next section does not agree with intuition everywhere.
 
 <!-- _class: lead -->
 
-# Too expensive, can't demo: <br> What does the research say?
+# Too expensive, can't demo
+## What does the research say?
 
 ---
 
@@ -656,8 +659,6 @@ of the same confusion.
 - BMad or other packages ship the roles: PM, architect, dev, etc.
 - PRD → architecture → **sharded stories**
 - One story's brief per agent — minimum context, implemented
-- **Core is sequential**: skills in one session, one at a time
-- Parallelism is a module on top
 
 <span class="sources">[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)</span>
 
@@ -747,8 +748,8 @@ Do not say the word "management" here. The next slide does.
 # Judgment is the constant
 
 - **Requirements** first to provide clarity
-- **Autonomy** via worktree isolation, one brief, one job
-- **Diversify** with tools like MCP servers, context, skills
+- **Autonomy** via focus
+- **Diversify** team knowledge
 - **Delegate** without losing oversight
 - **Retest assumptions with data**
 
