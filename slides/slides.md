@@ -32,6 +32,11 @@ style: |
     text-decoration: line-through; text-decoration-color: #90201b;
     text-decoration-thickness: 4px; line-height: 1.3; }
   .byline { margin-top: 1.8rem; font-size: 24px; color: #007055; }
+  /* GLaDOS hangs from the ceiling in Portal, so she hangs from the top of
+     the title slide too -- pinned to the right so she clears the centred
+     title block rather than crowding it. */
+  section.lead { position: relative; }
+  .glados { position: absolute; top: -18px; right: 56px; height: 310px; width: auto; }
   section.lead h1 .title { font-size: 52px; line-height: 1.15; }
   .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
   .figure { text-align: center; }
@@ -88,6 +93,8 @@ style: |
 ---
 
 <!-- _class: lead -->
+
+<img class="glados" src="assets/Glados.png" alt="GLaDOS, the ceiling-mounted AI from Portal" />
 
 <div class="scratched">Multi-Agent Structure</div>
 <div class="scratched">Agent Optimization Science</div>
