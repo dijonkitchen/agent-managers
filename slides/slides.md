@@ -7,10 +7,12 @@ title: Surviving the AI Age
 description: A ten-rung ladder from one agent to a fleet, and why the last rung is management
 style: |
   section { font-size: 30px; }
+  /* Spring Health brand: light green surface, dark green ink everywhere by default. */
+  section { background: #ecffef; color: #01382e; }
   section.lead { text-align: center; }
-  section.lead h1 { font-size: 64px; }
-  h1 { font-size: 44px; }
-  h2 { font-size: 30px; color: #444; }
+  section.lead h1 { font-size: 64px; color: #01382e; }
+  h1 { font-size: 44px; color: #01382e; }
+  h2 { font-size: 30px; color: #007055; }
   .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   .columns3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
   .columns > *, .columns3 > *, .figsplit > * { min-width: 0; }
