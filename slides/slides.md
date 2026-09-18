@@ -51,6 +51,13 @@ style: |
      height and pushes the third bullet off the bottom of the slide. */
   section.belt { position: relative; }
   .toolbelt { position: absolute; top: 40px; right: 64px; width: 300px; }
+  /* Tenniel's White Rabbit is late and hurrying, which is the instinct
+     this slide describes: more hands, more speed, no process. He stands
+     in the empty right half, clear of the page number, and stays in the
+     engraving's own black ink like the deck's other pictorial figures. */
+  section.multiply { position: relative; }
+  .rabbit { position: absolute; right: 124px; bottom: 18px; height: 312px;
+    width: auto; }
   .figsplit { display: grid; grid-template-columns: 2.5fr 1fr; gap: 1.2rem; align-items: center; }
   .figure { text-align: center; }
   .figure .cap { font-size: 18px; color: #007055; line-height: 1.35; }
@@ -208,6 +215,10 @@ any topology in this deck.
 # Problem: How to be a 10x engineer
 
 ---
+
+<!-- _class: multiply -->
+
+<img class="rabbit" src="assets/White-rabbit.png" alt="Tenniel's White Rabbit, checking his pocket watch" />
 
 # Fix: Multiply
 
